@@ -1,0 +1,33 @@
+kubecostProductConfigs:
+  clusterName: dev_clusters
+  productKey:
+    secretname: productkey
+    enabled: true
+  azureBillingRegion: US
+  serviceKeySecretName: azure-service-key
+kubecostModel:
+  warmCache: false
+  warmSavingsCache: false
+  etl: false
+global:
+  grafana:
+    enabled: false 
+    proxy: false
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: jesse-aks2
+  alertmanager:
+    enabled: false       
+thanos:
+  query:
+    enabled: false
+  store:
+    enabled: false
+  queryFrontend:
+    enabled: false  
+  compact:
+    enabled: false
+  bucket:
+    enabled: false

@@ -1,0 +1,15 @@
+AZsubscriptionId:0bd50fdf-c923-4e1e-850c-196dd3dcc5d3
+AZappId:4031c763-c060-45c4-8a72-1973d2218648
+AZdisplayName:spom-azureratecard-sp
+AZpassword:HMBI2oJQdvOUlG_c~144qUmusuCoTgPJ92
+AZazureClientID:4031c763-c060-45c4-8a72-1973d2218648
+AZazureTenantID:72faf3ff-7a3f-4597-b0d9-7b0b201bb23a
+AZazureClientPassword:HMBI2oJQdvOUlG_c~144qUmusuCoTgPJ92
+AZazureStorageAccount:kcdemocostexport
+AZazureStorageAccessKey:SX30SC4ZoccBKS7/Jj8br6iimbcTv8t5rv/fmxb3Z5krMLZ71xnNfUe41zRpcuSyh85J7+RUSAMPLE
+AZazureStorageContainer:costexports
+BLOBstorage_account:globallyunique
+BLOBstorageAccount_key:TYZgljfzaNFp/oZIGnmjQnqf4dI4KWXmXep3EBwEl+kj4GWEy4SESOwDVGmSk99cx82vNaUjTTeSAMPLE
+BLOBcontainer:dev-cluster1
+BLOBendpoint:blob.core.windows.net
+KCkey:SAMPLE

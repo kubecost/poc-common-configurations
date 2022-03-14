@@ -1,0 +1,10 @@
+{
+    "azure": [
+        {
+            "azureSubscriptionID": "AZsubscriptionId",
+            "azureStorageAccount": "AZazureStorageAccount",
+            "azureStorageAccessKey": "AZazureStorageAccessKey",
+            "azureStorageContainer": "AZazureStorageContainer"
+        }
+    ]
+}

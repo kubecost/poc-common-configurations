@@ -1,0 +1,9 @@
+{
+    "subscriptionId": "AZsubscriptionId",
+    "serviceKey": {
+        "appId": "AZappId",
+        "displayName": "AZdisplayName",
+        "password": "AZpassword",
+        "tenant": "AZazureTenantID"
+    }
+}

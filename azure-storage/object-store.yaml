@@ -1,0 +1,7 @@
+type: AZURE
+config:
+  storage_account: "BLOBstorage_account"
+  storage_account_key: "BLOBstorageAccount_key"
+  container: "BLOBcontainer"
+  endpoint: "BLOBendpoint" # assumes storage_account.endpoint?
+  max_retries: 0
