@@ -1,0 +1,116 @@
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer
+# imagePullSecrets:
+# - name: "image-pull-secret"
+
+# imageVersion: "prod-1.91" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+
+kubecostFrontend:
+  # fullImageName: "gcr.io/kubecost1/frontend:prod-1.91" # Use image -OR- fullImageName.
+  image: "gcr.io/kubecost1/frontend"
+  imagePullPolicy: Always
+
+kubecost:
+  # fullImageName: "gcr.io/kubecost1/server:prod-1.91" # Use image -OR- fullImageName.
+  image: "gcr.io/kubecost1/server"
+  imagePullPolicy: Always
+
+kubecostModel:
+  # fullImageName: "gcr.io/kubecost1/cost-model:prod-1.91" # Use image -OR- fullImageName.
+  image: "gcr.io/kubecost1/cost-model"
+  imagePullPolicy: Always
+
+networkCosts:
+  image: gcr.io/kubecost1/kubecost-network-costs:v16.0  # Always the full image path with version tag.
+  imagePullPolicy: Always
+
+# Kubecost Cluster Controller for Right Sizing and Cluster Turndown
+clusterController:
+  image: gcr.io/kubecost1/cluster-controller:v0.0.2 # Always the full image path with version tag.
+  imagePullPolicy: Always
+
+initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus
+prometheus:
+  imagePullSecrets:
+  # - name: "image-pull-secret"
+
+  server:
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.31.1
+      pullPolicy: IfNotPresent
+    sidecarContainers:
+    - name: thanos-sidecar
+      image: thanosio/thanos:v0.24.0
+
+  alertmanager:
+    image:
+      repository: quay.io/prometheus/alertmanager
+      tag: v0.23.0
+      pullPolicy: IfNotPresent
+
+  configmapReload:
+    prometheus:
+      image:
+        repository: jimmidyson/configmap-reload
+        tag: v0.7.1
+        pullPolicy: IfNotPresent
+    alertmanager:
+      image:
+        repository: jimmidyson/configmap-reload
+        tag: v0.7.1
+        pullPolicy: IfNotPresent
+
+  nodeExporter:
+    image:
+      repository: prom/node-exporter
+      tag: v0.18.1
+      pullPolicy: IfNotPresent
+
+  pushgateway:
+    image:
+      repository: prom/pushgateway
+      tag: v1.4.2
+      pullPolicy: IfNotPresent
+
+  ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus/charts/kube-state-metrics
+  kube-state-metrics:
+    image:
+      repository: k8s.gcr.io/kube-state-metrics/kube-state-metrics
+      tag: v1.9.8
+      pullPolicy: IfNotPresent
+    serviceAccount:
+      # Reference to one or more secrets to be used when pulling images
+      # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      imagePullSecrets: []
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/grafana
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: 8.3.2
+    pullPolicy: IfNotPresent
+    
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistrKeySecretName
+
+  downloadDashboardsImage:
+    repository: curlimages/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  sidecar:
+    image: kiwigrid/k8s-sidecar:1.15.4
+    imagePullPolicy: IfNotPresent
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/thanos
+thanos:
+  image:
+    repository: thanosio/thanos
+    tag: v0.24.0
+    pullPolicy: IfNotPresent
