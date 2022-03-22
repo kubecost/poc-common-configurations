@@ -1,0 +1,11 @@
+kubecostProductConfigs:
+  projectID: "AWS_kubecostProductConfigs_projectID"
+  cloudIntegrationSecret: cloud-integration
+  clusterName: AWS_kubecostProductConfigs_clusterName # group of clusters used for display in Kubecost UI
+  productKey:
+    secretname: productkey
+    enabled: true
+  awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
+  awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+#  awsSpotDataPrefix: dev
+  serviceKeySecretName: aws-service-key # Use an existing AWS or Azure secret with format as in aws-service-key-secret.yaml or azure-service-key-secret.yaml. Leave blank if using createServiceKeySecret

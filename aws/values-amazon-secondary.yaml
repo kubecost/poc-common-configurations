@@ -1,0 +1,19 @@
+kubecostProductConfigs:
+  clusterName: AWS_kubecostProductConfigs_clusterName
+  productKey:
+    secretname: productkey
+    enabled: true
+  serviceKeySecretName: aws-service-key
+  projectID: "AWS_kubecostProductConfigs_projectID"
+  awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
+  awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+kubecostModel:
+  warmCache: false
+  warmSavingsCache: false
+  etl: false
+global:
+  grafana:
+    enabled: false
+    proxy: false
+  alertmanager:
+    enabled: false
