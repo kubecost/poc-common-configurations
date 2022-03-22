@@ -1,0 +1,17 @@
+kubecostProductConfigs:
+  clusterName: kubecostProductConfigs_clusterName
+  productKey:
+    secretname: productkey
+    enabled: true
+  azureBillingRegion: US
+  serviceKeySecretName: azure-service-key
+kubecostModel:
+  warmCache: false
+  warmSavingsCache: false
+  etl: false
+global:
+  grafana:
+    enabled: false
+    proxy: false
+  alertmanager:
+    enabled: false
