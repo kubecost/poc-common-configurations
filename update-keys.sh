@@ -12,11 +12,11 @@ do
     printf '\e[33m%s\e[0m%s\n' "File= $f"
     while IFS= read -r key; do
         #printf "    $key\n"
-        if [[ "$key" =~ "[[" ]]; then 
+        if [[ "$key" =~ "#" ]]; then
             printf '\e[32m%s\e[0m%s\n' "Group= $key";
         else
-          printf "$key\n"; 
-          sed -i -e "s:$key:g" "$f" ;
+          printf "$key\n";
+          sed -i -e "s:$key:g" "$f";
         fi
     done <<< $passwords
 done

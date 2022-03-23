@@ -1,5 +1,5 @@
 kubecostProductConfigs:
-  clusterName: dev_clusters
+  clusterName: kubecostProductConfigs_clusterName
   productKey:
     secretname: productkey
     enabled: true
