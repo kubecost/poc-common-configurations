@@ -1,10 +1,14 @@
 # This values file contains all of the images kubecost requires.
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
+# If you have yq pip install yq, this will work:
 # helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true | yq '..|.image? | select(.)' | sort -u
+# otherwise this should output the same:
+# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true|grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
-## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer
+
+# Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
