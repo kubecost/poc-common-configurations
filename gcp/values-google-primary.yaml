@@ -1,0 +1,13 @@
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: gke1
+
+kubecostProductConfigs:
+  clusterName: dev_clusters
+  productKey:
+    secretname: productkey
+    enabled: true
+  cloudIntegrationSecret: cloud-integration # only runs on primary cluster
+  serviceKeySecretName: gcp-service-key
