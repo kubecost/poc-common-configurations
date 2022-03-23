@@ -4,6 +4,6 @@
         "appId": "AZ_service_key_appId",
         "displayName": "AZ_service_key_displayName",
         "password": "AZ_service_key_password",
-        "tenant": "AZ_service_key_tennant"
+        "tenant": "AZ_service_key_tenant"
     }
 }
