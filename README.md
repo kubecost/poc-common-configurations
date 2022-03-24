@@ -14,11 +14,11 @@ They [keys.txt](keys.txt) file contains links to the various sections of documen
 
 ## Notes
 
-Many of the features enabled are only available with an [Enterprise subscription](https://www.kubecost.com/pricing). The examples in this repo are all designed for unlimited metric retention and Federated visibility where all clusters are aggregated in a single pane of glass. The free tier is for a single cluster per company with 15 day metric retention.
+Many of the features enabled are only available with an [Enterprise subscription](https://www.kubecost.com/pricing). The examples in this repo are all designed for unlimited metric retention and [Federated](https://guide.kubecost.com/hc/en-us/articles/4407595946135-Federated-Clusters) visibility where all clusters are aggregated in a single pane of glass. The free tier is for a single cluster per company with 15 day metric retention.
 
 ## Federated Cluster Views (Enterprise only)
 
-When you have using multiple clusters- all clusters should use the same object-store.yaml for whichever storage platform you prefer. Examples of object-storage.yaml for [AWS S3](/aws/object-store.yaml)/[Azure Blob Storage](/azure/object-store.yaml)/[Google Cloud Storage Buckets](/gcp/object-store.yaml) are in each of the respective folders.
+When you have multiple clusters- all clusters should use the same object-store.yaml for whichever storage platform you prefer. Examples of object-storage.yaml for [AWS S3](/aws/object-store.yaml)/[Azure Blob Storage](/azure/object-store.yaml)/[Google Cloud Storage Buckets](/gcp/object-store.yaml) are in each of the respective folders.
 
 There are [additional storage options](https://thanos.io/tip/thanos/storage.md/) for the Thanos Bucket, please discuss these with Kubecost Engineers during a POC.
 
