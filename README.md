@@ -10,7 +10,9 @@ Please let us know if you would like examples added either in the github issues 
 
 ## Usage
 
-They [keys.txt](keys.txt) file contains links to the various sections of documentation that give detailed how-to for each needed variable. The [update-keys.sh](update-keys.sh) script will find the given keys in the file needed with your values. This script is a work in progress. Please file issues or contact us on [Slack](https://kubecost.slack.com/).
+> Note on security: it is generally not a good practice to store secrets/passwords to disk. Please follow your organizations security practices.
+
+The [keys.txt](keys.txt) file contains links to the various sections of documentation that gives details to find each needed variable. The [update-keys.sh](update-keys.sh) script will find the given keys in the file needed with your values. This script is a work in progress. Please file issues or contact us on [Slack](https://kubecost.slack.com/).
 
 ## Notes
 
