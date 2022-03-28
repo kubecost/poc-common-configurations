@@ -1,0 +1,74 @@
+# General_keys
+
+## high-level friendly name for a group of clusters, can be the same value for all clusters.
+kubecostProductConfigs_clusterName:dev_clusters
+
+# -------------------------------------------
+# Azure_keys
+
+##https://guide.kubecost.com/hc/en-us/articles/4407595934871-Azure-Config
+AZ_service_key_subscriptionId:0bd50fdf-c923-4e1e-850c-196SAMPLE
+AZ_service_key_appId:4031c763-c060-45c4-8a72-SAMPLE
+AZ_service_key_displayName:SAMPLE-azureratecard
+AZ_service_key_password:HMBI2oJQdvOUlG_cSAMPLE
+AZ_service_key_tenant:72faf3ff-7a3f-4597-b0d9-7b0SAMPLE
+
+## https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Integrations
+AZ_cloud_integration_subscriptionId:0bd50fdf-c923-4e1e-850c-196ddSAMPLE
+AZ_cloud_integration_azureStorageAccount:kubecostexport
+AZ_cloud_integration_azureStorageAccessKey:SX30SC4ZoccBKS7/Jj8br6iimbcTv8t5rv/fmxb3Z5krMLZ71xnNfUe41zRpcuSyh85J7+SAMPLE==
+AZ_cloud_integration_azureStorageContainer:costexports
+
+## https://guide.kubecost.com/hc/en-us/articles/4407595954327-Azure-Long-Term-Storage
+AZ_object_store_storage_account:samplestorageaccount
+AZ_object_store_storageAccount_key:TYZgljfzaNFp/oZIGnmjQnqf4dI4KWXmXep3EBwEl+kj4GWEy4SESOwDVGmSk99cx82vSAMPLE==
+AZ_object_store_container:dev-cluster1
+AZ_object_store_endpoint:blob.core.windows.net
+
+# -------------------------------------------
+# AWS_Keys
+
+## https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Integrations
+## https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
+AWS_cloud_integration_athenaBucketName:sample-cur
+AWS_cloud_integration_athenaRegion:us-east-2
+AWS_cloud_integration_athenaDatabase:athenacurcfn_sample_cur
+AWS_cloud_integration_athenaTable:sample-cur
+AWS_cloud_integration_athena_projectID:29794111111
+AWS_cloud_integration_athena_serviceKeyName:AKIAUKXXWPGDSAMPLE
+AWS_cloud_integration_athena_serviceKeySecret:iGhEOeZNvRzsyS517LrpI+SAMPLE//
+
+## https://guide.kubecost.com/hc/en-us/articles/4407595952151-AWS-Long-Term-Storage
+AWS_object_store_bucket:sample-thanos-store
+AWS_object_store_endpoint:s3.amazonaws.com
+AWS_object_store_region:us-east-2
+AWS_object_store_access_key:AKIAUKXXWPGDSAMPLE
+AWS_object_store_secret_key:iGhEOeZNvRzsyS517LrpI+SAMPLE//
+AWS_service_key_aws_access_key_id:AKIAUKXXWPGDSAMPLE
+AWS_service_key_aws_secret_access_key:3wHsqewG1wc9jtMrjs6e6cWESAMPLE
+AWS_kubecostProductConfigs_projectID:29794111111
+AWS_kubecostProductConfigs_awsSpotDataRegion:us-east-2
+AWS_kubecostProductConfigs_awsSpotDataBucket:kubecost-spot-feed-us-east-2
+
+# -------------------------------------------
+# GCP_Keys
+
+## https://guide.kubecost.com/hc/en-us/articles/4407601816087-GCP-Out-of-Cluster
+## https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Integrations
+GCP_cloud_integration_project_id:projectid-21124565
+GCP_cloud_integration_private_key_id:4dc1b4adbbd722437de7c1f6b879641SAMPLE
+GCP_cloud_integration_private_KEY:ASDF9ASFD90adsSAMPLE
+GCP_cloud_integration_client_email:kubecost-billing@projectid-21124565.iam.gserviceaccount.com
+GCP_cloud_integration_client_id:10109038788511111111
+GCP_cloud_integration_billingDataDataset:billing_data.gcp_billing_export_v1_01AC9F_74CF1D_SAMPLE
+
+## https://guide.kubecost.com/hc/en-us/articles/4407601822359-GCP-Long-Term-Storage
+GCP_object_store_bucket:sample-gcp-thanos
+
+## https://guide.kubecost.com/hc/en-us/articles/4407601817495-Creating-a-Google-Service-Account
+GCP_object_store_project_id:projectid-21124565
+GCP_object_store_private_key_id:69bdb43db421bc146ac198ed4a9ab6SAMPLE
+GCP_object_store_privateKEY:MUST_UPDATE_MANUALLY
+GCP_object_store_client_email:sample-buckets-user@projectid-21124565.iam.gserviceaccount.com
+GCP_object_store_client_id:11594895957424511111
+GCP_object_store_client_x509_cert_url:www.googleapis.com/robot/v1/metadata/x509/sample-buckets-user%40projectid-21124565.iam.gserviceaccount.com
