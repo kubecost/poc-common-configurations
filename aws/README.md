@@ -1,11 +1,11 @@
 # Kubecost Setup for AWS
 
-[Enterprise Setup](README-enterprise.md)
+## Overview
 
-[Business Setup](README-business.md)
+This repository is designed to be an easy guide for the most common configurations of Kubecost in AWS. It does not replace our [published documentation](https://guide.kubecost.com/) which will have details for many more use cases.
 
 ---
-
+## Usage
 
 The configuration files (yaml/json) have placeholders for the variables needed. They are listed below in order to prevent duplicated efforts. The sample-values will look similar to yours.
 
@@ -15,8 +15,15 @@ The variables below are are denoted like this:
 Just replace the `sample-value` with yours. The link at the top of each section will bring you to the Kubecost documentation with more detail.
 
 ---
+When you have updated the corresponding values in the json and yaml files in this repository, follow the setup guide:
 
-## Cluster Name / ID (values*.yaml)
+[Enterprise Setup](README-enterprise.md)
+
+---
+
+## Required Variables
+
+### Cluster Name / ID (values*.yaml)
 
 >Note that there are two places that this is used, in the kubecostProductConfigs.clusterName and prometheus.server.global.external_labels.cluster_id
 - `kubecostProductConfigs_clusterName: aws-cluster1`
@@ -29,7 +36,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
 ---
 
-## service-key.json
+### service-key.json
 https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration#step-4-attaching-iam-permissions-to-kubecost
 
 - `AWS_service_key_aws_access_key_id:  AKIAUKXXWPGDSAMPLE`
@@ -37,7 +44,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
 ---
 
-## cloud-integration.json
+### cloud-integration.json
 
 https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
@@ -51,7 +58,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
 ---
 
-## object-store.yaml
+### object-store.yaml
 
 https://guide.kubecost.com/hc/en-us/articles/4407595952151-AWS-Long-Term-Storage
 
