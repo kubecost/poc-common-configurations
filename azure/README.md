@@ -1,30 +1,35 @@
 # Kubecost Setup for Azure
 
-[Enterprise Setup](README-enterprise.md)
+## Overview
 
-[Business Setup](README-business.md)
-
+This repository is designed to be an easy guide for the most common configurations of Kubecost in Azure. It does not replace our [published documentation](https://guide.kubecost.com/) which will have details for many more use cases.
 
 ---
+## Usage
 
-
-The configuration files (yaml/json) have placeholders for the variables needed. They are listed below in order to prevent duplicated efforts. The values will look similar to yours.
+The configuration files (yaml/json) have placeholders for the variables needed. They are listed below in order to prevent duplicated efforts. The sample-values will look similar to yours.
 
 The variables below are are denoted like this:
-- `variable: sample-value`
+- `variable:  sample-value`
 
 Just replace the `sample-value` with yours. The link at the top of each section will bring you to the Kubecost documentation with more detail.
 
 ---
+When you have updated the corresponding values in the json and yaml files in this repository, follow the setup guide:
 
-## Cluster Name / ID (values*.yaml)
+[Enterprise Setup](README-enterprise.md)
+
+---
+
+## Required Variables
+### Cluster Name / ID (values*.yaml)
 >Note that there are two places that this is used, in the kubecostProductConfigs.clusterName and prometheus.server.global.external_labels.cluster_id
 
 - `kubecostProductConfigs_clusterName: azure-cluster1`
 
 ---
 
-## service-key.json
+### service-key.json
 https://guide.kubecost.com/hc/en-us/articles/4407595934871-Azure-Config
 
 - `AZ_service_key_subscriptionId: 0bd50fdf-c923-4e1e-850c-196SAMPLE`
@@ -35,7 +40,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595934871-Azure-Config
 
 ---
 
-## cloud-integration.json
+### cloud-integration.json
 
 https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Integrations
 
@@ -46,7 +51,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Inte
 
 ---
 
-## object-store.yaml
+### object-store.yaml
 
 https://guide.kubecost.com/hc/en-us/articles/4407595954327-Azure-Long-Term-Storage
 
