@@ -1,12 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kubecost-ui
-  namespace: kubecost
+  name: kubecost-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: domain.xyz
+  - host: your.com
     http:
       paths:
       - path: /

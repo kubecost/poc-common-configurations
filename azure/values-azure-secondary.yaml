@@ -1,0 +1,24 @@
+kubecostProductConfigs:
+  clusterName: kubecostProductConfigs_clusterName
+  productKey:
+    secretname: productkey
+    enabled: false # product key is not needed for eval
+  azureBillingRegion: US
+  serviceKeySecretName: azure-service-key
+kubecostModel:
+  warmCache: false
+  warmSavingsCache: false
+  etl: false
+global:
+  grafana:
+    enabled: false
+    proxy: false
+  alertmanager:
+    enabled: false
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: kubecostProductConfigs_clusterName
+networkCosts:
+  enabled: true

@@ -1,0 +1,10 @@
+{
+    "azure": [
+        {
+            "azureSubscriptionID": "AZ_cloud_integration_subscriptionId",
+            "azureStorageAccount": "AZ_cloud_integration_azureStorageAccount",
+            "azureStorageAccessKey": "AZ_cloud_integration_azureStorageAccessKey",
+            "azureStorageContainer": "AZ_cloud_integration_azureStorageContainer"
+        }
+    ]
+}

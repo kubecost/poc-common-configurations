@@ -1,0 +1,15 @@
+kubecostProductConfigs:
+  clusterName: kubecostProductConfigs_clusterName
+  productKey:
+    secretname: productkey
+    enabled: false # product key is not needed for eval
+  cloudIntegrationSecret: cloud-integration # only required on primary cluster
+  azureBillingRegion: US
+  serviceKeySecretName: azure-service-key
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: kubecostProductConfigs_clusterName
+networkCosts:
+  enabled: true

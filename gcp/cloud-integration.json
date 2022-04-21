@@ -1,0 +1,20 @@
+{
+    "gcp": [
+        {
+            "key": {
+                "type": "service_account",
+                "project_id": "GCP_cloud_integration_project_id",
+                "private_key_id": "GCP_cloud_integration_private_key_id",
+                "private_key": "GCP_cloud_integration_private_KEY",
+                "client_email": "GCP_cloud_integration_client_email",
+                "client_id": "GCP_cloud_integration_client_id",
+                "auth_uri": "https://GCP_auth_uri",
+                "token_uri": "https://GCP_token_uri",
+                "auth_provider_x509_cert_url": "https://GCP_auth_provider_x509_cert_url",
+                "client_x509_cert_url": "https://GCP_client_x509_cert_url"
+            },
+            "projectID": "GCP_cloud_integration_project_id",
+            "billingDataDataset": "GCP_cloud_integration_billingDataDataset"
+        }
+    ]
+}
