@@ -1,0 +1,7 @@
+type: AZURE
+config:
+  storage_account: "AZ_object_store_storage_account"
+  storage_account_key: "AZ_object_store_storageAccount_key"
+  container: "AZ_object_store_container"
+  endpoint: "AZ_object_store_endpoint" # assumes storage_account.endpoint
+  max_retries: 0
