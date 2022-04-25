@@ -22,3 +22,14 @@ When you have updated the corresponding values in the json and yaml files in thi
 ---
 
 ## Required Variables
+### Cluster Name / ID (values*.yaml)
+>Note that there are two places that this is used, in the kubecostProductConfigs.clusterName and prometheus.server.global.external_labels.cluster_id
+
+- `kubecostProductConfigs_clusterName: gcp-cluster1`
+
+---
+
+### cloud-integration.json
+https://guide.kubecost.com/hc/en-us/articles/4407601816087-GCP-Out-of-Cluster
+
+> Note that many fields needed will be in the $SERVICE_ACCOUNT_NAME-key.json file

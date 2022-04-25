@@ -1,5 +1,18 @@
 # Business Edition GCP
 
+## Architecture
+
+In Kubecost Business Edition, all clusters are configured identically. Each cluster has the ability to switch to other clusters via the Kubecost Homepage or via the Switch Cluster function in the UI.
+
+*Kubecost Homepage*
+
+![Kubecost-homepage](../images/kubecost-homepage.png)
+
+*Switch Cluster*
+
+![Kubecost-switch-cluster](../images/kubecost-switch-clusters.png)
+
+>Note that the use of Thanos is not included in Business edition and all clusters wil have an independent Kubecost UI
 ## All Clusters Setup
 
 ```bash

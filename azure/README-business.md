@@ -28,10 +28,5 @@ kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-in
 # Azure service key
 kubectl create secret generic azure-service-key -n kubecost --from-file=service-key.json
 
-# Each CLUSTER_ID must be unique:
-CLUSTER_ID="YOUR_CLUSTER_NAME"
-# Set cluster names in values-primary and values-secondary (per cluster) or via script using with the this kubectl config command and pass the values to: --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID:
-CLUSTER_ID="$(kubectl config current-context | cut -d '/' -f2)"
-
-helm install kubecost "kubecost/cost-analyzer" --namespace kubecost -f ./values-azure-primary.yaml --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID
+helm upgrade --install kubecost "kubecost/cost-analyzer" --namespace kubecost -f ./values-azure-primary.yaml
 ```

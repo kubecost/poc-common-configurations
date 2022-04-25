@@ -17,12 +17,7 @@ kubectl create secret generic cloud-integration -n nightly --from-file=cloud-int
 # Azure service key
 kubectl create secret generic azure-service-key -n nightly --from-file=service-key.json
 
-# Each CLUSTER_ID must be unique:
-CLUSTER_ID="YOUR_CLUSTER_NAME"
-# Set cluster names in values-primary and values-secondary (per cluster) or via script using with the this kubectl config command and pass the values to: --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID
-CLUSTER_ID="$(kubectl config current-context | cut -d '/' -f2)"
-
-helm install kubecost "kubecost/cost-analyzer" --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-azure-primary.yaml --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID
+helm install kubecost "kubecost/cost-analyzer" --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-azure-primary.yaml
 ```
 
 ## All Secondary Clusters Setup
@@ -42,10 +37,5 @@ kubectl create secret generic kubecost-thanos -n nightly --from-file=object-stor
 # Azure service key
 kubectl create secret generic azure-service-key -n nightly --from-file=service-key.json
 
-# Each CLUSTER_ID must be unique:
-CLUSTER_ID="YOUR_CLUSTER_NAME"
-# Set cluster names in values-primary and values-secondary (per cluster) or via script using with the this kubectl config command and pass the values to: --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID
-CLUSTER_ID="$(kubectl config current-context | cut -d '/' -f2)"
-
-helm upgrade --install kubecost "kubecost/cost-analyzer" --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-azure-secondary.yaml --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_ID --set kubecostProductConfigs.clusterName=$CLUSTER_ID
+helm upgrade --install kubecost "kubecost/cost-analyzer" --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-azure-secondary.yaml
 ```
