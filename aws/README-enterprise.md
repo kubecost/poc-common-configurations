@@ -17,7 +17,7 @@ kubectl create secret generic aws-service-key -n kubecost --from-file=service-ke
 # Create Cloud Integration Secret
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 
-helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values.yaml -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f values-amazon-primary.yaml
+helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f values-amazon-primary.yaml
 ```
 
 ## All Secondary Clusters Setup
@@ -36,5 +36,5 @@ kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-sto
 # AWS service key
 kubectl create secret generic aws-service-key -n kubecost --from-file=service-key.json
 
-helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values.yaml -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-amazon-secondary.yaml
+helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-amazon-secondary.yaml
 ```
