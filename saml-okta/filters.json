@@ -1,0 +1,26 @@
+{
+   "kubecost_admin":{
+      "allocationFilters":[
+         {
+            "namespace":"*",
+            "cluster":"*"
+         }
+      ]
+   },
+   "kubecost_users":{
+      "allocationFilters":[
+         {
+            "namespace":"",
+            "cluster":"*"
+         }
+      ]
+   },
+   "kubecost_dev-namespaces":{
+         "allocationFilters":[
+            {
+               "namespace":"dev-*,nginx-ingress",
+               "cluster":"*"
+            }
+         ]
+   }
+}
