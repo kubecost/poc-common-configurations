@@ -10,12 +10,14 @@ Helpful links:
 1. [Architecture diagrams](https://guide.kubecost.com/hc/en-us/articles/4407595922711-Kubecost-Core-Architecture-Overview)
 1. [Federated clusters guide](https://guide.kubecost.com/hc/en-us/articles/4407595946135-Federated-Clusters)
 
+***Be sure to update the kubecostProductConfigs.clusterName and prometheus.server.global.external_labels.cluster_id in the values.yaml files before the helm install.***
 ## Primary Cluster Setup
 
 ```bash
 kubectl create namespace kubecost
-# Create secret for product key
-kubectl create secret generic productkey -n kubecost --from-file=productkey.json
+
+# Create secret for product key # not needed for eval
+# kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
 # Create secret for Thanos store
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
@@ -36,11 +38,10 @@ helm upgrade --install  kubecost "kubecost/cost-analyzer" --namespace kubecost -
 
 ```bash
 kubectl create namespace kubecost
-# Create secret for product key
-# Create secret for product key (not needed during eval)
+# Create secret for product key # not needed for eval
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
-# Create secret for Thanos store
+# Create secret for Thanos store, this should be the same bucket as the primary
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 
 # Azure service key
