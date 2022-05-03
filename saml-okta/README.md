@@ -27,15 +27,29 @@ Create an application in Okta for Kubecost (SSO)
 1. Go to the Okta admin dashboard (<your okta subdomain>.okta.com/admin/dashboard) and select `Applications>Create App Integration` and select `SAML 2.0`
 1. On General Settings give the app a name. Feel free to use the [kubecost-logo.png](./images/kubecost-logo.png)
 1. Your SSO URL should be your application root url followed by /saml/acs (https://kubecost.your.com/saml/acs)
-1. Your Audience URI (SP Entity ID) should be set to your application root without a trailing slash (https://kubecost.your.com)
+1. Your Audience URI (SP Entity ID) should be set to your application root _without a trailing slash_ (https://kubecost.your.com)
 1. (Optional) If you intend to use RBAC- on the Group Attribute Statements, enter a name (example `kubecost_group`) and a filter based on your group naming standards (example `Starts with` `kubecost_`)
 
     >Note: using a unique value (with "_") will assist with troubleshooting
 
-    >See [screenshot of Okta SAML settings](./images/okta-saml-settings.png)
+    <details><summary>screenshot</summary>
+    ![screenshot of Okta SAML settings](./images/okta-saml-settings.png)
 
-1. Press Next and on the Okta Feedback step, choose any appropriate values [see image](./images/okta-feedback.png)
-1. On your Application Configuration Sign On page, copy the link for `Identity Provider metadata` and add that to the [values-saml.yaml](values-saml.yaml):idpMetadataURL [see image](./images/okta-metadataurl-cert.png)
+
+    </details>
+
+1. Press Next and on the Okta Feedback step, choose any appropriate values
+   <details><summary>image</summary>![okta-feedback](./images/okta-feedback.png)
+
+
+   </details>
+
+1. On your Application Configuration Sign On page, copy the link for `Identity Provider metadata` and add that to the [values-saml.yaml](values-saml.yaml):idpMetadataURL
+   <details><summary>screenshot</summary>![Okta metadata](./images/okta-metadata-cert.png)
+
+
+   </details>
+
 1. On the same page, in the SAML 2.0 section: click `View Setup Instructions` and download the X.509 cert. Name it `myservice.cert`
 1. Create a secret using the cert:
 
@@ -89,7 +103,7 @@ The `assertionName: "kubecost_group"` needs to match the name given in step 5 ab
 
 Filters are used to give visibility to a subset of objects in Kubecost. Examples of the various filters available are in [filters.json](./filters.json).
 
-These filters can be configured using groups in your Okta directory. It is also possible to assign filters to specific users.
+These filters can be configured using groups or user attributes in your Okta directory. It is also possible to assign filters to specific users. The example below is using groups.
 
 >Note that you can combine filtering with admin/readonly rights.
 
