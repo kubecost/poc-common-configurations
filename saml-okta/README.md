@@ -32,21 +32,23 @@ Create an application in Okta for Kubecost (SSO)
 
     >Note: using a unique value (with "_") will assist with troubleshooting
 
-    <details><summary>screenshot</summary>
-    ![screenshot of Okta SAML settings](./images/okta-saml-settings.png)
+   <details><summary>screenshot</summary>
 
+   ![screenshot of Okta SAML settings](./images/okta-saml-settings.png)
 
-    </details>
+   </details>
 
 1. Press Next and on the Okta Feedback step, choose any appropriate values
-   <details><summary>image</summary>![okta-feedback](./images/okta-feedback.png)
+   <details><summary>screenshot</summary>
 
+   ![okta-feedback](./images/okta-feedback.png)
 
    </details>
 
 1. On your Application Configuration Sign On page, copy the link for `Identity Provider metadata` and add that to the [values-saml.yaml](values-saml.yaml):idpMetadataURL
-   <details><summary>screenshot</summary>![Okta metadata](./images/okta-metadata-cert.png)
+   <details><summary>screenshot</summary>
 
+   ![Okta metadata](./images/okta-metadata-cert.png)
 
    </details>
 
