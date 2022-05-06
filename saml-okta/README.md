@@ -1,5 +1,6 @@
 # Kubecost SSO and RBAC - Okta Integration
 
+![Enterprise Subscription Required](./images/kubecost-enterprise.png)
 ## Overview
 
 Kubecost supports SAML 2.0 providers for:
