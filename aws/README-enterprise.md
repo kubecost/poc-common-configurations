@@ -4,6 +4,10 @@
 
 In Kubecost Enterprise Edition, there are two configurations needed. The first "Primary Cluster" runs the Kubecost UI/API and performs the cost reconciliation processes. All other clusters are "secondary" or "agent-only" and are configured with a minimal set of Kubecost components needed to gather metrics and ship back to a shared storage bucket.
 
+Data from secondary clusters is sent every 3 hours.
+Each cloud provider's billing is delayed between 6 and 24+ hours.
+Many parts of the UI will not look healthy or accurate until a full [reconciliation](https://guide.kubecost.com/hc/en-us/articles/4412369153687-Cloud-Integrations#reconciliation) is complete.
+
 Helpful links:
 
 1. [README](https://github.com/kubecost/poc-common-configurations#federated-cluster-views-enterprise-only)
@@ -33,7 +37,7 @@ helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f
 
 ## All Secondary Clusters Setup
 
->If your secondary clusters are in a different subscription, you may want to create a copy of this repository and modify the service-key.json per subscription.
+>If your secondary clusters are in a different subscription, you will need to modify the service-key.json per subscription.
 >cloud-integration is not needed on secondary clusters
 
 ```bash

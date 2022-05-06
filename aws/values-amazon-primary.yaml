@@ -2,9 +2,9 @@ kubecostProductConfigs:
   projectID: "AWS_kubecostProductConfigs_projectID"
   cloudIntegrationSecret: cloud-integration
   clusterName: AWS_kubecostProductConfigs_clusterName
-  productKey:
-    secretname: productkey
-    enabled: false #not needed for eval
+  # productKey:
+  #   secretname: productkey
+  #   enabled: false #not needed for eval
   athenaProjectID: "AWS_cloud_integration_athena_projectID"
   athenaBucketName: AWS_cloud_integration_athenaBucketName
   athenaRegion: AWS_cloud_integration_athenaRegion
