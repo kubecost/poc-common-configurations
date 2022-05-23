@@ -1,0 +1,9 @@
+type: AZURE
+config:
+  storage_account: "AZ_object_store_storage_account"
+  storage_account_key: "AZ_object_store_storageAccount_key"
+  container: "AZ_object_store_container"
+  # endpoint is only needed if primary blob service endpoint domain is not blob.core.windows.net
+  # Example: blob.core.chinacloudapi.cn
+  # endpoint: "AZ_object_store_endpoint"
+  max_retries: 0

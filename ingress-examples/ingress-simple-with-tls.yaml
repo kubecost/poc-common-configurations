@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubecost-ingress-tls
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kubecost.your.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kubecost-cost-analyzer
+            port:
+              number: 9090
+  tls:
+  - hosts:
+      - kubecost.your.com
+    secretName: kubecost-tls
+    # Use any cert tool/cert-manager or create manually: kubectl create secret tls kubecost-tls --cert /etc/letsencrypt/live/kubecost.your.com/fullchain.pem --key /etc/letsencrypt/live/kubecost.your.com/privkey.pem
