@@ -1,12 +1,13 @@
 kubecostProductConfigs:
+  projectID: "AWS_kubecostProductConfigs_projectID"
   clusterName: AWS_kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey
   #   enabled: false #not needed for eval
-  serviceKeySecretName: aws-service-key
-  projectID: "AWS_kubecostProductConfigs_projectID"
   awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
   awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+  # awsSpotDataPrefix: dev
+  serviceKeySecretName: aws-service-key  # Used for Spot Data Feed and Unattached Disks/IP Addresses
 kubecostModel:
   warmCache: false
   warmSavingsCache: false
