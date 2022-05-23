@@ -37,6 +37,8 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 ---
 
 ### service-key.json
+Service Key is used for the Spot Data feed as well as pull IP Addresses and Disks from the AWS API
+
 https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration#step-4-attaching-iam-permissions-to-kubecost
 
 - `AWS_service_key_aws_access_key_id:  AKIAUKXXWPGDSAMPLE`

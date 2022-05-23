@@ -5,15 +5,10 @@ kubecostProductConfigs:
   # productKey:
   #   secretname: productkey
   #   enabled: false #not needed for eval
-  athenaProjectID: "AWS_cloud_integration_athena_projectID"
-  athenaBucketName: AWS_cloud_integration_athenaBucketName
-  athenaRegion: AWS_cloud_integration_athenaRegion
-  athenaDatabase: AWS_cloud_integration_athenaDatabase
-  athenaTable: AWS_cloud_integration_athenaBucketName
   awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
   awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
-#  awsSpotDataPrefix: dev
-  serviceKeySecretName: aws-service-key
+  # awsSpotDataPrefix: dev
+  serviceKeySecretName: aws-service-key # Used for Spot Data Feed
 prometheus:
   server:
     global:
