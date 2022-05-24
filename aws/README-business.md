@@ -19,10 +19,10 @@ In Kubecost Business Edition, all clusters are configured identically. Each clus
 ``` bash
 kubectl create namespace kubecost
 
-# Create secret for product key
+# Create secret for product key - Not needed for eval
 kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
-# Create secret for AWS Athena / Spot Pricing Access
+# Create secret for AWS Spot Pricing Access and IP Address and Unattached Disks
 kubectl create secret generic aws-service-key -n kubecost --from-file=service-key.json
 
 # Create Cloud Integration Secret
