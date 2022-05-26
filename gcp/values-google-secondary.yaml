@@ -2,21 +2,39 @@ kubecostProductConfigs:
   clusterName: kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey
-  #   enabled: false #not needed for eval
-prometheus:
-  server:
-    global:
-      external_labels:
-        cluster_id: kubecostProductConfigs_clusterName
+  #   enabled: false # product key is not needed for eval
 kubecostModel:
   warmCache: false
   warmSavingsCache: false
   etl: false
+  maxQueryConcurrency: 1
 global:
   grafana:
     enabled: false
     proxy: false
   alertmanager:
+    enabled: false
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: kubecostProductConfigs_clusterName
+    retention: 2d
+  # nodeExporter:
+  #   enabled: false
+  # serviceAccounts:
+  #   nodeExporter:
+  #     create: false
+  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+thanos:
+  compact:
+    enabled: false
+  bucket:
+    enabled: false
+  query:
+    enabled: false
+  queryFrontend:
     enabled: false
 networkCosts:
   enabled: true
