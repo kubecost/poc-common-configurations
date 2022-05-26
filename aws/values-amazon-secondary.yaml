@@ -23,8 +23,8 @@ prometheus:
       external_labels:
         cluster_id: kubecostProductConfigs_clusterName
     retention: 2d
-  nodeExporter:
-    enabled: false
+  # nodeExporter:
+  #   enabled: false # disable if cluster/node rightsizing recommendation is not required
 thanos:
   compact:
     enabled: false
