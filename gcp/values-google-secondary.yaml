@@ -2,12 +2,7 @@ kubecostProductConfigs:
   clusterName: kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey
-  #   enabled: false #not needed for eval
-prometheus:
-  server:
-    global:
-      external_labels:
-        cluster_id: kubecostProductConfigs_clusterName
+  #   enabled: false # product key is not needed for eval
 kubecostModel:
   warmCache: false
   warmSavingsCache: false
@@ -17,6 +12,21 @@ global:
     enabled: false
     proxy: false
   alertmanager:
+    enabled: false
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: kubecostProductConfigs_clusterName
+    retention: 2d
+thanos:
+  compact:
+    enabled: false
+  bucket:
+    enabled: false
+  query:
+    enabled: false
+  queryFrontend:
     enabled: false
 networkCosts:
   enabled: true
