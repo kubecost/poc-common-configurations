@@ -12,6 +12,7 @@ kubecostModel:
   warmCache: false
   warmSavingsCache: false
   etl: false
+  maxQueryConcurrency: 1
 global:
   grafana:
     enabled: false
@@ -22,6 +23,8 @@ prometheus:
       external_labels:
         cluster_id: kubecostProductConfigs_clusterName
     retention: 2d
+  nodeExporter:
+    enabled: false
 thanos:
   compact:
     enabled: false
