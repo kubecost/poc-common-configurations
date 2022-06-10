@@ -1,6 +1,7 @@
 kubecostProductConfigs:
-  projectID: "AWS_kubecostProductConfigs_projectID"
+  projectID: AWS_kubecostProductConfigs_projectID
   cloudIntegrationSecret: cloud-integration
+  # clustername should be unique for all clusters
   clusterName: AWS_kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey

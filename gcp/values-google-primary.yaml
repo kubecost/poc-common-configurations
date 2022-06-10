@@ -1,4 +1,5 @@
 kubecostProductConfigs:
+  # clustername should be unique for all clusters
   clusterName: kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey
