@@ -29,7 +29,7 @@ When you have updated the corresponding values in the json and yaml files in thi
 
 ### object-store.yaml
 
-https://guide.kubecost.com/hc/en-us/articles/4407601822359-GCP-Long-Term-Storage
+<https://guide.kubecost.com/hc/en-us/articles/4407601822359-GCP-Long-Term-Storage>
 
 Example script: [README-gcp-storage.md](./README-gcp-storage.md)
 
