@@ -27,9 +27,11 @@ When you have updated the corresponding values in the json and yaml files in thi
 
 - `kubecostProductConfigs_clusterName: gcp-cluster1`
 
----
+### object-store.yaml
+
+<https://guide.kubecost.com/hc/en-us/articles/4407601822359-GCP-Long-Term-Storage>
+
+Example script: [README-gcp-storage.md](./README-gcp-storage.md)
 
 ### cloud-integration.json
 https://guide.kubecost.com/hc/en-us/articles/4407601816087-GCP-Out-of-Cluster
-
-> Note that many fields needed will be in the $SERVICE_ACCOUNT_NAME-key.json file

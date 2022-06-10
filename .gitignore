@@ -7,3 +7,5 @@ keys-andrew.txt
 keys-rob.txt
 update-keys-jesse.sh
 rancher
+aws-attach-roles
+custom-prometheus
