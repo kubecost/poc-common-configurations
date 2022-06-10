@@ -18,6 +18,7 @@ prometheus:
   server:
     global:
       external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
     retention: 2d
   alertmanager:
@@ -37,6 +38,8 @@ thanos:
   query:
     enabled: false
   queryFrontend:
+    enabled: false
+  store:
     enabled: false
 networkCosts:
   enabled: true
