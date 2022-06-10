@@ -12,7 +12,7 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-# imageVersion: "prod-1.93.2" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+# imageVersion: "prod-1.94.2" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
   # fullImageName: "YOUR_REGISTRY/frontend:prod-1.91" # Use image -OR- fullImageName.
