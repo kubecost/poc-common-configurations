@@ -1,10 +1,10 @@
 # This values file contains all of the images kubecost requires.
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
-# If you have yq pip install yq, this will work:
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true | yq '..|.image? | select(.)' | sort -u
-# otherwise this should output the same:
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true|grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# install yq with brew / pip / etc
+# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
+# If you don't have yq this should output the same:
+# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
@@ -12,7 +12,7 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-# imageVersion: "prod-1.91" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+# imageVersion: "prod-1.94.2" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
   # fullImageName: "YOUR_REGISTRY/frontend:prod-1.91" # Use image -OR- fullImageName.
@@ -35,10 +35,10 @@ networkCosts:
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
 clusterController:
-  image: YOUR_REGISTRY/cluster-controller:v0.0.2 # Always the full image path with version tag.
+  image: YOUR_REGISTRY/cluster-controller:v0.0.6 # Always the full image path with version tag.
   imagePullPolicy: Always
 
-initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
+# initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
 
 ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus
 prometheus:
@@ -101,7 +101,7 @@ grafana:
     repository: YOUR_REGISTRY/grafana
     tag: 8.3.2
     pullPolicy: IfNotPresent
-    
+
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -113,7 +113,7 @@ grafana:
     repository: YOUR_REGISTRY/curl
     tag: latest
     pullPolicy: IfNotPresent
-  
+
   sidecar:
     image: YOUR_REGISTRY/k8s-sidecar:1.15.4
     imagePullPolicy: IfNotPresent

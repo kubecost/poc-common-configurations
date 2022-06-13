@@ -1,23 +1,27 @@
 kubecostProductConfigs:
   projectID: "AWS_kubecostProductConfigs_projectID"
   cloudIntegrationSecret: cloud-integration
-  clusterName: AWS_kubecostProductConfigs_clusterName
+  # clustername should be unique for all clusters
+  clusterName: kubecostProductConfigs_clusterName
   # productKey:
   #   secretname: productkey
   #   enabled: false #not needed for eval
-  athenaProjectID: "AWS_cloud_integration_athena_projectID"
-  athenaBucketName: AWS_cloud_integration_athenaBucketName
-  athenaRegion: AWS_cloud_integration_athenaRegion
-  athenaDatabase: AWS_cloud_integration_athenaDatabase
-  athenaTable: AWS_cloud_integration_athenaBucketName
   awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
   awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
-#  awsSpotDataPrefix: dev
-  serviceKeySecretName: aws-service-key
+  # awsSpotDataPrefix: dev
+  serviceKeySecretName: aws-service-key # Used for Spot Data Feed and Unattached Disks/IP Addresses
 prometheus:
   server:
     global:
       external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
+  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+  # nodeExporter:
+  #   enabled: false
+  # serviceAccounts:
+  #   nodeExporter:
+  #     create: false
 networkCosts:
   enabled: true
