@@ -7,4 +7,5 @@ keys-andrew.txt
 keys-rob.txt
 update-keys-jesse.sh
 rancher
-gcp-temp
+aws-attach-roles
+custom-prometheus

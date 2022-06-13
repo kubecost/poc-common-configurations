@@ -42,7 +42,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595934871-Azure-Config
 
 ### cloud-integration.json
 
-https://guide.kubecost.com/hc/en-us/articles/4407595968919-Setting-Up-Cloud-Integrations
+https://guide.kubecost.com/hc/en-us/articles/4407595936023-Adding-Azure-Out-of-Cluster-Cluster-Costs-into-Kubecost
 
 - `AZ_cloud_integration_subscriptionId: 0bd50fdf-c923-4e1e-850c-196SAMPLE`
 - `AZ_cloud_integration_azureStorageAccount: kubecostexport`

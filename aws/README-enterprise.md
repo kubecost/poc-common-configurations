@@ -20,13 +20,13 @@ Helpful links:
 ``` bash
 kubectl create namespace kubecost
 
-# Create secret for product key # not needed for eval
+# Create secret for product key - Not needed for eval
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
-# Create secret for Thanos store
+# Create secret for Thanos store - Same on all clusters
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 
-# Create secret for AWS Athena / Spot Pricing Access
+# Create secret for AWS Spot Pricing Access and IP Address and Unattached Disks
 kubectl create secret generic aws-service-key -n kubecost --from-file=service-key.json
 
 # Create Cloud Integration Secret
@@ -43,13 +43,13 @@ helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f
 ```bash
 kubectl create namespace kubecost
 
-# Create secret for product key # not needed for eval
+# Create secret for product key - Not needed for eval
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
-# Create secret for Thanos store
+# Create secret for Thanos store - Same on all clusters
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 
-# AWS service key
+# Create secret for AWS Spot Pricing Access and IP Address and Unattached Disks
 kubectl create secret generic aws-service-key -n kubecost --from-file=service-key.json
 
 helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-amazon-secondary.yaml
