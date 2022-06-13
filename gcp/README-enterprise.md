@@ -33,6 +33,7 @@ kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-in
 # Add repo to helm
 helm repo add kubecost https://kubecost.github.io/cost-analyzer/
 
+# Install
 helm upgrade kubecost "kubecost/cost-analyzer" --install --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-google-primary.yaml
 ```
 
