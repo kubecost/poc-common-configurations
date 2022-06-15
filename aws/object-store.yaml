@@ -1,7 +1,7 @@
 type: S3
 config:
   bucket: "AWS_object_store_bucket"
-  endpoint: "AWS_object_store_endpoint"
+  endpoint: "s3.amazonaws.com"
   region: "AWS_object_store_region"
   access_key: "AWS_object_store_access_key"
   insecure: false
