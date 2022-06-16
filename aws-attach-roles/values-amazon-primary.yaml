@@ -1,0 +1,39 @@
+serviceAccount:
+  create: false # Set this to false if you're bringing your own service account.
+  # annotations: {}
+  name: kubecost-serviceaccount-cur-athena-thanos
+kubecostProductConfigs:
+  # projectID: "AWS_kubecostProductConfigs_projectID"
+  cloudIntegrationSecret: cloud-integration
+  # clustername should be unique for all clusters
+  clusterName: kubecostProductConfigs_clusterName
+  # productKey:
+  #   secretname: productkey
+  #   enabled: false #not needed for eval
+  # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
+  # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+  # awsSpotDataPrefix: dev
+  # serviceKeySecretName: aws-service-key # Used for Spot Data Feed and Unattached Disks/IP Addresses
+prometheus:
+  server:
+    global:
+      external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        cluster_id: kubecostProductConfigs_clusterName
+  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+  # nodeExporter:
+  #   enabled: false
+  serviceAccounts:
+    # nodeExporter:
+    #   create: false
+    server:
+      create: false
+      name: kubecost-serviceaccount-thanos
+networkCosts:
+  enabled: true
+thanos:
+  store:
+    serviceAccount: kubecost-serviceaccount-thanos
+  compact:
+    serviceAccount: kubecost-serviceaccount-thanos
