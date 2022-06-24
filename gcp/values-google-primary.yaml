@@ -5,6 +5,8 @@ kubecostProductConfigs:
   #   secretname: productkey
   #   enabled: false #not needed for eval
   cloudIntegrationSecret: cloud-integration # only runs on primary cluster
+kubecostModel:
+  etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
 prometheus:
   server:
     global:
