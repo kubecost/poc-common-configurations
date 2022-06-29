@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# by default, this scipt replaces the key with the secret value
+# by default, this script replaces the placeholder with the secret value
 passwords=$(awk -F: '{ print $2":"$1 }' keys.txt)
 
 # pass any argument to script to perform in reverse
