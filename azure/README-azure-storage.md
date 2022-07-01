@@ -11,7 +11,7 @@ Example of the commands needed are below. Note that the az-cli/api may change- i
 
 ```bash
 storageAccount="YOURNAMEstorageaccount"
-containerName="dev-cluster1"
+containerName="kubecost-metrics"
 storageResourceGroup="YOURNAME-storage-resource-group"
 
 az group create \
