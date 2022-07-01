@@ -1,3 +1,7 @@
+This is still a work in progress, meant as an example method for attached an IAM role to the service account used by Kubecost.
+
+There are multiple methods for doing this, if the method below does not fit your requirements, please reach out to us. 
+
 Using aws with IAM roles attached to service accounts:
 
 Enable oidc provider and create service accounts
