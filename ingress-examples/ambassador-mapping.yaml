@@ -1,0 +1,55 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  namespace: ambassador
+  name: http-listener
+spec:
+  port: 8080
+  protocol: HTTPS  # NOT A TYPO, see below
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: SELF   # See below
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  namespace: ambassador
+  name: https-listener
+spec:
+  port: 8443
+  protocol: HTTPS
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: SELF   # See below
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: ambassador.kubecost.xyz
+  namespace: ambassador
+spec:
+  hostname: "ambassador.kubecost.xyz"
+  acmeProvider:
+    authority: none
+  requestPolicy:
+    insecure:
+      action: Route
+  selector:
+    matchLabels:
+      hostname: ambassador.kubecost.xyz
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: kubecostmapping
+  namespace: ambassador
+  labels:
+    hostname: ambassador.kubecost.xyz
+spec:
+  hostname: ambassador.kubecost.xyz
+  prefix: /kubecost
+  rewrite: /
+  service: kubecost-cost-analyzer.kubecost:9090
