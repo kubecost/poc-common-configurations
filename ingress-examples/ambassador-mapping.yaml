@@ -1,45 +1,56 @@
----
-apiVersion: getambassador.io/v3alpha1
-kind: Listener
-metadata:
-  namespace: ambassador
-  name: http-listener
-spec:
-  port: 8080
-  protocol: HTTPS  # NOT A TYPO, see below
-  securityModel: XFP
-  hostBinding:
-    namespace:
-      from: SELF   # See below
----
-apiVersion: getambassador.io/v3alpha1
-kind: Listener
-metadata:
-  namespace: ambassador
-  name: https-listener
-spec:
-  port: 8443
-  protocol: HTTPS
-  securityModel: XFP
-  hostBinding:
-    namespace:
-      from: SELF   # See below
----
-apiVersion: getambassador.io/v2
-kind: Host
-metadata:
-  name: ambassador.kubecost.xyz
-  namespace: ambassador
-spec:
-  hostname: "ambassador.kubecost.xyz"
-  acmeProvider:
-    authority: none
-  requestPolicy:
-    insecure:
-      action: Route
-  selector:
-    matchLabels:
-      hostname: ambassador.kubecost.xyz
+# uncomment the needed lines if you need a complete setup.
+# Add the Repo:
+# helm repo add datawire https://app.getambassador.io
+# helm repo update
+
+# # Create Namespace and Install:
+# kubectl create namespace ambassador && \
+# kubectl apply -f https://app.getambassador.io/yaml/edge-stack/latest/aes-crds.yaml
+# kubectl wait --timeout=90s --for=condition=available deployment emissary-apiext -n emissary-system
+# helm install edge-stack --namespace ambassador datawire/edge-stack && \
+# kubectl -n ambassador wait --for condition=available --timeout=90s deploy -lproduct=aes
+# ---
+# apiVersion: getambassador.io/v3alpha1
+# kind: Listener
+# metadata:
+#   namespace: ambassador
+#   name: http-listener
+# spec:
+#   port: 8080
+#   protocol: HTTPS  # NOT A TYPO, see below
+#   securityModel: XFP
+#   hostBinding:
+#     namespace:
+#       from: SELF   # See below
+# ---
+# apiVersion: getambassador.io/v3alpha1
+# kind: Listener
+# metadata:
+#   namespace: ambassador
+#   name: https-listener
+# spec:
+#   port: 8443
+#   protocol: HTTPS
+#   securityModel: XFP
+#   hostBinding:
+#     namespace:
+#       from: SELF   # See below
+# ---
+# apiVersion: getambassador.io/v2
+# kind: Host
+# metadata:
+#   name: ambassador.kubecost.xyz
+#   namespace: ambassador
+# spec:
+#   hostname: "ambassador.kubecost.xyz"
+#   acmeProvider:
+#     authority: none
+#   requestPolicy:
+#     insecure:
+#       action: Route
+#   selector:
+#     matchLabels:
+#       hostname: ambassador.kubecost.xyz
 ---
 apiVersion: getambassador.io/v2
 kind: Mapping
