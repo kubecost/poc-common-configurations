@@ -1,0 +1,23 @@
+global:
+  grafana:
+    enabled: false
+    proxy: false
+imageVersion: prod-1.94.3
+kubecostFrontend:
+  image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/stackwatch/contract/frontend
+kubecostModel:
+  image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/stackwatch/contract/cost-model
+prometheus:
+  configmapReload:
+    prometheus:
+      enabled: true
+  kube-state-metrics:
+    disabled: true
+  nodeExporter:
+    enabled: false
+  server:
+    image:
+      repository: 709825985650.dkr.ecr.us-east-1.amazonaws.com/stackwatch/contract/quay.io/prometheus
+      tag: v2.35.0
+reporting:
+  productAnalytics: false
