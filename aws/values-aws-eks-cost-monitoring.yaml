@@ -30,6 +30,8 @@ priority:
 networkPolicy:
   enabled: false
 
+podSecurityPolicy:
+  enabled: false
 
 imageVersion: prod-1.94.3
 kubecostFrontend:
