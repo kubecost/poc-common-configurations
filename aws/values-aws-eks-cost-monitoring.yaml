@@ -11,6 +11,24 @@ pricingCsv:
     URI: s3://kc-csv-test/pricing_schema.csv # a valid file URI
     csvAccessCredentials: pricing-schema-access-secret
 
+nodeSelector: {}
+
+tolerations: []
+#  - key: "key"
+#    operator: "Equal|Exists"
+#    value: "value"
+#    effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
+
+affinity: {}
+
+# If true, creates a PriorityClass to be used by the cost-analyzer pod
+priority:
+  enabled: false
+  # value: 1000000
+
+# If true, enable creation of NetworkPolicy resources.
+networkPolicy:
+  enabled: false
 
 
 imageVersion: prod-1.94.3
@@ -120,5 +138,6 @@ prometheus:
     image:
       repository: 709825985650.dkr.ecr.us-east-1.amazonaws.com/stackwatch/contract/quay.io/prometheus
       tag: v2.35.0
+
 reporting:
   productAnalytics: false
