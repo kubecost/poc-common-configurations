@@ -4,7 +4,7 @@
 
 In Kubecost Enterprise Edition, there are two configurations needed. The first "Primary Cluster" runs the Kubecost UI/API and performs the cost reconciliation processes. All other clusters are "secondary" or "agent-only" and are configured with a minimal set of Kubecost components needed to gather metrics and ship back to a shared storage bucket.
 
-Data from secondary clusters is sent every 3 hours.
+Metrics from all secondary clusters are sent every 2 hours. Secondary clusters retain metrics, by default, for 2d. This could be lower (10h to be safe), given that metrics are shipped every 2h.
 Each cloud provider's billing is delayed between 6 and 24+ hours.
 Many parts of the UI will not look healthy or accurate until a full [reconciliation](https://guide.kubecost.com/hc/en-us/articles/4412369153687-Cloud-Integrations#reconciliation) is complete.
 
