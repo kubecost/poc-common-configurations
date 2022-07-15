@@ -1,0 +1,72 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AthenaAccess",
+      "Effect": "Allow",
+      "Action": [
+        "athena:*"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Sid": "ReadAccessToAthenaCurDataViaGlue",
+      "Effect": "Allow",
+      "Action": [
+        "glue:GetDatabase*",
+        "glue:GetTable*",
+        "glue:GetPartition*",
+        "glue:GetUserDefinedFunction",
+        "glue:BatchGetPartition"
+      ],
+      "Resource": [
+        "arn:aws:glue:*:*:catalog",
+        "arn:aws:glue:*:*:database/athenacurcfn*",
+        "arn:aws:glue:*:*:table/athenacurcfn*/*"
+      ]
+    },
+    {
+      "Sid": "AthenaQueryResultsOutput",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListMultipartUploadParts",
+        "s3:AbortMultipartUpload",
+        "s3:CreateBucket",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::aws-athena-query-results-*"
+      ]
+    },
+    {
+      "Sid": "S3ReadAccessToAwsBillingData",
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::linh-athena-result/*"
+      ]
+    },
+    {
+      "Sid": "SpotDataAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:ListBucket",
+        "s3:HeadBucket",
+        "s3:HeadObject",
+        "s3:List*",
+        "s3:Get*"
+      ],
+      "Resource": "arn:aws:s3:::linh-athena-result/*"
+    }
+  ]
+}
