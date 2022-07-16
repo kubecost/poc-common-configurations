@@ -1,6 +1,12 @@
 global:
   grafana:
-    enabled: true # If false, Grafana will not be installed
+    enabled: false # If false, Grafana will not be installed
     domainName: grafana.grafana #example grafana domain Ignored if enabled: true
     scheme: "http" # http or https, for the domain name above.
-    proxy: true
+    proxy: false
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: false
