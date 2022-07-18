@@ -1,11 +1,11 @@
 {
     "aws": [
         {
-            "athenaBucketName": "s3://AWS_cloud_integration_athenaBucketName",
-            "athenaRegion": "AWS_cloud_integration_athenaRegion",
-            "athenaDatabase": "AWS_cloud_integration_athenaDatabase",
-            "athenaTable": "AWS_cloud_integration_athenaBucketName",
-            "projectID": "AWS_cloud_integration_athena_projectID"
+            "athenaBucketName": "s3://<AWS_cloud_integration_athenaBucketName>",
+            "athenaRegion": "<AWS_cloud_integration_athenaRegion>",
+            "athenaDatabase": "<AWS_cloud_integration_athenaDatabase>",
+            "athenaTable": "<AWS_cloud_integration_athenaTable>",
+            "projectID": "<AWS_account_ID>"
         }
     ]
 }
