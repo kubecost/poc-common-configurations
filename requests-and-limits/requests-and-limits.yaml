@@ -1,0 +1,85 @@
+kubecostFrontend:
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "55Mi"
+    limits:
+      cpu: "100m"
+      memory: "256Mi"
+
+kubecostMetrics:
+  exporter:
+    resources:
+       requests:
+        cpu: "200m"
+        memory: "55Mi"
+
+kubecostModel:
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "55Mi"
+    limits:
+      cpu: "800m"
+      memory: "256Mi"
+
+prometheus:
+  server:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+networkCosts:
+  resources: 
+    requests:
+      cpu: "50m"
+      memory: "20Mi"
+
+initChownData:
+  resources: 
+    requests:
+      cpu: "50m"
+      memory: "20Mi"
+
+grafana:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  sidecar:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 100Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+
+thanos:
+  store:
+    resources: 
+      requests:
+        memory: "2.5Gi"
+  query: 
+    resources:
+      requests:
+        memory: "2.5Gi"
+  queryFrontend:
+    resources:
+      requests:
+        memory: "1.5Gi"
+  sidecar:
+    resources:
+      requests:
+        memory: "75Mi"
+  compact:
+    resources:
+      requests:
+        memory: "100Mi"
