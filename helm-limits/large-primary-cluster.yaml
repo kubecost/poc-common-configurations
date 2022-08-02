@@ -1,0 +1,136 @@
+# values for limits can vary greatly depending on configuration and number of containers monitored.
+# We suggesting letting Kubecost run for a few days at full load and then use recommendations from the "Right-size your container requests" report in "Savings"
+
+kubecostFrontend:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 55Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+kubecostMetrics:
+  exporter:
+    resources:
+       requests:
+        cpu: 200m
+        memory: 55Mi
+     # limits:
+     #  cpu: 200m
+     #  memory: 55Mi
+
+kubecostModel:
+  resources:
+    requests:
+      cpu: 800m
+      memory: 10000Mi
+  # limits:
+  #   cpu: 800m
+  #   memory: 256Mi
+
+# only used for NFS:
+initChownData:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 20Mi
+  # limits:
+  #   cpu: 50m
+  #   memory: 20Mi
+
+prometheus:
+  server:
+    resources:
+      requests:
+        cpu: 900m
+        memory: 16000Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+  configmapReload:
+    prometheus:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+      # limits:
+      #   cpu: 100m
+      #   memory: 100Mi
+  nodeExporter:
+    resources:
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+networkCosts:
+  resources:
+    requests:
+      cpu: 1500m
+      memory: 904Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+
+grafana:
+  resources:
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  sidecar:
+    resources:
+    # limits:
+    #   cpu: 100m
+    #   memory: 100Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+
+thanos:
+  store:
+    resources:
+      requests:
+        cpu: 155m
+        memory: 3300m
+      # limits:
+      #   cpu: 150m
+      #   memory: 2560Mi
+  query:
+    resources:
+      requests:
+        cpu: 212m
+        memory: 603Mi
+      # limits:
+      #   cpu: 150m
+      #   memory: 2560Mi
+  queryFrontend:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 50Mi
+    # limits:
+    #   cpu: 150m
+    #   memory: 512Mi
+  sidecar:
+    resources:
+      requests:
+        cpu: 73m
+        memory: 90Mi
+    # limits:
+    #   cpu: 150m
+    #   memory: 2555Mi
+  compact:
+    resources:
+      requests:
+        cpu: 920m
+        memory: 6000Mi
+    # limits:
+    #   cpu: 150m
+    #   memory: 1024Mi
