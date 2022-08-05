@@ -25,6 +25,39 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 
 `aws s3 mb s3://${AWS_object_store_bucket} --region `
 
+- If your 2nd cluster running on different AWS accounts, you need to set approriate permission and IAM policy to allow Thanos sidecar put data on central S3 bucket. You can read more on how to do it in official AWS documentation [here](https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/)
+
+- This is an example of S3 bucket policy that grant access to additional AWS accounts:
+
+```Json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::<ReplacewithAccountBID>:root",
+                    "arn:aws:iam::<ReplacewithAccountCID>:root",
+                    "arn:aws:iam::<ReplacewithAccountDID>:root"
+                ]
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:ListBucket",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<AWS_object_store_bucket>/*",
+                "arn:aws:s3:::<AWS_object_store_bucket>"
+            ]
+        }
+    ]
+}
+```
+
 2. Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
 
 3. Run the following commands to create approriate policy:
