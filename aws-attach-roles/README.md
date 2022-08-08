@@ -66,8 +66,9 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 }
 ```
 
-    * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
-  
+  * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
+
+
 ```Json
 {
     "Version": "2012-10-17",
