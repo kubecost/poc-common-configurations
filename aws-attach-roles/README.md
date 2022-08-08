@@ -13,7 +13,8 @@ Using aws with IAM roles attached to service accounts:
 
 ## Instructions:
 
-0. Set up necessary ENV Variable:
+### Prerequisites:
+- Set up necessary ENV Variable:
 
 ```
 AWS_object_store_bucket="<your-object-store-bucket-name>"
@@ -21,7 +22,7 @@ AWS-REGION="<your-desired-aws-region>"
 YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 ```
 
-1. Create Object store S3 bucket to store Thanos data:
+### Step 1: Create Object store S3 bucket to store Thanos data:
 
 `aws s3 mb s3://${AWS_object_store_bucket} --region `
 
@@ -66,7 +67,7 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 }
 ```
 
-  * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
+   * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
 
 
 ```Json
@@ -92,9 +93,10 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 }
 ```
 
-1. Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
+### Step 2: Update configuration
+- Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
 
-2. Run the following commands to create approriate policy:
+### Step 3: Run the following commands to create approriate policy:
 
 ```sh
 cd poc-common-configuration/aws-attach-roles
@@ -102,7 +104,7 @@ aws iam create-policy --policy-name kubecost-athena-policy --policy-document fil
 aws iam create-policy --policy-name kubecost-s3-thanos-policy --policy-document file://kubecost-s3-thanos-policy.json
 ```
 
-4. Enable oidc provider for your cluster:
+### Step 4: Enable oidc provider for your cluster:
 
 ```
 kubectl create ns kubecost
@@ -110,7 +112,9 @@ eksctl utils associate-iam-oidc-provider \
     --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
     --approve
 ```
-5. Create required IAM service accounts. Please remember to replace 1111111111 with your actual AWS account ID #:
+### Step 5: Create required IAM service accounts. 
+
+> **Note:** Please remember to replace 1111111111 with your actual AWS account ID #:
 
 ```
 eksctl create iamserviceaccount \
@@ -132,14 +136,14 @@ eksctl create iamserviceaccount \
     --approve
 ```
 
-6. Create required secret to store the configuration:
+### Step 6: Create required secret to store the configuration:
 
 ```sh
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 ```
 
-7. Install kubecost:
+### Step 7: Install kubecost:
 
 ```
 helm upgrade --install kubecost kubecost/cost-analyzer \
