@@ -13,7 +13,8 @@ Using aws with IAM roles attached to service accounts:
 
 ## Instructions:
 
-0. Set up necessary ENV Variable:
+### Prerequisites:
+- Set up necessary ENV Variable:
 
 ```
 AWS_object_store_bucket="<your-object-store-bucket-name>"
@@ -21,13 +22,81 @@ AWS-REGION="<your-desired-aws-region>"
 YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 ```
 
-1. Create Object store S3 bucket to store Thanos data:
+### Step 1: Create Object store S3 bucket to store Thanos data:
 
 `aws s3 mb s3://${AWS_object_store_bucket} --region `
 
-2. Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
+- If your 2nd cluster is running on different AWS account, you need to set approriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
-3. Run the following commands to create approriate policy:
+    * **S3 bucket policy:** Set up S3 bucket policy to grant access to other AWS accounts.
+    * **Cross AWS accounts IAM roles:** Set up an IAM role with permission to access to the central S3 bucket and trusted policy to allow other AWS accounts to assume that IAM role to have access to the central S3 bucket.
+
+- You can read more on how to do it in official AWS documentation [here](https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/)
+
+- For POC deployment and standard set up, we recommend to use **S3 bucket policy** option. However, you can use **Cross AWS accounts IAM roles** if you need more advanced set-up to comply with your organization policy. 
+- Examples:
+
+    * This is an example of S3 bucket policy that grant access to additional AWS accounts:
+
+```Json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::<ReplacewithAccountBID>:root",
+                    "arn:aws:iam::<ReplacewithAccountCID>:root",
+                    "arn:aws:iam::<ReplacewithAccountDID>:root"
+                ]
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:ListBucket",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<AWS_object_store_bucket>/*",
+                "arn:aws:s3:::<AWS_object_store_bucket>"
+            ]
+        }
+    ]
+}
+```
+
+   * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
+
+
+```Json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<AWS_object_store_bucket>/*",
+                "arn:aws:s3:::<AWS_object_store_bucket>"
+            ]
+        }
+    ]
+}
+```
+
+### Step 2: Update configuration
+- Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
+
+### Step 3: Run the following commands to create approriate policy:
 
 ```sh
 cd poc-common-configuration/aws-attach-roles
@@ -35,7 +104,7 @@ aws iam create-policy --policy-name kubecost-athena-policy --policy-document fil
 aws iam create-policy --policy-name kubecost-s3-thanos-policy --policy-document file://kubecost-s3-thanos-policy.json
 ```
 
-4. Enable oidc provider for your cluster:
+### Step 4: Enable oidc provider for your cluster:
 
 ```
 kubectl create ns kubecost
@@ -43,7 +112,9 @@ eksctl utils associate-iam-oidc-provider \
     --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
     --approve
 ```
-5. Create required IAM service accounts. Please remember to replace 1111111111 with your actual AWS account ID #:
+### Step 5: Create required IAM service accounts. 
+
+> **Note:** Please remember to replace 1111111111 with your actual AWS account ID #:
 
 ```
 eksctl create iamserviceaccount \
@@ -65,14 +136,14 @@ eksctl create iamserviceaccount \
     --approve
 ```
 
-6. Create required secret to store the configuration:
+### Step 6: Create required secret to store the configuration:
 
 ```sh
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 ```
 
-7. Install kubecost:
+### Step 7: Install kubecost:
 
 ```
 helm upgrade --install kubecost kubecost/cost-analyzer \
