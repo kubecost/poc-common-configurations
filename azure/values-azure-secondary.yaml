@@ -5,7 +5,7 @@ kubecostProductConfigs:
   #   secretname: productkey
   #   enabled: false # product key is not needed for eval
   azureBillingRegion: US
-  serviceKeySecretName: azure-service-key
+  # serviceKeySecretName: azure-service-key
 kubecostModel:
   warmCache: false
   warmSavingsCache: false
@@ -17,6 +17,9 @@ global:
     enabled: false
     proxy: false
 prometheus:
+  # disable KSM if there is an existing deployment
+  # kube-state-metrics:
+  #   enabled: false
   server:
     global:
       external_labels:

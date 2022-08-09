@@ -16,6 +16,9 @@ global:
     proxy: false
 prometheus:
   server:
+  # disable KSM if there is an existing deployment
+  # kube-state-metrics:
+  #   enabled: false
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
