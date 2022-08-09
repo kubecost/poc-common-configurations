@@ -1,0 +1,10 @@
+
+global:
+  # zone: cluster.local (use only if your DNS server doesn't live in the same zone as kubecost)
+  prometheus:
+    enabled: false # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
+    fqdn: http://thanos.kubecost.xyz #example address of a prometheus to connect to. Include protocol (http:// or https://) Ignored if enabled: true
+    # insecureSkipVerify : false # If true, kubecost will not check the TLS cert of prometheus
+    # queryServiceBasicAuthSecretName: dbsecret # kubectl create secret generic dbsecret -n kubecost --from-file=USERNAME --from-file=PASSWORD
+    # queryServiceBearerTokenSecretName: mcdbsecret  # kubectl create secret generic mcdbsecret -n kubecost --from-file=TOKEN
+kubecostModel.promClusterIDLabel: cluster_id
