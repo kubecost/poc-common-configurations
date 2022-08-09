@@ -6,13 +6,16 @@ kubecostProductConfigs:
   # productKey:
   #   secretname: productkey
   #   enabled: false #not needed for eval
-  awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
-  awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+  # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
+  # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
   # awsSpotDataPrefix: dev
-  serviceKeySecretName: aws-service-key # Used for Spot Data Feed and Unattached Disks/IP Addresses
+  # serviceKeySecretName: aws-service-key # optional, used for Spot Data Feed and Unattached Disks/IP Addresses
 kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
 prometheus:
+  # disable KSM if there is an existing deployment
+  # kube-state-metrics:
+  #   enabled: false
   server:
     global:
       external_labels:

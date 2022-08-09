@@ -1,5 +1,9 @@
 # Kubecost Setup for GCP
 
+Many will want to skip to [Enterprise Setup](README-enterprise.md)
+
+Or read below for further details.
+
 ## Overview
 
 This repository is designed to be an easy guide for the most common configurations of Kubecost in GCP. It does not replace our [published documentation](https://guide.kubecost.com/) which will have details for many more use cases.
