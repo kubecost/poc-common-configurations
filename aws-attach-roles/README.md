@@ -18,8 +18,8 @@ Using aws with IAM roles attached to service accounts:
 
 ```
 AWS_object_store_bucket="<your-object-store-bucket-name>"
-AWS-REGION="<your-desired-aws-region>"
-YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
+AWS_REGION="<your-desired-aws-region>"
+YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 ```
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
@@ -96,6 +96,8 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 ### Step 2: Update configuration
 - Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
 
+NOTE: In the cloud-integration.json file, the <AWS_cloud_integration_athenaBucketName> is the "arn:aws:s3:::aws-athena-query-results-*" bucket.
+
 ### Step 3: Run the following commands to create approriate policy:
 
 ```sh
@@ -109,7 +111,7 @@ aws iam create-policy --policy-name kubecost-s3-thanos-policy --policy-document 
 ```
 kubectl create ns kubecost
 eksctl utils associate-iam-oidc-provider \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --approve
 ```
 ### Step 5: Create required IAM service accounts. 
@@ -120,7 +122,7 @@ eksctl utils associate-iam-oidc-provider \
 eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-cur-athena-thanos \
     --namespace kubecost \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-athena-policy \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
@@ -130,7 +132,7 @@ eksctl create iamserviceaccount \
 eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-thanos \
     --namespace kubecost \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
     --approve
