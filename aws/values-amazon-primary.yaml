@@ -12,6 +12,9 @@ kubecostProductConfigs:
   # serviceKeySecretName: aws-service-key # optional, used for Spot Data Feed and Unattached Disks/IP Addresses
 kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
+# kubecostMetrics:
+  # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
 prometheus:
   kube-state-metrics:
     enabled: false
