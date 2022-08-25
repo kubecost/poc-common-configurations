@@ -10,9 +10,8 @@ kubecostProductConfigs:
 kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources (uses more memory)
 prometheus:
-  :
-  # kube-state-metrics:
-  #   enabled: false
+  kube-state-metrics:
+    enabled: false
   server:
     global:
       external_labels:

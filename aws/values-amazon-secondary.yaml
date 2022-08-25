@@ -20,9 +20,8 @@ global:
     enabled: false
     proxy: false
 prometheus:
-  # disable KSM if there is an existing deployment
-  # kube-state-metrics:
-  #   enabled: false
+  kube-state-metrics:
+    enabled: false
   server:
     global:
       external_labels:
