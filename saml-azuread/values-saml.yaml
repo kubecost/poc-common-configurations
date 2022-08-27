@@ -1,0 +1,29 @@
+# SAML integration for user management and RBAC, enterprise key required
+# Ref: https://github.com/kubecost/docs/blob/master/user-management.md
+saml:
+  enabled: true
+  secretName: "kubecost-azuread"
+  # metadataSecretName: "kubecost-azuread-metadata" # One of metadataSecretName or idpMetadataURL must be set. defaults to metadataURL if set
+  idpMetadataURL: "https://login.microsoftonline.com/{tenant-id}/federationmetadata/2007-06/federationmetadata.xml?appid={appid-guid}"
+  appRootURL: "https://kubecost.your.com" # sample URL
+  authTimeout: 1440 # number of minutes the JWT will be valid
+  # redirectURL:  # callback URL redirected to after logout
+  audienceURI: "https://kubecost.your.com" # by convention, the same as the appRootURL, but any string uniquely identifying kubecost to your saml IDP. Optional if you follow the convention
+  # nameIDFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" # If your SAML provider requires a specific nameid format
+  # isGLUUProvider: false # An additional URL parameter must be appended for GLUU providers
+  rbac:
+    enabled: true
+    groups:
+      - name: admin
+        enabled: true # if admin is disabled, all SAML users will be able to make configuration changes to the kubecost frontend
+        assertionName: "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups" # a SAML Assertion, one of whose elements has a value that matches on of the values in assertionValues
+        assertionValues:
+          - "{group-object-id-1}"
+          - "{group-object-id-2}"
+      - name: readonly
+        enabled: true # if readonly is disabled, all users authorized on SAML will default to readonly
+        assertionName:  "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups"
+        assertionvalues:
+          - "{group-object-id-3}"
+    customGroups:
+      - assertionName: "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups"
