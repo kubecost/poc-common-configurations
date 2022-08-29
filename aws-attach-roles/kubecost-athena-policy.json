@@ -52,7 +52,7 @@
         "s3:List*"
       ],
       "Resource": [
-        "arn:aws:s3:::linh-athena-result/*"
+        "arn:aws:s3:::{S3_CUR_BUCKET}/*"
       ]
     },
     {
@@ -66,7 +66,7 @@
         "s3:List*",
         "s3:Get*"
       ],
-      "Resource": "arn:aws:s3:::linh-athena-result/*"
+      "Resource": "{S3_SPOT_DATA_FEED_BUCKET}/*"
     }
   ]
 }
