@@ -21,7 +21,7 @@ global:
     proxy: false
 prometheus:
   kube-state-metrics:
-    enabled: false
+    disabled: true
   server:
     global:
       external_labels:

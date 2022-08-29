@@ -17,7 +17,7 @@ kubecostModel:
   # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
 prometheus:
   kube-state-metrics:
-    enabled: false
+    disabled: true
   server:
     global:
       external_labels:

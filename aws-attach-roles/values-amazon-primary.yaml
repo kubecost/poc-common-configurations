@@ -15,6 +15,8 @@ kubecostProductConfigs:
   # awsSpotDataPrefix: dev
   # serviceKeySecretName: aws-service-key # Used for Spot Data Feed and Unattached Disks/IP Addresses
 prometheus:
+  kube-state-metrics:
+    disabled: true
   server:
     global:
       external_labels:
