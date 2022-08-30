@@ -18,6 +18,11 @@ global:
     enabled: false
     proxy: false
 prometheus:
+  # Note: Even though we are disabling our bundled version of kube-state-metrics, Kubecost still emits v1 metrics.
+  # Care will need to be taken in environments that already have KSM deployed.
+  # For more information, see: https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  kubeStateMetrics:
+    enabled: false
   kube-state-metrics:
     disabled: true
   server:
