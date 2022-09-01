@@ -32,6 +32,7 @@ We are looking for any feedback you may have on these functions and we are here 
 ### Configuring your AzureAD Enterprise Application
 
 1. Find and select your Enterprise Application in AzureAD
+1. Select `Properties` and update the logo and select `Save`. Feel free to use the [kubecost-logo.png](./images/kubecost-logo.png)
 1. Select `Users and Groups`
 1. Assign groups you want to have access to Kubecost and select `Assign`
 1. Select `Single Sign-on`
@@ -207,7 +208,6 @@ When the group has been matched, you will see:
 2022-08-27T05:51:02.681813711Z INF AUDIENCE: [admin group:admin@kubecost.com]
 ```
 
-!! Update for AzureAD
 ```bash
 configwatchers.go:69] ERROR UPDATING group-filters CONFIG: []map[string]string: ReadMapCB: expect }, but found l, error found in #10 byte of ...|el": "{ "label": "ap|..., bigger context ...|nFilters": [
          {
@@ -217,20 +217,19 @@ configwatchers.go:69] ERROR UPDATING group-filters CONFIG: []map[string]string: 
 ```
 ---
 
-### This is what normal looks like:
+### This is what normal looks like
 
-!! Update for AzureAD
 ```bash
-I0330 14:48:20.556725       1 costmodel.go:3421]   kubecost_user_type: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:kubecost_user_type NameFormat:urn:oasis:names:tc:SAML:2.0:attrname-format:basic Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:}]}
-I0330 14:48:20.556767       1 costmodel.go:3421]   firstname: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:firstname NameFormat:urn:oasis:names:tc:SAML:2.0:attrname-format:basic Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:cost_admin}]}
-I0330 14:48:20.556776       1 costmodel.go:3421]   kubecost_group: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:kubecost_group NameFormat:urn:oasis:names:tc:SAML:2.0:attrname-format:basic Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:kubecost_admin}]}
-I0330 14:48:20.556788       1 log.go:47] [Info] Adding authorizations '[admin group:admin@kubecost.com]' for user
-I0330 14:48:20.556802       1 log.go:47] [Info] Token expiration set to 2022-03-31 14:48:20.556796875 +0000 UTC m=+86652.635776798
-I0330 14:48:20.589730       1 log.go:47] [Info] Login called
-I0330 14:48:20.619630       1 log.go:47] [Info] Attempting to authenticate saml...
-I0330 14:48:20.619839       1 costmodel.go:813] Authenticated saml
-I0330 14:48:20.702125       1 log.go:47] [Info] Attempting to authenticate saml...
-I0330 14:48:20.702229       1 costmodel.go:813] Authenticated saml
+2022-09-01T03:47:28.556977486Z INF   http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:admin@kubecost.com}]}
+2022-09-01T03:47:28.55700579Z INF   http://schemas.microsoft.com/identity/claims/tenantid: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.microsoft.com/identity/claims/tenantid NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:<TENANT_ID_GUID>}}]}
+2022-09-01T03:47:28.557019809Z INF   http://schemas.microsoft.com/identity/claims/objectidentifier: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.microsoft.com/identity/claims/objectidentifier NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:<OBJECT_ID_GUID>}]}
+2022-09-01T03:47:28.557052714Z INF   http://schemas.microsoft.com/ws/2008/06/identity/claims/groups: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.microsoft.com/ws/2008/06/identity/claims/groups NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:<GROUP_ID_GUID>}]}
+2022-09-01T03:47:28.557067146Z INF   http://schemas.microsoft.com/identity/claims/identityprovider: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.microsoft.com/identity/claims/identityprovider NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:https://sts.windows.net/<TENANT_ID_GUID>/}]}
+2022-09-01T03:47:28.557079034Z INF   http://schemas.microsoft.com/claims/authnmethodsreferences: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:http://schemas.microsoft.com/claims/authnmethodsreferences NameFormat: Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:http://schemas.microsoft.com/ws/2008/06/identity/authenticationmethod/password}]}
+2022-09-01T03:47:28.557118706Z INF Adding authorizations '[admin group:admin@kubecost.com]' for user
+2022-09-01T03:47:28.594663386Z INF Login called
+2022-09-01T03:47:28.629402419Z INF Attempting to authenticate saml...
+2022-09-01T03:47:28.629509235Z INF Authenticated saml
 ...
-I0330 14:48:21.011787       1 auth.go:167] AUDIENCE: [admin group:admin@kubecost.com]
+2022-09-01T03:47:29.11007143Z INF AUDIENCE: [admin group:seanp@teamkubecost.onmicrosoft.com]
 ```
