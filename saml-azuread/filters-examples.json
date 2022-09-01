@@ -1,0 +1,69 @@
+{
+   "{group-object-id-a}": {
+      "allocationFilters": [
+         {
+            "namespace": "*",
+            "cluster": "*"
+         }
+      ]
+   },
+   "{group-object-id-b}": {
+      "allocationFilters": [
+         {
+            "namespace": "",
+            "cluster": "*"
+         }
+      ]
+   },
+   "{group-object-id-c}": {
+      "allocationFilters": [
+         {
+            "namespace": "kube-*",
+            "cluster": "aks2"
+         }
+      ]
+   },
+   "{group-object-id-d}": {
+      "allocationFilters": [
+         {
+            "namespace": "kubecost*",
+            "cluster": "*"
+         }
+      ]
+   },
+   "{group-object-id-e}": {
+      "allocationFilters": [
+         {
+            "node": "aks-nodepool1*"
+         }
+      ]
+   },
+   "{group-object-id-f}": {
+      "allocationFilters": [
+         {
+            "controller kind": "deployment"
+         }
+      ]
+   },
+   "{group-object-id-g}": {
+      "allocationFilters": [
+         {
+            "replicaset": "coredns*"
+         }
+      ]
+   },
+   "{group-object-id-h}": {
+      "allocationFilters": [
+         {
+            "service": "kube-dns*"
+         }
+      ]
+   },
+   "{group-object-id-i}": {
+      "allocationFilters": [
+         {
+            "cluster": "aks1"
+         }
+      ]
+   }
+}
