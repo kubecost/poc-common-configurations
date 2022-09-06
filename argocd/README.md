@@ -5,9 +5,9 @@
 ### Prerequisists
 
 Follow ReadMe-Enterprise to setup cloud-intregration and object-storage secrets for your given cloud provider:
-[AWS](../aws/README-enterprise.md)
-[Azure](../azure/README-enterprise.md)
-[GCP](../gcp/README-enterprise.md)
+- [AWS](../aws/README-enterprise.md)
+- [Azure](../azure/README-enterprise.md)
+- [GCP](../gcp/README-enterprise.md)
 
 ### Install Kubecost on the Primary Cluster
 
