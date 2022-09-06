@@ -1,6 +1,6 @@
 This is still a work in progress, meant as an example method for attached an IAM role to the service account used by Kubecost.
 
-There are multiple methods for doing this, if the method below does not fit your requirements, please reach out to us. 
+There are multiple methods for doing this, if the method below does not fit your requirements, please reach out to us.
 
 Using aws with IAM roles attached to service accounts:
 
@@ -18,8 +18,8 @@ Using aws with IAM roles attached to service accounts:
 
 ```
 AWS_object_store_bucket="<your-object-store-bucket-name>"
-AWS-REGION="<your-desired-aws-region>"
-YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
+AWS_REGION="<your-desired-aws-region>"
+YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 ```
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
@@ -33,7 +33,7 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 
 - You can read more on how to do it in official AWS documentation [here](https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/)
 
-- For POC deployment and standard set up, we recommend to use **S3 bucket policy** option. However, you can use **Cross AWS accounts IAM roles** if you need more advanced set-up to comply with your organization policy. 
+- For POC deployment and standard set up, we recommend to use **S3 bucket policy** option. However, you can use **Cross AWS accounts IAM roles** if you need more advanced set-up to comply with your organization policy.
 - Examples:
 
     * This is an example of S3 bucket policy that grant access to additional AWS accounts:
@@ -96,6 +96,8 @@ YOUR-CLUSTER-NAME="<your-eks-cluster-name>"
 ### Step 2: Update configuration
 - Update configuration of these files: cloud-integration.json, kubecost-athena-policy.json, kubecost-s3-thanos-policy.json, object-store.yaml, productkey.json (optional if it is only for evaluation) accordingly with your information. The values that need to be updated is in <....>
 
+NOTE: In the cloud-integration.json file, the <AWS_cloud_integration_athenaBucketName> is the "arn:aws:s3:::aws-athena-query-results-*" bucket.
+
 ### Step 3: Run the following commands to create approriate policy:
 
 ```sh
@@ -109,10 +111,10 @@ aws iam create-policy --policy-name kubecost-s3-thanos-policy --policy-document 
 ```
 kubectl create ns kubecost
 eksctl utils associate-iam-oidc-provider \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --approve
 ```
-### Step 5: Create required IAM service accounts. 
+### Step 5: Create required IAM service accounts.
 
 > **Note:** Please remember to replace 1111111111 with your actual AWS account ID #:
 
@@ -120,7 +122,7 @@ eksctl utils associate-iam-oidc-provider \
 eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-cur-athena-thanos \
     --namespace kubecost \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-athena-policy \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
@@ -130,7 +132,7 @@ eksctl create iamserviceaccount \
 eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-thanos \
     --namespace kubecost \
-    --cluster ${YOUR-CLUSTER-NAME} --region ${AWS-REGION} \
+    --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
     --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
     --approve
@@ -146,7 +148,7 @@ kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-in
 ### Step 7: Install kubecost:
 
 ```
-helm upgrade --install kubecost kubecost/cost-analyzer \
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
 --namespace kubecost \
 -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-primary.yaml

@@ -1,0 +1,26 @@
+{
+   "{group-object-id-a}": {
+      "allocationFilters": [
+         {
+            "namespace": "*",
+            "cluster": "*"
+         }
+      ]
+   },
+   "{group-object-id-b}": {
+      "allocationFilters": [
+         {
+            "namespace": "",
+            "cluster": "*"
+         }
+      ]
+   },
+   "{group-object-id-c}": {
+      "allocationFilters": [
+         {
+            "namespace": "dev-*,nginx-ingress",
+            "cluster": "*"
+         }
+      ]
+   }
+}

@@ -30,11 +30,8 @@ kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-sto
 # Create Cloud Integration Secret
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 
-# Add repo to helm
-helm repo add kubecost https://kubecost.github.io/cost-analyzer/
-
 # Install
-helm upgrade kubecost "kubecost/cost-analyzer" --install --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-google-primary.yaml
+helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --install --namespace kubecost -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-google-primary.yaml
 ```
 
 ## All Secondary Clusters Setup
@@ -51,5 +48,5 @@ kubectl create namespace kubecost
 # Create secret for Thanos store
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
 
-helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml -f ./values-google-secondary.yaml
+helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml -f ./values-google-secondary.yaml
 ```
