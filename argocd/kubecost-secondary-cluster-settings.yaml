@@ -1,0 +1,40 @@
+kubecostModel:
+  warmCache: false
+  warmSavingsCache: false
+  etl: false
+  etlCloudAsset: false
+  maxQueryConcurrency: 1
+global:
+  grafana:
+    enabled: false
+    proxy: false
+prometheus:
+  kubeStateMetrics:
+    enabled: false
+  kube-state-metrics:
+    disabled: true
+  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+  # nodeExporter:
+  #   enabled: false
+  # serviceAccounts:
+  #   nodeExporter:
+  #     create: false
+thanos:
+  compact:
+    enabled: false
+  bucket:
+    enabled: false
+  query:
+    enabled: false
+  queryFrontend:
+    enabled: false
+  store:
+    enabled: false
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      google-cloud-services: true
+      azure-cloud-services: true

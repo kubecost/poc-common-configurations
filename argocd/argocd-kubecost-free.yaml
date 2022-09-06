@@ -1,0 +1,46 @@
+# Kubecost free edition is intended for a single cluster per organization
+# Your support allows Kubecost to continue to innovate and help us reduce costs and wasted resources
+
+# Use this file directly from the internet:
+# argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml -p kubecostProductConfigs.clusterName=myClusterName -p prometheus.server.global.external_labels.cluster_id=myClusterName
+
+# If you download this file, you can uncomment lines 26-32 and update myClusterName and simply run: `argocd app create -f argocd-kubecost-free.yaml`
+# See https://guide.kubecost.com/hc/en-us/articles/4407595970711-Multi-cluster for more detail
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: cost-analyzer
+    repoURL: https://kubecost.github.io/cost-analyzer/
+    targetRevision: 1.96.0
+    helm:
+      releaseName: kubecost
+      valueFiles:
+        - https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-cluster-settings.yaml
+      values: |
+        # kubecostProductConfigs:
+        #   clusterName: myClusterName
+        # prometheus:
+        #   server:
+        #     global:
+        #       external_labels:
+        #         cluster_id: myClusterName
+        #   # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+        #   # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407595941015-Custom-Prometheus#disable-node-exporter-and-kube-state-metrics-recommended
+        #   nodeExporter:
+        #     enabled: true
+        #   serviceAccounts:
+        #     nodeExporter:
+        #       create: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kubecost
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
