@@ -13,7 +13,7 @@ spec:
       releaseName: kubecost
       valueFiles:
         - "https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml"
-        - "https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-new-defaults.yaml"
+        - "https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-primary-cluster-settings.yaml"
       values: |
         kubecostProductConfigs:
           # clustername should be unique for all clusters
