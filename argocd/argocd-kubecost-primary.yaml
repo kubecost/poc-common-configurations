@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: cost-analyzer
+    repoURL: https://kubecost.github.io/cost-analyzer/
+    targetRevision: 1.96.0
+    helm:
+      releaseName: kubecost
+      valueFiles:
+        - "https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml"
+      values: |
+        kubecostProductConfigs:
+          # clustername should be unique for all clusters
+          clusterName: kubecostProductConfigs_clusterName
+          # productKey:
+          #   secretname: productkey
+          #   enabled: false #not needed for eval
+          # cloudIntegrationSecret: cloud-integration # only runs on primary cluster
+        kubecostModel:
+          etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
+        prometheus:
+          # disable KSM if there is an existing deployment
+          # kube-state-metrics:
+          #   enabled: false
+          server:
+            global:
+              external_labels:
+                # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+                cluster_id: kubecostProductConfigs_clusterName
+          # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+          # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+          # nodeExporter:
+          #   enabled: false
+          # serviceAccounts:
+          #   nodeExporter:
+          #     create: false
+        networkCosts:
+          enabled: true
+          config:
+            services:
+              amazon-web-services: true
+              google-cloud-services: true
+              azure-cloud-services: true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kubecost
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,1 @@
+# Argo CD sample files for kubecost enterprise installation
