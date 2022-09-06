@@ -1,3 +1,12 @@
+# Kubecost free edition is intended for a single cluster per organization
+# Your support allows Kubecost to continue to innovate and help us reduce costs and wasted resources
+
+# Use this file directly from the internet:
+# argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml
+
+# If you eventually intend to do multi-cluster, be sure to update both references of clusterName with the actual name of the cluster
+# See https://guide.kubecost.com/hc/en-us/articles/4407595970711-Multi-cluster for more detail
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -16,52 +25,24 @@ spec:
       values: |
         kubecostProductConfigs:
           # clustername should be unique for all clusters
-          clusterName: kubecostProductConfigs_clusterName
-          # productKey:
-          #   secretname: productkey
-          #   enabled: false # product key is not needed for eval
-        kubecostModel:
-          warmCache: false
-          warmSavingsCache: false
-          etl: false
-          etlCloudAsset: false
-          maxQueryConcurrency: 1
-        global:
-          grafana:
-            enabled: false
-            proxy: false
+          clusterName: clusterName
         prometheus:
           server:
-          # disable KSM if there is an existing deployment
-          # kube-state-metrics:
-          #   enabled: false
             global:
               external_labels:
                 # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-                cluster_id: kubecostProductConfigs_clusterName
-            retention: 2d
+                cluster_id: clusterName
           kubeStateMetrics:
             enabled: false
           kube-state-metrics:
             disabled: true
           # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
-          # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
+          # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407595941015-Custom-Prometheus#disable-node-exporter-and-kube-state-metrics-recommended
           # nodeExporter:
           #   enabled: false
           # serviceAccounts:
           #   nodeExporter:
           #     create: false
-        thanos:
-          compact:
-            enabled: false
-          bucket:
-            enabled: false
-          query:
-            enabled: false
-          queryFrontend:
-            enabled: false
-          store:
-            enabled: false
         networkCosts:
           enabled: true
           config:

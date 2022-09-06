@@ -24,14 +24,15 @@ spec:
         kubecostModel:
           etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
         prometheus:
-          # disable KSM if there is an existing deployment
-          # kube-state-metrics:
-          #   enabled: false
           server:
             global:
               external_labels:
                 # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
                 cluster_id: kubecostProductConfigs_clusterName
+          kubeStateMetrics:
+            enabled: false
+          kube-state-metrics:
+            disabled: true
           # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
           # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
           # nodeExporter:
