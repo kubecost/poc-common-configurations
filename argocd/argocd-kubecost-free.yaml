@@ -2,9 +2,9 @@
 # Your support allows Kubecost to continue to innovate and help us reduce costs and wasted resources
 
 # Use this file directly from the internet:
-# argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml
+# argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml -p kubecostProductConfigs.clusterName=myClusterName -p prometheus.server.global.external_labels.cluster_id=myClusterName
 
-# If you eventually intend to do multi-cluster, be sure to update both references of clusterName with the actual name of the cluster
+# If you download this file, you can uncomment lines 26-32 and update myClusterName and simply run: `argocd app create -f argocd-kubecost-free.yaml`
 # See https://guide.kubecost.com/hc/en-us/articles/4407595970711-Multi-cluster for more detail
 
 apiVersion: argoproj.io/v1alpha1
@@ -21,35 +21,15 @@ spec:
     helm:
       releaseName: kubecost
       valueFiles:
-        - "https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml"
+        - "https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-new-defaults.yaml"
       values: |
-        kubecostProductConfigs:
-          # clustername should be unique for all clusters
-          clusterName: clusterName
-        prometheus:
-          server:
-            global:
-              external_labels:
-                # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-                cluster_id: clusterName
-          kubeStateMetrics:
-            enabled: false
-          kube-state-metrics:
-            disabled: true
-          # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
-          # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407595941015-Custom-Prometheus#disable-node-exporter-and-kube-state-metrics-recommended
-          # nodeExporter:
-          #   enabled: false
-          # serviceAccounts:
-          #   nodeExporter:
-          #     create: false
-        networkCosts:
-          enabled: true
-          config:
-            services:
-              amazon-web-services: true
-              google-cloud-services: true
-              azure-cloud-services: true
+        # kubecostProductConfigs:
+        #   clusterName: myClusterName
+        # prometheus:
+        #   server:
+        #     global:
+        #       external_labels:
+        #         cluster_id: myClusterName
   destination:
     server: "https://kubernetes.default.svc"
     namespace: kubecost
