@@ -21,7 +21,7 @@ spec:
     helm:
       releaseName: kubecost
       valueFiles:
-        - "https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-new-defaults.yaml"
+        - https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-cluster-settings.yaml
       values: |
         # kubecostProductConfigs:
         #   clusterName: myClusterName
@@ -30,8 +30,15 @@ spec:
         #     global:
         #       external_labels:
         #         cluster_id: myClusterName
+        #   # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
+        #   # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407595941015-Custom-Prometheus#disable-node-exporter-and-kube-state-metrics-recommended
+        #   nodeExporter:
+        #     enabled: true
+        #   serviceAccounts:
+        #     nodeExporter:
+        #       create: true
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
     namespace: kubecost
   syncPolicy:
     automated:

@@ -13,67 +13,19 @@ spec:
       releaseName: kubecost
       valueFiles:
         # On secondaries, thanos is only used as a sidecar on the prometheus-server to ship metrics every 2 hours
-        - "https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml"
+        - https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml
         # kubecost secondaries disable most services to save resources. Secondaries' UI will appear broken and is intended only for troubleshooting
-        - "https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-secondary-cluster-settings.yaml"
+        - https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-secondary-cluster-settings.yaml
       values: |
         kubecostProductConfigs:
-          # clustername should be unique for all clusters
           clusterName: myClusterName
-          # productKey:
-          #   secretname: productkey
-          #   enabled: false # product key is not needed for eval
-        kubecostModel:
-          warmCache: false
-          warmSavingsCache: false
-          etl: false
-          etlCloudAsset: false
-          maxQueryConcurrency: 1
-        global:
-          grafana:
-            enabled: false
-            proxy: false
         prometheus:
           server:
-          # disable KSM if there is an existing deployment
-          # kube-state-metrics:
-          #   enabled: false
             global:
               external_labels:
-                # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
                 cluster_id: myClusterName
-            retention: 2d
-          kubeStateMetrics:
-            enabled: false
-          kube-state-metrics:
-            disabled: true
-          # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
-          # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
-          # nodeExporter:
-          #   enabled: false
-          # serviceAccounts:
-          #   nodeExporter:
-          #     create: false
-        thanos:
-          compact:
-            enabled: false
-          bucket:
-            enabled: false
-          query:
-            enabled: false
-          queryFrontend:
-            enabled: false
-          store:
-            enabled: false
-        networkCosts:
-          enabled: true
-          config:
-            services:
-              amazon-web-services: true
-              google-cloud-services: true
-              azure-cloud-services: true
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
     namespace: kubecost
   syncPolicy:
     automated:
