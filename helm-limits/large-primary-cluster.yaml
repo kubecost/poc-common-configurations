@@ -1,5 +1,15 @@
 # values for limits can vary greatly depending on configuration and number of containers monitored.
 # We suggesting letting Kubecost run for a few days at full load and then use recommendations from the "Right-size your container requests" report in "Savings"
+# It is common for large customers to require 10gb+ memory for kubecostModel and prometheus server
+
+kubecostModel:
+  resources:
+    requests:
+      cpu: 800m
+      memory: 10000Mi
+  # limits:
+  #   cpu: 800m
+  #   memory: 256Mi
 
 kubecostFrontend:
   resources:
@@ -20,24 +30,6 @@ kubecostMetrics:
      #  cpu: 200m
      #  memory: 55Mi
 
-kubecostModel:
-  resources:
-    requests:
-      cpu: 800m
-      memory: 10000Mi
-  # limits:
-  #   cpu: 800m
-  #   memory: 256Mi
-
-# only used for NFS:
-initChownData:
-  resources:
-    requests:
-      cpu: 50m
-      memory: 20Mi
-  # limits:
-  #   cpu: 50m
-  #   memory: 20Mi
 
 prometheus:
   server:
@@ -134,3 +126,13 @@ thanos:
     # limits:
     #   cpu: 150m
     #   memory: 1024Mi
+
+# only used for NFS:
+initChownData:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 20Mi
+  # limits:
+  #   cpu: 50m
+  #   memory: 20Mi

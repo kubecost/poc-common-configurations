@@ -1,5 +1,6 @@
 # values for limits can vary greatly depending on configuration and number of containers monitored.
 # We suggesting letting Kubecost run for a few days at full load and then use recommendations from the "Right-size your container requests" report in "Savings"
+# It is common for large customers to require 10gb+ memory for kubecostModel and prometheus server
 
 kubecostFrontend:
   resources:
