@@ -5,18 +5,28 @@ kubecostProductConfigs:
   #   secretname: productkey
   #   enabled: false # product key is not needed for eval
   azureBillingRegion: US
-  serviceKeySecretName: azure-service-key
+  # serviceKeySecretName: azure-service-key
 kubecostModel:
   warmCache: false
   warmSavingsCache: false
   etl: false
   etlCloudAsset: false
   maxQueryConcurrency: 1
+# kubecostMetrics:
+  # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
 global:
   grafana:
     enabled: false
     proxy: false
 prometheus:
+  # Note: Even though we are disabling our bundled version of kube-state-metrics, Kubecost still emits v1 metrics.
+  # Care will need to be taken in environments that already have KSM deployed.
+  # For more information, see: https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  kubeStateMetrics:
+    enabled: false
+  kube-state-metrics:
+    disabled: true
   server:
     global:
       external_labels:

@@ -1,5 +1,9 @@
 # Kubecost Setup for Azure
 
+Many will want to skip to [Enterprise Setup](README-enterprise.md)
+
+Or read below for further details.
+
 ## Overview
 
 This repository is designed to be an easy guide for the most common configurations of Kubecost in Azure. It does not replace our [published documentation](https://guide.kubecost.com/) which will have details for many more use cases.

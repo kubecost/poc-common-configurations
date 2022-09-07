@@ -28,5 +28,5 @@ kubectl create secret generic aws-service-key -n kubecost --from-file=service-ke
 # Create Cloud Integration Secret
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 
-helm upgrade kubecost "kubecost/cost-analyzer" --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values.yaml -f values-amazon-primary.yaml
+helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --install -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values.yaml -f values-amazon-primary.yaml
 ```

@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: cost-analyzer
+    repoURL: https://kubecost.github.io/cost-analyzer/
+    targetRevision: 1.96.0
+    helm:
+      releaseName: kubecost
+      valueFiles:
+        # On secondaries, thanos is only used as a sidecar on the prometheus-server to ship metrics every 2 hours
+        - https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-thanos.yaml
+        # kubecost secondaries disable most services to save resources. Secondaries' UI will appear broken and is intended only for troubleshooting
+        - https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/kubecost-secondary-cluster-settings.yaml
+      values: |
+        kubecostProductConfigs:
+          clusterName: myClusterName
+        prometheus:
+          server:
+            global:
+              external_labels:
+                cluster_id: myClusterName
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kubecost
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
