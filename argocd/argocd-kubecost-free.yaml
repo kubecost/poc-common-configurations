@@ -1,5 +1,5 @@
 # Kubecost free edition is intended for a single cluster per organization
-# Your support allows Kubecost to continue to innovate and help us reduce costs and wasted resources
+# Your support allows Kubecost to continue to innovate and reduce wasted resources in Kubernetes
 
 # Use this file directly from the internet:
 # argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml -p kubecostProductConfigs.clusterName=myClusterName -p prometheus.server.global.external_labels.cluster_id=myClusterName
@@ -44,3 +44,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
