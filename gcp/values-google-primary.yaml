@@ -1,39 +1,17 @@
-kubecostProductConfigs:
-  # clustername should be unique for all clusters
-  clusterName: kubecostProductConfigs_clusterName
-  # productKey:
-  #   secretname: productkey
-  #   enabled: false #not needed for eval
-  cloudIntegrationSecret: cloud-integration # only runs on primary cluster
 kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
-# kubecostMetrics:
-  # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  promClusterIDLabel: YOUR_PROMETHEUS_CLUSTER_KEY #set this to the same as the key used for prometheus cluster labels
+kubecostProductConfigs:
+  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE #set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 prometheus:
-  # Note: Even though we are disabling our bundled version of kube-state-metrics, Kubecost still emits v1 metrics.
-  # Care will need to be taken in environments that already have KSM deployed.
-  # For more information, see: https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
-  server:
-    global:
-      external_labels:
-        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-        cluster_id: kubecostProductConfigs_clusterName
-  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
-  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
-  # nodeExporter:
-  #   enabled: false
-  # serviceAccounts:
-  #   nodeExporter:
-  #     create: false
+  enabled: false
+global:
+  prometheus:
+    fqdn: http://<prometheus-server-service-name>.<prometheus-server-namespace>.svc:port
 networkCosts:
   enabled: true
   config:
     services:
-      # amazon-web-services: true
+      amazon-web-services: true
       google-cloud-services: true
-      # azure-cloud-services: true
+      azure-cloud-services: true
