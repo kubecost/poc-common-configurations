@@ -9,9 +9,8 @@ global:
     enabled: false
     proxy: false
   prometheus:
+    enabled: false
     fqdn: http://<prometheus-server-service-name>.<prometheus-server-namespace>.svc:port
-prometheus:
-  enabled: false
 networkCosts:
   enabled: true
   config:
