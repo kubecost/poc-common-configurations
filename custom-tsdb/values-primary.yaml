@@ -1,0 +1,17 @@
+kubecostModel:
+  etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
+  promClusterIDLabel: YOUR_PROMETHEUS_CLUSTER_KEY #set this to the same as the key used for prometheus cluster labels
+kubecostProductConfigs:
+  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE #set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
+prometheus:
+  enabled: false
+global:
+  prometheus:
+    fqdn: http://<prometheus-server-service-name>.<prometheus-server-namespace>.svc:port
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      google-cloud-services: true
+      azure-cloud-services: true
