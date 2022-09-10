@@ -43,4 +43,4 @@ Long-term, Kubecost recomends storing the configuration in `cloud-integraion.jso
 
 - [AWS](../aws/README-enterprise.md)
 - [Azure](../azure/README-enterprise.md)
-- [ACP](../gcp/README-enterprise.md)
+- [GCP](../gcp/README-enterprise.md)
