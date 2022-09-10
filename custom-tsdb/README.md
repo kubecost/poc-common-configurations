@@ -41,6 +41,6 @@ During a POC, these secrets can be entered in the Kubecost UI in the `Settings` 
 
 Long-term, Kubecost recomends storing the configuration in `cloud-integraion.json` that is described in the respective folders in this repo.
 
-- [AWS](../aws/README-enterprise.md)
-- [Azure](../azure/README-enterprise.md)
-- [GCP](../gcp/README-enterprise.md)
+- [AWS](../aws/)
+- [Azure](../azure/)
+- [GCP](../gcp/)
