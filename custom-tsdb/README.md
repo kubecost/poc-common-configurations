@@ -18,13 +18,19 @@ In addition to the settings below, each cluster must scrape the kubecost exporte
 ### Primary cluster install:
 
 ```sh
-helm install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --create-namespace -f values-primary.yaml
+helm install kubecost \
+  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --namespace kubecost --create-namespace \
+  -f values-primary.yaml
 ```
 
 ### Secondary clusters run a minimal footprint.
 
 ```sh
-helm install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --create-namespace -f values-secondary.yaml
+helm install kubecost \
+  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer\
+  --namespace kubecost --create-namespace \
+  -f values-secondary.yaml
 ```
 
 ### Cloud Cost Reconcillation
