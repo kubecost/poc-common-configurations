@@ -6,7 +6,9 @@ kubecostProductConfigs:
 global:
   prometheus:
     enabled: false
-    fqdn: http://<prometheus-server-service-name>.<prometheus-server-namespace>.svc:port # on a primary cluster, this is the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
+    fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
+  thanos:
+    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # he location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
 networkCosts:
   enabled: true
   config:
@@ -14,3 +16,13 @@ networkCosts:
       amazon-web-services: true
       google-cloud-services: true
       azure-cloud-services: true
+# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: prometheus-kubecost
+          type: prometheus
+          url: http://thanos-query-frontend.thanosnamespace.svc:9090
