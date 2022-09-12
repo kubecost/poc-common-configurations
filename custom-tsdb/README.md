@@ -13,7 +13,11 @@ Before disabling Kubecost prometheus, multi-cluster metric aggregation must be r
 
 ## Installation
 
-In addition to the settings below, each cluster must scrape the kubecost exporter (see extraScrapeConfigs.yaml). Negative idle costs are almost always a result of missing these metrics.
+In addition to the settings below, each cluster must scrape the kubecost exporter.
+
+To scrape the Kubecost exporter,  either use Kubecost serviceMonitor (in the yaml config for both primary and secondaries) or see [extraScrapeConfigs.yaml](extraScrapeConfigs.yaml).
+
+Negative idle costs are almost always a result of missing these metrics.
 
 ### Primary cluster install:
 
