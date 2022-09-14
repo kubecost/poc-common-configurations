@@ -12,7 +12,7 @@ global:
     enabled: false
     fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
 # serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
-#   enabled: true
+#   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
 networkCosts:
   enabled: true
   config:
