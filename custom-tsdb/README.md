@@ -37,7 +37,7 @@ helm install kubecost \
   -f values-secondary.yaml
 ```
 
-### Cloud Cost Reconcillation
+### Cloud Cost Reconciliation
 
 It is recommended to get Kubecost up and running before configuring cloud-integrations.
 
@@ -49,7 +49,7 @@ Without cloud-integrations, Kubecost will use public onDemand rates for each clo
 
 During a POC, these secrets can be entered in the Kubecost UI in the `Settings` page under `Cloud Cost Settings`.
 
-Long-term, Kubecost recomends storing the configuration in `cloud-integraion.json` that is described in the respective folders in this repo.
+Long-term, Kubecost recommends storing the configuration in `cloud-integration.json` that is described in the respective folders in this repo.
 
 - [AWS](../aws/)
 - [Azure](../azure/)

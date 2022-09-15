@@ -8,7 +8,9 @@ global:
     enabled: false
     fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
   thanos:
-    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # he location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
+    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
+# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
 networkCosts:
   enabled: true
   config:
