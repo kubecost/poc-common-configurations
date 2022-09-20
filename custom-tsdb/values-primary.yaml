@@ -1,0 +1,30 @@
+kubecostModel:
+  etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
+  promClusterIDLabel: YOUR_PROMETHEUS_CLUSTER_KEY # set this to the same as the key used for prometheus cluster labels
+kubecostProductConfigs:
+  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
+global:
+  prometheus:
+    enabled: false
+    fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
+  thanos:
+    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
+# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      google-cloud-services: true
+      azure-cloud-services: true
+# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: prometheus-kubecost
+          type: prometheus
+          url: http://thanos-query-frontend.thanosnamespace.svc:9090
