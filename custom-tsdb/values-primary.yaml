@@ -6,20 +6,21 @@ kubecostProductConfigs:
 global:
   prometheus:
     enabled: false
-    fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
+    fqdn: http://prometheus-operator-kube-p-prometheus.monitoring:9090 # local prometheus endpoint
   thanos:
     queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
-# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
+# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
 #   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
+#   networkCosts: # this is waiting for a fix that is coming in kubecost 1.98. Until then, see the network-costs-serviceMonitor.yaml in this folder
+#     enabled: true
 networkCosts:
   enabled: true
   config:
     services:
-      amazon-web-services: true
-      google-cloud-services: true
-      azure-cloud-services: true
-# serviceMonitor: # if using prometheus operator, enable the service monitor to scrape kubecost. Otherwise see extraScrapeConfigs.yaml in this directory
-#   enabled: true
+      # set one the following to true based on our cloud provider:
+      amazon-web-services: false
+      google-cloud-services: false
+      azure-cloud-services: false
 grafana:
   datasources:
     datasources.yaml:
