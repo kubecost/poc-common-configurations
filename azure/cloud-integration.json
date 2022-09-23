@@ -6,7 +6,7 @@
             "azureStorageAccessKey": "AZ_cloud_integration_azureStorageAccessKey",
             "azureStorageContainer": "AZ_cloud_integration_azureStorageContainer",
             "azureContainerPath": "",
-            "azureCloud": "public"
+            "azureCloud": "public" # use "gov" for Azure gov region
         }
     ]
 }
