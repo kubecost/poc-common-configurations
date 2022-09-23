@@ -4,7 +4,9 @@ kubecostProductConfigs:
   # productKey:
   #   secretname: productkey
   #   enabled: false # product key is not needed for eval
-  azureBillingRegion: US
+  azureOfferDurableID: MS-AZR-0003P # Be sure these values are set to reflect your bill data
+  azureBillingRegion: US # Be sure these values are set to reflect your bill data
+  currencyCode: USD # Be sure these values are set to reflect your bill data
   # serviceKeySecretName: azure-service-key
 kubecostModel:
   warmCache: false
