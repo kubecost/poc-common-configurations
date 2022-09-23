@@ -1,12 +1,12 @@
 kubecostProductConfigs:
-  # clustername should be unique for all clusters
+  # clustername should be unique for all clusters, must set this line and cluster_id below
   clusterName: kubecostProductConfigs_clusterName
   # productKey:
-  #   secretname: productkey
-  #   enabled: false # product key is not needed for eval
+  #   key: YOUR_KEY
+  #   enabled: true # product key is not needed for eval
   cloudIntegrationSecret: cloud-integration # only required on primary cluster
   azureBillingRegion: US
-  # serviceKeySecretName: azure-service-key
+  serviceKeySecretName: azure-service-key
 kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources (uses more memory)
 # kubecostMetrics:
