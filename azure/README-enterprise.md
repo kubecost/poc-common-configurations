@@ -6,7 +6,13 @@ In Kubecost Enterprise Edition, there are two configurations needed. The first "
 
 Data from secondary clusters is sent every 3 hours.
 Each cloud provider's billing is delayed between 6 and 24+ hours.
-Many parts of the UI will not look healthy or accurate until a full [reconciliation](https://guide.kubecost.com/hc/en-us/articles/4412369153687-Cloud-Integrations#reconciliation) is complete.
+Many parts of the UI will not look healthy or accurate until a full [reconciliation](https://guide.kubecost.com/hc/en-us/articles/4412369153687-Cloud-Integrations#reconciliation) is complete.  If using Azure gov, then set the following in [cloud-integration](https://github.com/kubecost/poc-common-configurations/blob/main/azure/cloud-integration.json)
+
+
+```bash 
+
+"azureCloud": "gov" 
+``` 
 
 Helpful links:
 
