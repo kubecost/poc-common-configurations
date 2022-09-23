@@ -1,9 +1,9 @@
 kubecostProductConfigs:
-  # clustername should be unique for all clusters
+  # clustername should be unique for all clusters, must set this line and cluster_id below
   clusterName: kubecostProductConfigs_clusterName
   # productKey:
-  #   secretname: productkey
-  #   enabled: false # product key is not needed for eval
+  #   key: YOUR_KEY
+  #   enabled: true # product key is not needed for eval
   cloudIntegrationSecret: cloud-integration # only required on primary cluster
   azureOfferDurableID: MS-AZR-0003P # Be sure these values are set to reflect your bill data
   azureBillingRegion: US # Be sure these values are set to reflect your bill data
