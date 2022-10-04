@@ -101,10 +101,7 @@ oci://public.ecr.aws/kubecost/cost-analyzer --version 1.97.0 \
 --set kubecostProductConfigs.clusterName=${CLUSTER_ID} \
 --set prometheus.server.global.external_labels.cluster_id=${CLUSTER_ID}
 
-# # 6-Restarting Prom to apply new configuration
-# kubectl rollout restart deployment/kubecost-prometheus-server -n kubecost
-
-# 7-Verifying your Kubecost set up is using AMP
+# 6-Verifying your Kubecost set up is using AMP
 http://localhost:9090/model/status
 
 
