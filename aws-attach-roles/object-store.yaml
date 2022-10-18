@@ -1,6 +1,6 @@
 type: S3
 config:
-  bucket: "AWS_object_store_bucket"
+  bucket: "<ThanosBucketName>"
   endpoint: "s3.amazonaws.com"
   region: "us-east-2"
   insecure: false

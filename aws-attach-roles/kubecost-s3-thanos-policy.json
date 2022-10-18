@@ -12,8 +12,31 @@
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::<AWS_object_store_bucket>/*",
-                "arn:aws:s3:::<AWS_object_store_bucket>"
+                "arn:aws:s3:::${ThanosBucketName}/*",
+                "arn:aws:s3:::${ThanosBucketName}"
+            ]
+        },
+        {
+            "Sid": "KubecostSavingsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeAddresses",
+                "ec2:DescribeVolumes"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SpotDataAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetBucketAcl",
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${SpotDataFeedBucketName}",
+                "arn:aws:s3:::${SpotDataFeedBucketName}/*"
             ]
         }
     ]
