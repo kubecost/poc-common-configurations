@@ -17,16 +17,16 @@ Using aws with IAM roles attached to service accounts:
 - Set up necessary ENV Variable:
 
 ```
-AWS_object_store_bucket="<your-object-store-bucket-name>"
+ThanosBucketName="<your-object-store-bucket-name>"
 AWS_REGION="<your-desired-aws-region>"
 YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 ```
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
 
-`aws s3 mb s3://${AWS_object_store_bucket} --region `
+`aws s3 mb s3://${ThanosBucketName} --region `
 
-- If your 2nd cluster is running on different AWS account, you need to set approriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
+- If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
     * **S3 bucket policy:** Set up S3 bucket policy to grant access to other AWS accounts.
     * **Cross AWS accounts IAM roles:** Set up an IAM role with permission to access to the central S3 bucket and trusted policy to allow other AWS accounts to assume that IAM role to have access to the central S3 bucket.
@@ -59,8 +59,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::<AWS_object_store_bucket>/*",
-                "arn:aws:s3:::<AWS_object_store_bucket>"
+                "arn:aws:s3:::<ThanosBucketName>/*",
+                "arn:aws:s3:::<ThanosBucketName>"
             ]
         }
     ]
@@ -85,8 +85,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::<AWS_object_store_bucket>/*",
-                "arn:aws:s3:::<AWS_object_store_bucket>"
+                "arn:aws:s3:::<ThanosBucketName>/*",
+                "arn:aws:s3:::<ThanosBucketName>"
             ]
         }
     ]
@@ -98,7 +98,7 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 
 NOTE: In the cloud-integration.json file, the <AWS_cloud_integration_athenaBucketName> is the "arn:aws:s3:::aws-athena-query-results-*" bucket.
 
-### Step 3: Run the following commands to create approriate policy:
+### Step 3: Run the following commands to create appropriate policy:
 
 ```sh
 cd poc-common-configuration/aws-attach-roles

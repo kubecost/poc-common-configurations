@@ -2,26 +2,19 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "AthenaAccess",
+      "Sid": "ReadAccessToAthenaCurData",
       "Effect": "Allow",
       "Action": [
-        "athena:*"
+        "athena:GetQueryExecution",
+        "athena:GetQueryResults",
+        "athena:StartQueryExecution",
+        "glue:GetPartitions",
+        "glue:GetTable",
+        "glue:GetDatabase",
+        "glue:GetDatabases"
       ],
       "Resource": [
-        "*"
-      ]
-    },
-    {
-      "Sid": "ReadAccessToAthenaCurDataViaGlue",
-      "Effect": "Allow",
-      "Action": [
-        "glue:GetDatabase*",
-        "glue:GetTable*",
-        "glue:GetPartition*",
-        "glue:GetUserDefinedFunction",
-        "glue:BatchGetPartition"
-      ],
-      "Resource": [
+        "arn:aws:athena:*:*:workgroup/*",
         "arn:aws:glue:*:*:catalog",
         "arn:aws:glue:*:*:database/athenacurcfn*",
         "arn:aws:glue:*:*:table/athenacurcfn*/*"
@@ -31,42 +24,39 @@
       "Sid": "AthenaQueryResultsOutput",
       "Effect": "Allow",
       "Action": [
+        "s3:GetBucketAcl",
         "s3:GetBucketLocation",
         "s3:GetObject",
         "s3:ListBucket",
-        "s3:ListBucketMultipartUploads",
-        "s3:ListMultipartUploadParts",
-        "s3:AbortMultipartUpload",
-        "s3:CreateBucket",
         "s3:PutObject"
       ],
       "Resource": [
-        "arn:aws:s3:::aws-athena-query-results-*"
+        "arn:aws:s3:::aws-athena-query-results-*",
+        "arn:aws:s3:::aws-athena-query-results-*/*"
       ]
     },
     {
       "Sid": "S3ReadAccessToAwsBillingData",
       "Effect": "Allow",
       "Action": [
-        "s3:Get*",
-        "s3:List*"
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation",
+        "s3:GetObject",
+        "s3:ListBucket"
       ],
       "Resource": [
-        "arn:aws:s3:::{S3_CUR_BUCKET}/*"
+        "arn:aws:s3:::${AthenaCURBucket}",
+        "arn:aws:s3:::${AthenaCURBucket}/*"
       ]
     },
     {
-      "Sid": "SpotDataAccess",
+      "Sid": "OrganizationAccountTags",
       "Effect": "Allow",
       "Action": [
-        "s3:ListAllMyBuckets",
-        "s3:ListBucket",
-        "s3:HeadBucket",
-        "s3:HeadObject",
-        "s3:List*",
-        "s3:Get*"
+        "organizations:ListAccounts",
+        "organizations:ListTagsForResource"
       ],
-      "Resource": "{S3_SPOT_DATA_FEED_BUCKET}/*"
+      "Resource": "*"
     }
   ]
 }
