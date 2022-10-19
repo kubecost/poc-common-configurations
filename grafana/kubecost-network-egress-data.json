@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 10,
-  "iteration": 1666167709460,
+  "iteration": 1666193654362,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -206,7 +206,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"false\"}[60m])) / 1024 / 1024",
+          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -310,7 +310,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -318,7 +318,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "thanos",
           "value": "thanos"
         },
@@ -336,9 +336,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "All",
-          "value": "$__all"
+          "selected": false,
+          "text": "kc-demo-prod",
+          "value": "kc-demo-prod"
         },
         "datasource": {
           "type": "prometheus",
@@ -388,9 +388,13 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PC96415006F908B67"
         },
         "definition": "label_values(pod)",
         "hide": 0,
@@ -418,6 +422,6 @@
   "timezone": "",
   "title": "Kubecost Network Egress Data",
   "uid": "DM5BL9M4ka",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
