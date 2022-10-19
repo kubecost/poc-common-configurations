@@ -2,6 +2,10 @@
 
 If you do not use the Kubecost included prometheus, your `cluster_id` key may be simply `cluster` and `pod_name` may be `pod` etc.
 
+## Screenshot
+
+![grafana-kubecost-network-data](../images/kubecost-network-data.png)
+
 ## Network costs PromQL
 
 ### Internet
