@@ -1,4 +1,34 @@
 {
+  "__inputs": [
+    {
+      "name": "${datasource}",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.0.2"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -25,8 +55,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 11,
-  "iteration": 1666193606888,
+  "id": null,
+  "iteration": 1666270839176,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -126,7 +156,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PC96415006F908B67"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -203,10 +233,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC96415006F908B67"
+            "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_ingress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
+          "expr": "sum by(namespace) (increase(kubecost_pod_network_ingress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"false\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -299,7 +329,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_ingress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameZone=\"true\"}[60m])) / 1024 / 1024",
+          "expr": "sum by(namespace) (increase(kubecost_pod_network_ingress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -310,10 +340,12 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 36,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "kubecost"
+  ],
   "templating": {
     "list": [
       {
@@ -335,11 +367,7 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
@@ -361,11 +389,7 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
@@ -387,14 +411,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PC96415006F908B67"
+          "uid": "${datasource}"
         },
         "definition": "label_values(pod)",
         "hide": 0,
@@ -422,6 +442,6 @@
   "timezone": "",
   "title": "Kubecost Network Ingress Data",
   "uid": "DM5BL9M4kb",
-  "version": 2,
+  "version": 6,
   "weekStart": ""
 }
