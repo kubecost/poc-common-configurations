@@ -329,7 +329,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameZone=\"true\"}[60m])) / 1024 / 1024",
+          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
