@@ -14,32 +14,42 @@ These dashboards rely on data scraped by the Kubecost Network Cost Daemonset.
 ### Internet
 ```
 sum by(namespace)
-(increase(kubecost_pod_network_egress_bytes_total
-{internet="true",
-namespace=~"$Namespace",
-cluster_id=~"$cluster",
-pod_name=~"$pod"
-}[60m])) / 1024 / 1024
+ (increase(kubecost_pod_network_egress_bytes_total
+ {
+    cluster_id=~"$cluster",
+    namespace=~"$Namespace",
+    pod_name=~"$pod"
+    internet="true",
+ }
+ [60m])) / 1024 / 1024
 ```
 
 ### Cross Region (must define region in network-cost configmap)
 ```
 sum by(namespace)
-(increase(kubecost_pod_network_egress_bytes_total
-{internet="false", sameRegion="true", sameZone="false",
-namespace=~"$Namespace",
-cluster_id=~"$cluster",
-pod_name=~"$pod"
-}[60m])) / 1024 / 1024
+ (increase(kubecost_pod_network_egress_bytes_total
+ {
+    cluster_id=~"$cluster",
+    namespace=~"$Namespace",
+    pod_name=~"$pod",
+    internet="false",
+    sameRegion="false",
+    sameZone="false"
+ }
+ [60m])) / 1024 / 1024
 ```
 
 ### Cross Zone
 ```
 sum by(namespace)
-(increase(kubecost_pod_network_egress_bytes_total
-{internet="false", sameZone="true",
-namespace=~"$Namespace",
-cluster_id=~"$cluster",
-pod_name=~"$pod"
-}[60m])) / 1024 / 1024
+ (increase(kubecost_pod_network_egress_bytes_total
+ {
+    cluster_id=~"$cluster",
+    namespace=~"$Namespace",
+    pod_name=~"$pod",
+    internet="false",
+    sameRegion="true",
+    sameZone="false"
+ }
+ [60m])) / 1024 / 1024
 ```
