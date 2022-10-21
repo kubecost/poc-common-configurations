@@ -1,6 +1,6 @@
 # Disable Pod Security Policies
 
-PSPs are deprecated as of Kubernetes 1.25 and are being removed as of Kubernetes v1.25.
+PSPs are deprecated as of Kubernetes 1.21 and are being removed as of Kubernetes v1.25.
 
 Use the [`disable-psps.yaml`](disable-psps.yaml) with your Helm deployment to disable them.
 
