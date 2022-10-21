@@ -1,0 +1,18 @@
+# Kubecost PSP
+podSecurityPolicy:
+    enabled: false
+
+# Network Costs PSP
+networkCosts:
+  podSecurityPolicy:
+    enabled: false
+
+# Prometheus PSP
+prometheus:
+  podSecurityPolicy:
+    enabled: false
+
+# Grafana PSP
+grafana:
+  rbac:
+    pspEnabled: false
