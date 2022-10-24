@@ -3,7 +3,7 @@
 If you do not use the Kubecost included prometheus, your `cluster_id` key may be simply `cluster` and `pod_name` may be `pod` etc.
 
 
-## Network Costs Dashboards
+## Network Transfer Dashboards
 
 These dashboards rely on data scraped by the Kubecost Network Cost Daemonset.
 
