@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "${datasource}",
+      "name": "prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -56,14 +56,14 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1666270839176,
+  "iteration": 1666446989392,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -140,10 +140,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${prometheus}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"true\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\"}[60m])) / 1024 / 1024",
+          "expr": "sum by($Aggregation) (increase(kubecost_pod_network_egress_bytes_total{internet=\"true\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -156,7 +156,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -233,10 +233,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${prometheus}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"false\", sameZone=\"false\"}[60m])) / 1024 / 1024",
+          "expr": "sum by($Aggregation) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"false\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -249,7 +249,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -326,10 +326,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${prometheus}"
           },
           "editorMode": "builder",
-          "expr": "sum by(namespace) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
+          "expr": "sum by($Aggregation) (increase(kubecost_pod_network_egress_bytes_total{internet=\"false\", namespace=~\"$Namespace\", cluster_id=~\"$cluster\", pod_name=~\"$pod\", sameRegion=\"true\", sameZone=\"false\"}[60m])) / 1024 / 1024",
           "interval": "",
           "legendFormat": "{{cluster_id}}",
           "range": true,
@@ -367,10 +367,37 @@
         "type": "datasource"
       },
       {
+        "current": {
+          "selected": true,
+          "text": "cluster_id",
+          "value": "cluster_id"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "Aggregation",
+        "options": [
+          {
+            "selected": true,
+            "text": "cluster_id",
+            "value": "cluster_id"
+          },
+          {
+            "selected": false,
+            "text": "namespace",
+            "value": "namespace"
+          }
+        ],
+        "query": "cluster_id, namespace",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${prometheus}"
         },
         "definition": "label_values(cluster_id)",
         "hide": 0,
@@ -392,7 +419,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${prometheus}"
         },
         "definition": "label_values(namespace)",
         "hide": 0,
@@ -414,7 +441,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${prometheus}"
         },
         "definition": "label_values(pod)",
         "hide": 0,
@@ -442,6 +469,6 @@
   "timezone": "",
   "title": "Kubecost Network Egress Data",
   "uid": "DM5BL9M4ka",
-  "version": 6,
+  "version": 9,
   "weekStart": ""
 }
