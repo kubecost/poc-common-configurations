@@ -7,6 +7,16 @@ If you do not use the Kubecost included prometheus, your `cluster_id` key may be
 
 These dashboards rely on data scraped by the Kubecost Network Cost Daemonset.
 
+Add a datasource to Grafana for thanos with your thanos frontend endpoint, the default is:
+`http://kubecost-thanos-query-frontend-http:10902`
+
+By default, the Grafana username and password is admin:strongpassword
+This can be changed during kubecost deployment here:
+
+```
+--set grafana.adminPassword=yourpassword
+```
+
 ![grafana-kubecost-network-data](../images/kubecost-network-data.png)
 
 ## Network costs PromQL
