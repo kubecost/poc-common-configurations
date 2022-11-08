@@ -153,3 +153,8 @@ helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/
 -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-primary.yaml
 ```
+```
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+--namespace kubecost \
+-f values-amazon-secondary.yaml
+```
