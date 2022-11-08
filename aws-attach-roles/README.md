@@ -147,14 +147,17 @@ kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-in
 
 ### Step 7: Install kubecost:
 
+#### Primary Cluster
 ```
 helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
 --namespace kubecost \
 -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-primary.yaml
 ```
+#### Additional Clusters
 ```
 helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
 --namespace kubecost \
+-f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-secondary.yaml
 ```
