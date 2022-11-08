@@ -25,50 +25,59 @@ We are looking for any feedback you may have on these functions and we are here 
 
 Create an application in Okta for Kubecost (SSO)
 
-1. Go to the Okta admin dashboard (<your okta subdomain>.okta.com/admin/dashboard) and select `Applications>Create App Integration` and select `SAML 2.0`
-1. On General Settings give the app a name. Feel free to use the [kubecost-logo.png](./images/kubecost-logo.png)
-1. Your SSO URL should be your application root url followed by /saml/acs (https://kubecost.your.com/saml/acs)
-1. Your Audience URI (SP Entity ID) should be set to your application root _without a trailing slash_ (https://kubecost.your.com)
-1. (Optional) If you intend to use RBAC- on the Group Attribute Statements, enter a name (example `kubecost_group`) and a filter based on your group naming standards (example `Starts with` `kubecost_`)
+1. Go to the Okta admin dashboard (https://your.subdomain.okta.com/admin/dashboard) and select `Applications > Create App Integration` and select `SAML 2.0`
+2. On General Settings give the app a name. Feel free to use the [kubecost-logo.png](./images/kubecost-logo.png)
+3. Your SSO URL should be your application root url followed by /saml/acs (https://kubecost.your.com/saml/acs)
+4. Your Audience URI (SP Entity ID) should be set to your application root _without a trailing slash_ (https://kubecost.your.com)
+5. (Optional) If you intend to use RBAC - on the Group Attribute Statements, enter a name (example `kubecost_group`) and a filter based on your group naming standards (example `Starts with` `kubecost_`)
 
-    >Note: using a unique value (with "_") will assist with troubleshooting
+   > Note: using a unique value (with "_") will assist with troubleshooting
 
-   <details><summary>screenshot</summary>
+   <details><summary>view screenshot</summary>
 
    ![screenshot of Okta SAML settings](./images/okta-saml-settings.png)
 
    </details>
 
-1. Press Next and on the Okta Feedback step, choose any appropriate values
-   <details><summary>screenshot</summary>
+6. Press Next and on the Okta Feedback step, choose any appropriate values
+
+   <details><summary>view screenshot</summary>
 
    ![okta-feedback](./images/okta-feedback.png)
 
    </details>
 
-1. On your Application Configuration Sign On page, copy the link for `Identity Provider metadata` and add that to the [values-saml.yaml](values-saml.yaml):idpMetadataURL
-   <details><summary>screenshot</summary>
+7. On your Application Configuration Sign On page, copy the link for `Identity Provider metadata` and add that to the [`.Values.saml.idpMetadataURL`](values-saml.yaml)
 
-   ![Okta metadata](./images/okta-metadata-cert.png)
+   <details><summary>view screenshot of new user interface</summary>
+
+   ![Okta IDP Metadata New UI](./images/okta-metadata-cert-new-ui.png)
+
+   </details>
+   <details><summary>view screenshot of old user interface</summary>
+
+   ![Okta IDP Metadata Old UI](./images/okta-metadata-cert-old-ui.png)
 
    </details>
 
-1. On the same page, in the SAML 2.0 section: click `View Setup Instructions` and download the X.509 cert. Name it `myservice.cert`
-1. Create a secret using the cert:
+8. On the same page, in the SAML 2.0 section: click `View Setup Instructions` and download the X.509 cert. Name it `myservice.cert`.
+9. Create a secret using the cert:
 
-    ```bash
-    kubectl create secret generic kubecost-okta --from-file myservice.cert --namespace kubecost
-    ```
-    >Note on configuring single app logout:
-    ><BR>This can be configured in Okta following https://help.okta.com/en/prod/Content/Topics/Apps/Apps_Single_Logout.htm
-    ><BR>Once done, update the [values.saml](values-saml.yaml):redirectURL value.
-    ><BR>This will be in the `Identity Provider metadata` Look for `md:SingleLogoutService`
-    ><BR>It will look like `https://dev-27772969.okta.com/app/dev-27772969_kubecost_1/exk4h09oysB785Han5d7/slo/saml`
+   ```bash
+   kubectl create secret generic kubecost-okta --from-file myservice.cert --namespace kubecost
+   ```
 
-1. With your existing helm install command, append "-f [values-saml.yaml](values-saml.yaml)" to the end.
+   > Note on configuring single app logout:
+   > <BR> This can be configured in Okta following https://help.okta.com/en/prod/Content/Topics/Apps/Apps_Single_Logout.htm
+   > <BR> Once done, update the [values.saml](values-saml.yaml):redirectURL value.
+   > <BR> This will be in the `Identity Provider metadata` Look for `md:SingleLogoutService`
+   > <BR> It will look like `https://dev-27772969.okta.com/app/dev-27772969_kubecost_1/exk4h09oysB785Han5d7/slo/saml`
 
-    >At this point, we recommend testing to ensure SSO works before configuring RBAC below.
-    ><BR>Note that there is a troubleshooting section at the end of this readme.
+10. Use the [following guide](https://help.okta.com/en-us/Content/Topics/Apps/apps-manage-assignments.htm) to assign Individuals or Groups access to your Kubecost application.
+11. With your existing helm install command, append "-f [values-saml.yaml](values-saml.yaml)" to the end.
+
+   > At this point, we recommend testing to ensure SSO works before configuring RBAC below.
+   > <BR> Note that there is a troubleshooting section at the end of this readme.
 
 ---
 ## RBAC: Admin/Read Only
