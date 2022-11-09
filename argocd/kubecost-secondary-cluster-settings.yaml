@@ -31,10 +31,3 @@ thanos:
     enabled: false
   store:
     enabled: false
-networkCosts:
-  enabled: true
-  config:
-    services:
-      amazon-web-services: true
-      google-cloud-services: true
-      azure-cloud-services: true
