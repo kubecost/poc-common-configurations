@@ -1,0 +1,92 @@
+# This values file contains all of the images kubecost requires.
+# Kubecost has monthly releases and often time point releases within the month to address any issues.
+# To get a dynamic list of current images, run the following script:
+# install yq with brew / pip / etc
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true | yq '..|.image? | select(.)' | sort -u
+# If you don't have yq this should output the same:
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# if you use docker to pull images, you can use the output to pull the images:
+# (previous_command)| xargs -I {} docker pull {}
+
+# Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer
+# imagePullSecrets:
+# - name: "image-pull-secret"
+
+imageVersion: "prod-1.98.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+
+kubecostFrontend:
+  # fullImageName: "YOUR_REGISTRY/frontend:prod-1.98.0" # Use image -OR- fullImageName.
+  image: "YOUR_REGISTRY/frontend"
+  imagePullPolicy: Always
+
+kubecostModel:
+  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.98.0" # Use image -OR- fullImageName.
+  image: "YOUR_REGISTRY/cost-model"
+  imagePullPolicy: Always
+
+networkCosts:
+  image: YOUR_REGISTRY/kubecost-network-costs:v16.2  # Always the full image path with version tag.
+  imagePullPolicy: Always
+
+# Kubecost Cluster Controller for Right Sizing and Cluster Turndown
+clusterController:
+  image: YOUR_REGISTRY/cluster-controller:v0.0.6 # Always the full image path with version tag.
+  imagePullPolicy: Always
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus
+prometheus:
+  imagePullSecrets:
+  # - name: "image-pull-secret"
+
+  server:
+    image:
+      repository: YOUR_REGISTRY/prometheus
+      tag: v2.35.0
+      pullPolicy: IfNotPresent
+    sidecarContainers:
+    - name: thanos-sidecar
+      image: YOUR_REGISTRY/thanos:v0.24.0
+
+  configmapReload:
+    prometheus:
+      image:
+        repository: YOUR_REGISTRY/configmap-reload
+        tag: v0.7.1
+        pullPolicy: IfNotPresent
+
+  nodeExporter:
+    image:
+      repository: YOUR_REGISTRY/node-exporter
+      tag: v0.18.1
+      pullPolicy: IfNotPresent
+
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/grafana
+grafana:
+  image:
+    repository: YOUR_REGISTRY/grafana
+    tag: 9.0.2
+    pullPolicy: IfNotPresent
+
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistryKeySecretName
+
+  downloadDashboardsImage:
+    repository: YOUR_REGISTRY/curl
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  sidecar:
+    image: YOUR_REGISTRY/k8s-sidecar:1.19.2
+    imagePullPolicy: IfNotPresent
+
+## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/thanos
+thanos:
+  image:
+    repository: YOUR_REGISTRY/thanos
+    tag: v0.24.0
+    pullPolicy: IfNotPresent
