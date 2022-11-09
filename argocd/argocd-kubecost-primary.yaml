@@ -23,6 +23,14 @@ spec:
             global:
               external_labels:
                 cluster_id: myClusterName
+        networkCosts:
+          enabled: true
+          config:
+            services:
+            # set the provider that this cluster is on to true
+              amazon-web-services: false
+              google-cloud-services: false
+              azure-cloud-services: false                
           # Disable node exporter+service account if cluster/node rightsizing recommendations are not required
           # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407595941015-Custom-Prometheus#disable-node-exporter-and-kube-state-metrics-recommended
           # nodeExporter:
