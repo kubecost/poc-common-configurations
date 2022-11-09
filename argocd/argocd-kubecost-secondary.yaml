@@ -24,6 +24,14 @@ spec:
             global:
               external_labels:
                 cluster_id: myClusterName
+        networkCosts:
+          enabled: true
+          config:
+            services:
+            # set the provider that this cluster is on to true
+              amazon-web-services: false
+              google-cloud-services: false
+              azure-cloud-services: false                
   destination:
     server: https://kubernetes.default.svc
     namespace: kubecost
