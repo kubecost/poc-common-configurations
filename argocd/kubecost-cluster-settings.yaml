@@ -5,11 +5,3 @@ prometheus:
     enabled: false
   kube-state-metrics:
     disabled: true
-networkCosts:
-  enabled: true
-  config:
-    services:
-      # set the provider that this cluster is on to true
-      amazon-web-services: false
-      google-cloud-services: false
-      azure-cloud-services: false
