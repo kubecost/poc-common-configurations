@@ -1,7 +1,7 @@
-# Kubecost free edition is intended for a single cluster per organization
+# Kubecost free edition can be used on unlimited clusters but does not support cluster aggregation and is limited to 15 days of query history.
 # Your support allows Kubecost to continue to innovate and reduce wasted resources in Kubernetes
 
-# Use this file directly from the internet:
+# Use this file directly from this repo:
 # argocd app create -f https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/argocd/argocd-kubecost-free.yaml -p kubecostProductConfigs.clusterName=myClusterName -p prometheus.server.global.external_labels.cluster_id=myClusterName
 
 # If you download this file, you can uncomment lines 26-32 and update myClusterName and simply run: `argocd app create -f argocd-kubecost-free.yaml`
