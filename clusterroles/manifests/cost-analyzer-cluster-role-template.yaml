@@ -94,7 +94,7 @@ rules:
       - list
       - watch
 ---
-# Source: cost-analyzer/templates/cost-analyzer-cluster-role-template.yaml
+# Source: https://github.com/kubecost/cost-analyzer-helm-chart/cost-analyzer/templates/cost-analyzer-cluster-role-template.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
