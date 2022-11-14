@@ -10,7 +10,7 @@ Some organizations don't allow teams to create clusterroles at deployment time. 
 Manifests were generated via Helm template:
 
 ``` shell
-helm template --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost
+helm template --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --output-dir ./manifests
 ```
 
 ## Deploy Manifests
