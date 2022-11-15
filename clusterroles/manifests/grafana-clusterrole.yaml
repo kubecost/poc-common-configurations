@@ -1,0 +1,15 @@
+---
+# Source: https://github.com/kubecost/cost-analyzer-helm-chart/cost-analyzer/charts/grafana/templates/clusterrole.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: grafana
+    chart: grafana-1.17.2
+    release: kubecost
+    heritage: Helm
+  name: kubecost-grafana-clusterrole
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["configmaps"]
+  verbs: ["get", "watch", "list"]
