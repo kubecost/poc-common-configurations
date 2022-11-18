@@ -1,0 +1,74 @@
+apiVersion: charts.kubecost.com/v1alpha1
+kind: CostAnalyzer
+metadata:
+  name: kubecost
+spec:
+  # This configuration installs cost-analyzer and bundled prometheus only.
+  openshiftDeployment: true
+  affinity: {}
+  awsstore:
+    createServiceAccount: false
+    useAwsStore: false
+  clusterController:
+    enabled: false
+    image: gcr.io/kubecost1/cluster-controller:v0.1.0
+    imagePullPolicy: Always
+  extraVolumeMounts: []
+  extraVolumes: []
+  kubecostProductConfigs:
+    clusterName: your-ocp-cluser
+  prometheus:
+    nodeExporter:
+      enabled: false
+    serviceAccounts:
+      nodeExporter:
+        create: false
+    kube-state-metrics:
+      disabled: true
+    server:
+      global:
+        external_labels:
+          cluster_id: your-ocp-cluser
+  global:
+    additionalLabels: {}
+    assetReports:
+      enabled: false
+      reports:
+      - accumulate: false
+        aggregateBy: type
+        filters:
+        - property: cluster
+          value: your-ocp-cluser
+        title: Example Asset Report 0
+        window: today
+    grafana:
+      domainName: cost-analyzer-grafana.default.svc
+      enabled: false
+      proxy: false
+      scheme: http
+    notifications:
+      alertmanager:
+        enabled: false
+        fqdn: http://cost-analyzer-prometheus-server.default.svc
+    podAnnotations: {}
+    prometheus:
+      enabled: true
+      fqdn: http://cost-analyzer-prometheus-server.default.svc
+    savedReports:
+      enabled: false
+      reports:
+      - accumulate: false
+        aggregateBy: namespace
+        filters:
+        - property: cluster
+          value: cluster-one,cluster*
+        - property: namespace
+          value: kubecost
+        idle: separate
+        title: Example Saved Report 0
+        window: today
+      - accumulate: false
+        aggregateBy: controllerKind
+        filters:
+        - property: label
+          value: app:cost*,environment:kube*
