@@ -123,8 +123,8 @@ eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-cur-athena-thanos \
     --namespace kubecost \
     --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
-    --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-athena-policy \
-    --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
+    --attach-policy-arn arn:aws:iam::1111111111:policy/kubecost-athena-policy \
+    --attach-policy-arn arn:aws:iam::1111111111:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
     --approve
 ```
@@ -133,7 +133,7 @@ eksctl create iamserviceaccount \
     --name kubecost-serviceaccount-thanos \
     --namespace kubecost \
     --cluster ${YOUR_CLUSTER_NAME} --region ${AWS_REGION} \
-    --attach-policy-arn arn:aws:iam::297945954695:policy/kubecost-s3-thanos-policy \
+    --attach-policy-arn arn:aws:iam::1111111111:policy/kubecost-s3-thanos-policy \
     --override-existing-serviceaccounts \
     --approve
 ```
