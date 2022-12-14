@@ -10,6 +10,7 @@ kubecostProductConfigs:
   # awsSpotDataPrefix: dev
   # serviceKeySecretName: aws-service-key # optional, used for Spot Data Feed and Unattached Disks/IP Addresses
 kubecostModel:
+  containerStatsEnabled: true
   warmCache: false
   warmSavingsCache: false
   etl: false

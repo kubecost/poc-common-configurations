@@ -6,6 +6,7 @@ kubecostProductConfigs:
   #   enabled: false #not needed for eval
   cloudIntegrationSecret: cloud-integration # only runs on primary cluster
 kubecostModel:
+  containerStatsEnabled: true
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
 # kubecostMetrics:
   # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md

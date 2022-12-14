@@ -5,6 +5,7 @@ kubecostProductConfigs:
   #   secretname: productkey
   #   enabled: false # product key is not needed for eval
 kubecostModel:
+  containerStatsEnabled: true
   warmCache: false
   warmSavingsCache: false
   etl: false
