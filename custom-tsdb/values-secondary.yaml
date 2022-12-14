@@ -1,4 +1,5 @@
 kubecostModel:
+  containerStatsEnabled: true
   warmCache: false
   warmSavingsCache: false
   etl: false
