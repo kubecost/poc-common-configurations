@@ -9,6 +9,7 @@ kubecostProductConfigs:
   currencyCode: USD # Be sure these values are set to reflect your bill data
   serviceKeySecretName: azure-service-key
 kubecostModel:
+  containerStatsEnabled: true
   warmCache: false
   warmSavingsCache: false
   etl: false
