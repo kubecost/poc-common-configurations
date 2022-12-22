@@ -1,0 +1,7 @@
+federatedETL:
+  primaryCluster: true
+  federatedCluster: true
+  federator:
+    enabled: true
+kubecostModel:
+  federatedStorageConfigSecret: kubecost-metrics
