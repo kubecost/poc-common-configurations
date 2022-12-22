@@ -1,12 +1,12 @@
 kubecostProductConfigs:
-  clusterName: jesse-eks1
+  clusterName: your-cluster-name
 federatedETL:
   primaryCluster: true
   federatedCluster: true
   federator:
     enabled: true
 kubecostModel:
-  federatedStorageConfigSecret: kubecost-metrics
-# serviceAccount:
-#   create: false
-#   name: kubecost-irsa-s3
+  etlBucketConfigSecret: kubecost-metrics
+serviceAccount:
+  create: false
+  name: kubecost-irsa-s3

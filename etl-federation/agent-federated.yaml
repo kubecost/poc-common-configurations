@@ -4,7 +4,7 @@ federatedETL:
   primaryCluster: false
   federatedCluster: true
 kubecostModel:
-  federatedStorageConfigSecret: kubecost-metrics
-# serviceAccount:
-#   create: false
-#   name: kubecost-irsa-s3
+  etlBucketConfigSecret: kubecost-metrics
+serviceAccount:
+  create: false
+  name: kubecost-irsa-s3
