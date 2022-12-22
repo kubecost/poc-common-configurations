@@ -1,3 +1,5 @@
+kubecostProductConfigs:
+  clusterName: jesse-eks1
 federatedETL:
   primaryCluster: true
   federatedCluster: true
@@ -5,3 +7,6 @@ federatedETL:
     enabled: true
 kubecostModel:
   federatedStorageConfigSecret: kubecost-metrics
+# serviceAccount:
+#   create: false
+#   name: kubecost-irsa-s3

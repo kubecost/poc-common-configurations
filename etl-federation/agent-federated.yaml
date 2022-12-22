@@ -1,6 +1,10 @@
+kubecostProductConfigs:
+  clusterName: your-cluster-name
 federatedETL:
   primaryCluster: false
   federatedCluster: true
-
 kubecostModel:
   federatedStorageConfigSecret: kubecost-metrics
+# serviceAccount:
+#   create: false
+#   name: kubecost-irsa-s3
