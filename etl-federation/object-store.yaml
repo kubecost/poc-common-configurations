@@ -2,7 +2,7 @@ type: S3
 config:
   bucket: "your-s3-bucket"
   endpoint: "s3.amazonaws.com"
-  region: "eu-central-1"
+  region: "us-east-2"
   insecure: false
   signature_version2: false
   put_user_metadata:
