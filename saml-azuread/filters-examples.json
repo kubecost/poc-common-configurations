@@ -65,5 +65,19 @@
             "cluster": "aks1"
          }
       ]
+   },
+   "{group-object-id-j}":{
+      "allocationFilters":[
+         {
+            "label": "app:prometheus"
+         }
+      ]
+   },
+   "{group-object-id-k}":{
+      "allocationFilters":[
+         {
+            "annotation": "meta.helm.sh/release-namespace:kubecost"
+         }
+      ]
    }
 }

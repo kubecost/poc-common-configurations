@@ -83,6 +83,7 @@ We are looking for any feedback you may have on these functions and we are here 
     ><BR>Note that there is a troubleshooting section at the end of this readme.
 
 ---
+
 ## RBAC: Admin/Read Only
 
 The simplest form of RBAC in Kubecost is to have two groups: admin and read only.
@@ -116,11 +117,11 @@ The `assertionName: "http://schemas.microsoft.com/ws/2008/06/identity/claims/gro
 
 ## RBAC: Cluster/Namespace/Label/Annotation Filtering
 
-Filters are used to give visibility to a subset of objects in Kubecost. Examples of the various filters available are in [filters.json](./filters.json).
+Filters are used to give visibility to a subset of objects in Kubecost. Examples of the various filters available are in [filters.json](./filters.json) and [filters-examples.json](./filters-examples.json). RBAC filtering is capable of all the same types of filtering features as that of the [Allocation API](https://docs.kubecost.com/apis/apis/allocation).
 
 These filters can be configured using groups or user attributes in your AzureAD directory. It is also possible to assign filters to specific users. The example below is using groups.
 
->Note that you can combine filtering with admin/readonly rights.
+> **Note**: that you can combine filtering with admin/readonly rights.
 
 Filtering is configured very similarly to the `admin/readonly` above. The same assertion name and values will be used, as is the case in this example.
 
@@ -135,7 +136,8 @@ values-saml.yaml:
 
 The array of groups obtained during the auth request will be matched to the subject key in the filters.yaml:
 
-filters.json
+filters.json:
+
 ```json
 {
    "{group-object-id-a}":{
@@ -155,12 +157,12 @@ filters.json
       ]
    },
    "{group-object-id-c}":{
-         "allocationFilters":[
-            {
-               "namespace":"dev-*,nginx-ingress",
-               "cluster":"*"
-            }
-         ]
+      "allocationFilters":[
+         {
+            "namespace":"dev-*,nginx-ingress",
+            "cluster":"*"
+         }
+      ]
    }
 }
 ```
@@ -187,11 +189,11 @@ As an example, we will configure the following:
     kubectl create configmap group-filters --from-file filters.json -n kubecost
     ```
 
->Note that you can modify the configmap without restarting any pods.
+> **Note**: that you can modify the configmap without restarting any pods.
 
-    ```bash
-    kubectl delete configmap -n kubecost group-filters && kubectl create configmap -n kubecost group-filters --from-file filters.json
-    ```
+   ```bash
+   kubectl delete configmap -n kubecost group-filters && kubectl create configmap -n kubecost group-filters --from-file filters.json
+   ```
 
 ## Troubleshooting / Logs
 

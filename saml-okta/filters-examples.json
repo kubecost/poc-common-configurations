@@ -23,6 +23,20 @@
          }
       ]
    },
+   "kubecost_team2":{
+      "allocationFilters":[
+         {
+            "label": "app:prometheus"
+         }
+      ]
+   },
+   "kubecost_team3":{
+      "allocationFilters":[
+         {
+            "annotation": "meta.helm.sh/release-namespace:kubecost"
+         }
+      ]
+   },
    "kubecost_kubecost-namespace":{
       "allocationFilters":[
          {

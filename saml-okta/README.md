@@ -1,6 +1,7 @@
 # Kubecost SSO and RBAC - Okta Integration
 
 ![Enterprise Subscription Required](./images/kubecost-enterprise.png)
+
 ## Overview
 
 Kubecost supports SAML 2.0 providers for:
@@ -80,6 +81,7 @@ Create an application in Okta for Kubecost (SSO)
    > <BR> Note that there is a troubleshooting section at the end of this readme.
 
 ---
+
 ## RBAC: Admin/Read Only
 
 The simplest form of RBAC in Kubecost is to have two groups: admin and read only.
@@ -109,21 +111,22 @@ The [values-saml.yaml](values-saml.yaml) file contains the `admin` and `readonly
 
 The `assertionName: "kubecost_group"` needs to match the name given in step 5 above.
 
-
 ---
+
 ## RBAC: Cluster/Namespace/Label/Annotation Filtering
 
-Filters are used to give visibility to a subset of objects in Kubecost. Examples of the various filters available are in [filters.json](./filters.json).
+Filters are used to give visibility to a subset of objects in Kubecost. Examples of the various filters available are in [filters.json](./filters.json) and [filters-examples.json](./filters-examples.json). RBAC filtering is capable of all the same types of filtering features as that of the [Allocation API](https://docs.kubecost.com/apis/apis/allocation).
 
 These filters can be configured using groups or user attributes in your Okta directory. It is also possible to assign filters to specific users. The example below is using groups.
 
->Note that you can combine filtering with admin/readonly rights.
+> **Note**: that you can combine filtering with admin/readonly rights.
 
 Filtering is configured very similarly to the `admin/readonly` above. The same group pattern match (`kubecost_group`) can be used for both, as is the case in this example.
 
 Kubecost will use this section in the helm values file:
 
 values-saml.yaml:
+
 ```yaml
     customGroups: # not needed for simple admin/readonly RBAC
       - assertionName: "kubecost_group"
@@ -132,6 +135,7 @@ values-saml.yaml:
 The array of groups obtained during the auth request will be matched to the subject key in the filters.yaml:
 
 filters.json
+
 ```json
 {
    "kubecost_admin":{
@@ -151,12 +155,12 @@ filters.json
       ]
    },
    "kubecost_dev-namespaces":{
-         "allocationFilters":[
-            {
-               "namespace":"dev-*,nginx-ingress",
-               "cluster":"*"
-            }
-         ]
+      "allocationFilters":[
+         {
+            "namespace":"dev-*,nginx-ingress",
+            "cluster":"*"
+         }
+      ]
    }
 }
 ```
@@ -167,25 +171,24 @@ As an example, we will configure the following:
 - Kubecost Users, by default, will not have visibility to any namespace and will be readonly. Note that if a group doesn't have access to any resources, the Kubecost UI may appear to be broken.
 - The dev-namespaces group will have read only access to the Kubecost UI and only have visibility to namespaces that are prefixed with `dev-` or are exactly `nginx-ingress`
 
-
 1. In the Okta Admin UI, navigate to `Directory>Groups>Add Group`
-1. Create groups for kubecost_users, kubecost_admin and kubecost_dev-namespaces. Add all users to the kubecost_users group and the appropriate users to each of the other groups for testing.
+2. Create groups for kubecost_users, kubecost_admin and kubecost_dev-namespaces. Add all users to the kubecost_users group and the appropriate users to each of the other groups for testing.
 
     >Kubecost admins will be part of both the read only kubecost_users and kubecost_admin groups. Kubecost will assign the most rights (least restrictive) when there are conflicts. In the kubecost logs, you will see
 
-1. In the kubecost_users group>Application tab, assign the Kubecost application. You do not need to assign the other `kubecost_` groups to the Kubecost application because all users already have access in the kubecost_users` group.
-1. Modify [filters.json](./filters.json) as depicted above.
-1. Create the configmap:
+3. In the kubecost_users group>Application tab, assign the Kubecost application. You do not need to assign the other `kubecost_` groups to the Kubecost application because all users already have access in the kubecost_users` group.
+4. Modify [filters.json](./filters.json) as depicted above.
+5. Create the configmap:
 
     ```bash
     kubectl create configmap group-filters --from-file filters.json -n kubecost
     ```
 
->Note that you can modify the configmap without restarting any pods.
+> **Note**: that you can modify the configmap without restarting any pods.
 
-    ```bash
-    kubectl delete configmap -n kubecost group-filters && kubectl create configmap -n kubecost group-filters --from-file filters.json
-    ```
+   ```bash
+   kubectl delete configmap -n kubecost group-filters && kubectl create configmap -n kubecost group-filters --from-file filters.json
+   ```
 
 ## Troubleshooting / Logs
 
@@ -209,10 +212,10 @@ configwatchers.go:69] ERROR UPDATING group-filters CONFIG: []map[string]string: 
          }
      |...
 ```
+
 ---
 
-### This is what normal looks like:
-
+### This is what normal looks like
 
 ```bash
 I0330 14:48:20.556725       1 costmodel.go:3421]   kubecost_user_type: {XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:Attribute} FriendlyName: Name:kubecost_user_type NameFormat:urn:oasis:names:tc:SAML:2.0:attrname-format:basic Values:[{XMLName:{Space:urn:oasis:names:tc:SAML:2.0:assertion Local:AttributeValue} Type: Value:}]}
