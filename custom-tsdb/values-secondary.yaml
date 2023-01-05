@@ -5,6 +5,14 @@ kubecostModel:
   etl: false
   etlCloudAsset: false
   maxQueryConcurrency: 1
+kubecostProductConfigs:
+  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
+prometheus:
+  server:
+    global:
+      external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        cluster_id: kubecostProductConfigs_clusterName
 global:
   grafana:
     enabled: false
