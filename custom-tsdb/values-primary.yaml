@@ -3,7 +3,7 @@ kubecostModel:
   etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
   promClusterIDLabel: YOUR_PROMETHEUS_CLUSTER_KEY # set this to the same as the key used for prometheus cluster labels
 kubecostProductConfigs:
-  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
+  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 prometheus:
   server:
     global:

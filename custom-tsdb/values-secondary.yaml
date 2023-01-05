@@ -6,7 +6,7 @@ kubecostModel:
   etlCloudAsset: false
   maxQueryConcurrency: 1
 kubecostProductConfigs:
-  clusterName: YOUR_PROMETHEUS_CLUSTER_VALUE # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
+  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 prometheus:
   server:
     global:
