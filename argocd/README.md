@@ -2,7 +2,7 @@
 
 ## Installation
 
-### Prerequisists
+### Prerequisites
 
 Follow ReadMe-Enterprise to setup object-storage secrets for your given cloud provider:
 - [AWS](../aws/README-enterprise.md)
