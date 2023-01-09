@@ -1,0 +1,22 @@
+kubecostProductConfigs:
+  clusterName: CLUSTER_NAME
+federatedETL:
+  useExistingS3Config: true
+  primaryCluster: false
+  federatedCluster: true
+kubecostModel:
+  containerStatsEnabled: true
+  etlBucketConfigSecret: kubecost-object-store
+serviceAccount:
+  create: false
+  name: kubecost-irsa-s3
+prometheus:
+  kubeStateMetrics:
+    enabled: false
+  kube-state-metrics:
+    disabled: true
+  server:
+    global:
+      external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        cluster_id: CLUSTER_NAME
