@@ -10,7 +10,7 @@ This terraform was built as a basic example for using helm to deploy kubecost to
 
 https://releases.hashicorp.com/terraform/
 
-2. The terraform was written to utilize the local ~/.kube/config file by default.  Please make sure you are on referencing the corrent kube config file and are on the correct context before applying the terraform. If you are experienced with terraform, there are other options you can use to connect to the k8s cluster.  These changes can be made in main.tf the the helm provider block.  See linke below with additional information.
+2. The terraform was written to utilize the local ~/.kube/config file by default.  Please make sure you are referencing the correct kube config file and are on the correct context before applying the terraform. If you are experienced with terraform, there are other options you can use to connect to the k8s cluster.  These changes can be made in main.tf the the helm provider and kubernetes provider block.  See link below with additional information.
 
 https://registry.terraform.io/providers/hashicorp/helm/latest/docs#authentication
 
