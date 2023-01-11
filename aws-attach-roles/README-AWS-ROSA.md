@@ -4,7 +4,7 @@ Using aws with IAM roles attached to service accounts:
 
 ## Prerequisites:
 
-1. You have [Red Hat OpenShift Service on AWS cluster (ROSA) set up with AWS Security Token Service (STS](https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa-sts-creating-a-cluster-quickly.html#rosa-sts-creating-a-cluster-quickly-cli_rosa-sts-creating-a-cluster-quickly).
+1. You have [Red Hat OpenShift Service on AWS cluster (ROSA) set up with AWS Security Token Service (STS)](https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa-sts-creating-a-cluster-quickly.html#rosa-sts-creating-a-cluster-quickly-cli_rosa-sts-creating-a-cluster-quickly).
 2. You have approriate IAM permissions to manage ROSA cluster and manage,create and assign AWS IAM.
 3. The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html), [rosa](https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa_getting_started_iam/rosa-installing-rosa.html), and [oc CLI](https://docs.openshift.com/container-platform/4.10/cli_reference/openshift_cli/getting-started-cli.html)
 4. Clone this repository into your machine and navigate to POC-COMMON-CONFIGURATION-TEST/aws-attach-roles
@@ -27,7 +27,7 @@ export APP_NAMESPACE=kubecost
 
 `aws s3 mb s3://${ThanosBucketName} --region `
 
-- If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
+- If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar putting data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
     * **S3 bucket policy:** Set up S3 bucket policy to grant access to other AWS accounts.
     * **Cross AWS accounts IAM roles:** Set up an IAM role with permission to access to the central S3 bucket and trusted policy to allow other AWS accounts to assume that IAM role to have access to the central S3 bucket.
@@ -199,12 +199,12 @@ aws iam attach-role-policy --role-name "${APP_IAM_ROLE_THANOS}" \
 ### Step 8: Associate the IAM roles to the service accounts:
 
 ```bash
-export IRSA_ROLE_ARN_CUR_ATHENA_THANOS=eks.amazonaws.com/role-arn=$APP_IAM_ROLE_ARN_CUR_ATHENA_THANOS
+export IRSA_ROLE_ARN_CUR_ATHENA_THANOS="eks.amazonaws.com/role-arn=${APP_IAM_ROLE_ARN_CUR_ATHENA_THANOS}"
 $ oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_CUR_ATHENA_THANOS
 ```
 
 ```bash
-export IRSA_ROLE_THANOS=eks.amazonaws.com/role-arn=$APP_IAM_ROLE_ARN_THANOS
+export IRSA_ROLE_THANOS="eks.amazonaws.com/role-arn=${APP_IAM_ROLE_ARN_THANOS}"
 $ oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_THANOS
 ```
 
