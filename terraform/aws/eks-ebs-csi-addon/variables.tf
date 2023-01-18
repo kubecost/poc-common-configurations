@@ -31,10 +31,10 @@ variable "node_group_one_name" {
 
 variable "instance_type_one" {
   type = string
-  default = "t3.small"
+  default = "t3.medium"
 }
 
 #variable "instance_type_two" {
 #  type = string
-#  default = "t3.small"
+#  default = "t3.medium"
 #}
