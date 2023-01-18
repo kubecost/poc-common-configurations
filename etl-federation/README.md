@@ -17,7 +17,7 @@ Create object-store for kubecost federation:
 
 ```
 kubectl create secret generic \
-  kubecost-metrics -n kubecost \
+  kubecost-object-store -n kubecost \
   --from-file federated-store.yaml
 ```
 
@@ -26,13 +26,13 @@ If creating a new service account:
 ```
 eksctl utils associate-iam-oidc-provider \
     --cluster your-cluster-name \
-    --region eu-central-1 \
+    --region us-east-2 \
     --approve
 eksctl create iamserviceaccount \
     --name kubecost-irsa-s3 \
     --namespace kubecost \
     --cluster your-cluster-name \
-    --region eu-central-1 \
+    --region us-east-2 \
     --attach-policy-arn arn:aws:iam::111222333:policy/kubecost-s3-federated-policy \
     --approve
 ```
@@ -53,6 +53,16 @@ helm install kubecost \
 ```
 
 All agents change clusterID:
+
+Use the same object store as primary cluster (for all clusters):
+
+```
+kubectl create secret generic \
+  kubecost-object-store -n kubecost \
+  --from-file federated-store.yaml
+```
+
+
 ```
 helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
