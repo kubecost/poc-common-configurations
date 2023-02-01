@@ -20,7 +20,7 @@ global:
 #   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
 #   additionalLabels:
 #     label-key: label-value
-#   networkCosts: # this is waiting for a fix that is coming in kubecost 1.98. Until then, see the network-costs-serviceMonitor.yaml in this folder
+#   networkCosts:
 #     enabled: true
 #     additionalLabels:
 #       label-key: label-value
