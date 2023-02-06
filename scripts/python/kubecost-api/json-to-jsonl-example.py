@@ -7,7 +7,7 @@ import json
 import jsonlines
 from datetime import datetime
 
-requestURL = "https://demo.kubecost.xyz/model/allocation?window=1d"
+requestURL = "{insert request URL here}"
 
 # get datetime
 current_datetime = datetime.now()
