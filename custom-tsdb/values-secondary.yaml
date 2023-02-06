@@ -21,9 +21,13 @@ global:
     enabled: false
     fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
 # serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
-#   enabled: true # note that you must also apply the network-costs-serviceMonitor.yaml if you enable this.
-#   networkCosts: # this is waiting for a fix that is coming in kubecost 1.98. Until then, see the network-costs-serviceMonitor.yaml in this folder
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
+#   networkCosts:
 #     enabled: true
+#     additionalLabels:
+#       label-key: label-value
 networkCosts:
   enabled: true
   config:
