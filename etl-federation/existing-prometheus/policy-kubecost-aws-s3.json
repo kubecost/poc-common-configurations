@@ -1,0 +1,33 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::your-s3-bucket"
+            ],
+            "Effect": "Allow",
+            "Sid": "kubecostMetricsBucket"
+        },
+        {
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload",
+                "s3:CreateBucket",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::your-s3-bucket/*"
+            ],
+            "Effect": "Allow",
+            "Sid": "kubecostMetricsAccess"
+        }
+    ]
+}

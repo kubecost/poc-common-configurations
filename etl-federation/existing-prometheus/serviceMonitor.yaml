@@ -1,0 +1,8 @@
+serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in the parent directory
+  enabled: true
+  additionalLabels:
+    release: prometheus
+  networkCosts:
+    enabled: true
+    additionalLabels:
+      release: prometheus

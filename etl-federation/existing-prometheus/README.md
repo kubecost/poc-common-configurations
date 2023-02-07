@@ -4,12 +4,40 @@ These are the steps to enable ETL federation with Kubecost.
 
 Federated-ETL is an efficient method to implement multi-cluster Kubecost while using existing Prometheus installations for short-term metrics.
 
-
-The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory for additional configuration required.
+When using an existing prometheus instance, Kubecost only requires a single pod per cluster. The example here also enables the networkCosts Daemonset which is optional.
 
 [Contact us](https://www.kubecost.com/contact) for help customizing settings.
 
 ## Setup
+
+### Prometheus Install (if not present)
+
+```
+helm upgrade prometheus \
+  --repo https://prometheus-community.github.io/helm-charts kube-prometheus-stack \
+  -n monitoring --create-namespace --install \
+  --set nodeExporter.enabled=false \
+  --set grafana.enabled=false
+```
+
+The default install of Prometheus will have a serviceMonitor selector that must be passed to the Kubecost serviceMonitor. You can find this with the below command:
+
+```sh
+kubectl get prometheuses.monitoring.coreos.com \
+  -n monitoring prometheus-kube-prometheus-prometheus -oyaml \
+ | grep serviceMonitor -A2
+```
+
+Default output:
+
+```yaml
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchLabels:
+      release: prometheus
+```
+
+Update [serviceMonitor.yaml](serviceMonitor.yaml) with your label.
 
 ### Object-Store and Permissions Setup
 
@@ -58,6 +86,7 @@ helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost \
   -f primary-federator.yaml \
+  -f serviceMonitor.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
 ```
@@ -77,6 +106,62 @@ helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost --create-namespace \
   -f agent-federated.yaml \
+  -f serviceMonitor.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
 ```
+
+## Validation
+
+View the kubecost UI and verify that idle costs are not negative.
+
+```sh
+kubectl port-forward services/kubecost-cost-analyzer 9090:9090 -n kubecost
+```
+
+In another terminal tab run:
+
+```sh
+curl 'localhost:9090/model/prometheusQuery?query=node_total_hourly_cost'
+```
+
+Good output (value here is `0.7645614692077637`):
+
+```json
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "node_total_hourly_cost",
+          "container": "cost-model",
+          "endpoint": "tcp-model",
+          "instance": "prometheus-test-control-plane",
+          "job": "kubecost-cost-analyzer",
+          "namespace": "kubecost",
+          "node": "prometheus-test-control-plane",
+          "pod": "kubecost-cost-analyzer-59c77dfbb8-qncgk",
+          "provider_id": "kind://docker/prometheus-test/prometheus-test-control-plane",
+          "service": "kubecost-cost-analyzer"
+        },
+        "value": [
+          1675779115,
+          "0.7645614692077637"
+        ]
+      }
+    ]
+  }
+}
+```
+
+
+or port-forward to the Prometheus UI:
+
+```sh
+kubectl port-forward services/prometheus-operated 9090:9090 -n monitoring
+```
+
+Targets:
+![targets](prom-targets.png)
