@@ -1,20 +1,20 @@
 global:
   prometheus:
-    enabled: true
-    # fqdn: http://prometheus-operated.monitoring:9090
-  grafana:
     enabled: false
-    proxy: false
+    fqdn: http://prometheus-operated.monitoring:9090
 kubecostProductConfigs:
   clusterName: CLUSTER_NAME
+  # cloudIntegrationSecret: cloud-integration
 federatedETL:
   useExistingS3Config: false
-  primaryCluster: false
+  primaryCluster: true
   federatedCluster: true
+  federator:
+    enabled: true
 kubecostModel:
   containerStatsEnabled: true
   federatedStorageConfigSecret: kubecost-object-store
-serviceAccount:
+serviceAccount: # this example uses AWS IRSA, which creates a service account with rights to the s3 bucket. If using keys+secrets in the federated-store, set create: true
   create: false
   name: kubecost-irsa-s3
 prometheus:
@@ -22,6 +22,8 @@ prometheus:
     enabled: false
   kube-state-metrics:
     disabled: true
+  nodeExporter:
+    enabled: false
   server:
     global:
       external_labels:

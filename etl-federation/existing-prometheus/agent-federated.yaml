@@ -1,7 +1,7 @@
 global:
   prometheus:
-    enabled: true
-    # fqdn: http://prometheus-operated.monitoring:9090
+    enabled: false
+    fqdn: http://prometheus-operated.monitoring:9090
   grafana:
     enabled: false
     proxy: false
