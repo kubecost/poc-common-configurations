@@ -1,0 +1,2 @@
+Overview:
+The 'scripts' folder is a location for different scripts written to interact with kubecost. In the folder you will find sub-folders dedicated to scripts written in different languages and their intended use.
