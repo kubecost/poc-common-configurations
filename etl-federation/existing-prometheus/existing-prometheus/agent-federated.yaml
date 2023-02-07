@@ -1,9 +1,3 @@
-global:
-  prometheus:
-    enabled: true
-    # fqdn: http://prometheus-operated.monitoring:9090
-  grafana:
-    enabled: false
 kubecostProductConfigs:
   clusterName: CLUSTER_NAME
 federatedETL:
