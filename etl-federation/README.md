@@ -2,9 +2,12 @@
 
 These are the steps to enable ETL federation with Kubecost.
 
-This is an efficient method to implement multi-cluster Kubecost while using existing prometheus installations. The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory for additional configuration required.
+Federated-ETL is an efficient method to implement multi-cluster Kubecost while using existing Prometheus installations for short-term metrics.
 
-Contact us for help customizing settings.
+
+The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory for additional configuration required.
+
+[Contact us](https://www.kubecost.com/contact) for help customizing settings.
 
 ## Setup
 
