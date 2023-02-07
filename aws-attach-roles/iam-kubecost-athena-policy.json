@@ -21,18 +21,26 @@
       ]
     },
     {
+      "Sid": "AthenaQueryBucketAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::aws-athena-query-results-bucket"
+      ]
+    },
+    {
       "Sid": "AthenaQueryResultsOutput",
       "Effect": "Allow",
       "Action": [
         "s3:GetBucketAcl",
-        "s3:GetBucketLocation",
         "s3:GetObject",
-        "s3:ListBucket",
         "s3:PutObject"
       ],
       "Resource": [
-        "arn:aws:s3:::aws-athena-query-results-*",
-        "arn:aws:s3:::aws-athena-query-results-*/*"
+        "arn:aws:s3:::aws-athena-query-results-bucket/*"
       ]
     },
     {
@@ -40,13 +48,21 @@
       "Effect": "Allow",
       "Action": [
         "s3:GetBucketAcl",
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::AthenaCURBucket/*"
+      ]
+    },
+    {
+      "Sid": "S3ReadAccessToAwsBillingBucket",
+      "Effect": "Allow",
+      "Action": [
         "s3:GetBucketLocation",
-        "s3:GetObject",
         "s3:ListBucket"
       ],
       "Resource": [
-        "arn:aws:s3:::${AthenaCURBucket}",
-        "arn:aws:s3:::${AthenaCURBucket}/*"
+        "arn:aws:s3:::AthenaCURBucket"
       ]
     },
     {
