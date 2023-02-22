@@ -47,14 +47,14 @@ with open(file_name, "w") as outfile:
     json.dump(response.json(), outfile)
 
 # Replace <storageaccountname> with the storage account name
-account_url = "https://chrism.blob.core.windows.net"
+account_url = "https://<storageaccountname>.blob.core.windows.net"
 default_credential = DefaultAzureCredential()
 
 # Create the BlobServiceClient object
 blob_service_client = BlobServiceClient(account_url, credential=default_credential)
 
 # Fill in the container name here
-container_name = "chrism-assets"
+container_name = ""
 
 azure_blob = ""    
 
