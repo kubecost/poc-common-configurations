@@ -1,6 +1,6 @@
 type: S3
 config:
-  bucket: "your-s3-bucket"
+  bucket: "kubecost-UNIQUE_NAME-metrics"
   endpoint: "s3.amazonaws.com"
   region: "us-east-2"
   # use irsa when possible- otherwise access keys can be used:
