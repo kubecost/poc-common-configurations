@@ -2,7 +2,9 @@ Overview:
 The scripts in the 'kubecost-api' folder are written in python for interacting with the kubecost REST API. The scripts in this folder are good examples for those who need to pull data using the API as part of a job, cronjob, cloud function, manually, etc.
 
 Scripts:
-assets-api-aws-s3.py - This is a simple python script written to interact with the kubecost 'model/assets' API endpoint to retrieve Kubernetes cluster costs broken down by the individual      backing assets in your cluster, as well out-of-cluster assets by service (if configured)
+assets-api-aws-s3.py - This is a simple python script written to interact with the kubecost 'model/assets' API endpoint to retrieve Kubernetes cluster costs broken down by the individual backing assets in your cluster, as well out-of-cluster assets by service (if configured). The script will upload assets to a specified AWS S3 bucket.
+
+assets-api-azure-blob-storage.py - This is a simple python script written to interact with the kubecost 'model/assets' API endpoint to retrieve Kubernetes cluster costs broken down by the individual backing assets in your cluster, as well out-of-cluster assets by service (if configured). The script will upload assets to a specified Azure Blob Storage bucket.
 
 etl-api.py - This is a simple python script written to interact with the kubecost 'model/etl' API endpoint.   This script gives the option to check etl status or audit the etl pipeline.
 
