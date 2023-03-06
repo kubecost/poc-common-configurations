@@ -1,0 +1,774 @@
+{
+  "title": "Kubecost dashboard",
+  "description": "",
+  "widgets": [
+    {
+      "id": 2344982212878190,
+      "definition": {
+        "title": "Cluster Costs Overview",
+        "background_color": "vivid_green",
+        "show_title": true,
+        "type": "group",
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 6129707067870730,
+            "definition": {
+              "type": "image",
+              "url": "https://kubecost.awsworkshop.io/images/kubecost_logo.png",
+              "sizing": "contain",
+              "margin": "md",
+              "has_background": false,
+              "has_border": false,
+              "vertical_align": "center",
+              "horizontal_align": "center"
+            },
+            "layout": { "x": 0, "y": 0, "width": 12, "height": 1 }
+          },
+          {
+            "id": 6087428645000872,
+            "definition": {
+              "title": "Total Monthly Cost",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "name": "cpu1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.cpu.cores{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "cpu2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.cpu.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "cpu3",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.gpu.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "memory1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.memory.bytes{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "memory2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.ram.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "storage1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.persistentvolume.capacity.bytes{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "storage2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.pv.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "value": 0,
+                      "palette": "white_on_green"
+                    }
+                  ],
+                  "formulas": [
+                    {
+                      "formula": "(cpu1 * cpu2 * 730 + cpu3 * 730) + (memory1 / 1024 / 1024 / 1024 * memory2 * 730) + (storage1 * 730 * storage2 / 1024 / 1024 / 1024)"
+                    }
+                  ]
+                }
+              ],
+              "autoscale": false,
+              "custom_unit": "$",
+              "precision": 2,
+              "timeseries_background": { "type": "area" }
+            },
+            "layout": { "x": 0, "y": 1, "width": 6, "height": 2 }
+          },
+          {
+            "id": 3637404186302674,
+            "definition": {
+              "title": "Monthly Cost by Node",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_table",
+              "requests": [
+                {
+                  "queries": [
+                    {
+                      "name": "cpu3",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.gpu.hourly.cost{$cluster} by {node}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "cpu1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.cpu.cores{$cluster} by {node}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "cpu2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.cpu.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "memory1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.memory.bytes{$cluster} by {node}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "memory2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.ram.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "storage1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.persistentvolume.capacity.bytes{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "storage2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.pv.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "formulas": [
+                    {
+                      "alias": "GPU cost",
+                      "conditional_formats": [
+                        {
+                          "comparator": ">",
+                          "palette": "black_on_light_red",
+                          "value": 0
+                        }
+                      ],
+                      "formula": "cpu3"
+                    },
+                    {
+                      "alias": "CPU cost ($)",
+                      "conditional_formats": [
+                        {
+                          "comparator": ">",
+                          "palette": "black_on_light_green",
+                          "value": 0
+                        }
+                      ],
+                      "formula": "cpu1 * cpu2 * 730"
+                    },
+                    {
+                      "alias": "Memory cost ($)",
+                      "conditional_formats": [
+                        {
+                          "comparator": ">",
+                          "palette": "black_on_light_yellow",
+                          "value": 0
+                        }
+                      ],
+                      "style": { "palette": "dog_classic" },
+                      "formula": "memory1 / 1024 / 1024 / 1024 * memory2 * 730"
+                    },
+                    {
+                      "alias": "Total cost ($)",
+                      "conditional_formats": [
+                        {
+                          "comparator": ">",
+                          "palette": "white_on_green",
+                          "value": 0
+                        }
+                      ],
+                      "formula": "(cpu1 * cpu2 * 730 + cpu3) + (memory1 / 1024 / 1024 / 1024 * memory2 * 730) + cpu3",
+                      "limit": { "count": 500, "order": "desc" }
+                    }
+                  ],
+                  "response_format": "scalar"
+                }
+              ],
+              "has_search_bar": "always"
+            },
+            "layout": { "x": 6, "y": 1, "width": 6, "height": 4 }
+          },
+          {
+            "id": 1774234409851898,
+            "definition": {
+              "title": "Monthly CPU Cost",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "name": "query1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.cpu.cores{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "query2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.cpu.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "query3",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.gpu.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "formulas": [
+                    { "formula": "query1 * query2 * 730 + query3 * 730" }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "value": 0,
+                      "palette": "black_on_light_green"
+                    }
+                  ]
+                }
+              ],
+              "autoscale": true,
+              "custom_unit": "$",
+              "precision": 2
+            },
+            "layout": { "x": 0, "y": 3, "width": 2, "height": 2 }
+          },
+          {
+            "id": 5741838588371966,
+            "definition": {
+              "title": "Monthly Memory Cost",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "name": "query1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.node.status.capacity.memory.bytes{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "query2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.node.ram.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "value": 0,
+                      "palette": "black_on_light_green"
+                    }
+                  ],
+                  "formulas": [
+                    { "formula": "query1 / 1024 / 1024 / 1024 * query2 * 730" }
+                  ]
+                }
+              ],
+              "autoscale": true,
+              "custom_unit": "$",
+              "precision": 2,
+              "timeseries_background": { "type": "area" }
+            },
+            "layout": { "x": 2, "y": 3, "width": 2, "height": 2 }
+          },
+          {
+            "id": 8390578867091298,
+            "definition": {
+              "title": "Monthly Storage Cost",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "name": "query1",
+                      "data_source": "metrics",
+                      "query": "sum:kubecost.kube.persistentvolume.capacity.bytes{$cluster}",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "name": "query2",
+                      "data_source": "metrics",
+                      "query": "avg:kubecost.pv.hourly.cost{$cluster}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "value": 0,
+                      "palette": "black_on_light_green"
+                    }
+                  ],
+                  "formulas": [
+                    { "formula": "query1 * 730 * query2 / 1024 / 1024 / 1024" }
+                  ]
+                }
+              ],
+              "autoscale": true,
+              "custom_unit": "$",
+              "precision": 2,
+              "timeseries_background": { "type": "area" }
+            },
+            "layout": { "x": 4, "y": 3, "width": 2, "height": 2 }
+          },
+          {
+            "id": 7103466439959236,
+            "definition": {
+              "title": "Hourly Cost by Container",
+              "title_size": "16",
+              "title_align": "left",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "formulas": [
+                    {
+                      "formula": "(query1 * query2 / 1024 / 1024 / 1024) + query3 * query4",
+                      "limit": { "order": "desc" }
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "query": "sum:kubecost.container.memory.allocation.bytes{$cluster} by {container,namespace,instance}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.node.ram.hourly.cost{$cluster}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.container.cpu.allocation{$cluster} by {container,namespace,instance}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.node.cpu.hourly.cost{$cluster}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "sum"
+                    }
+                  ],
+                  "style": { "palette": "datadog16" }
+                }
+              ],
+              "type": "sunburst",
+              "hide_total": false,
+              "legend": { "type": "table" }
+            },
+            "layout": { "x": 0, "y": 5, "width": 12, "height": 4 }
+          },
+          {
+            "id": 5309240946808430,
+            "definition": {
+              "title": "Hourly Cost by Namespace",
+              "title_size": "16",
+              "title_align": "left",
+              "requests": [
+                {
+                  "response_format": "scalar",
+                  "formulas": [
+                    {
+                      "formula": "(query1 * query2 / 1024 / 1024 / 1024) + query3 * query4",
+                      "limit": { "order": "desc" }
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "query": "sum:kubecost.container.memory.allocation.bytes{$cluster} by {namespace,instance}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.node.ram.hourly.cost{$cluster}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.container.cpu.allocation{$cluster} by {namespace,instance}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "sum:kubecost.node.cpu.hourly.cost{$cluster}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "sum"
+                    }
+                  ],
+                  "style": { "palette": "classic" }
+                }
+              ],
+              "type": "sunburst",
+              "hide_total": false,
+              "legend": { "type": "table" }
+            },
+            "layout": { "x": 0, "y": 9, "width": 12, "height": 4 }
+          },
+          {
+            "id": 8660996379592338,
+            "definition": {
+              "title": "CPU Usage",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "formulas": [{ "formula": "(query1 / query2) * 100" }],
+                  "conditional_formats": [
+                    {
+                      "palette": "white_on_green",
+                      "value": 80,
+                      "comparator": "<"
+                    },
+                    {
+                      "palette": "white_on_yellow",
+                      "value": 90,
+                      "comparator": "<"
+                    },
+                    {
+                      "palette": "white_on_red",
+                      "value": 90,
+                      "comparator": ">"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes.cpu.requests{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "last"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.cpu_allocatable{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "last"
+                    }
+                  ]
+                }
+              ],
+              "autoscale": false,
+              "custom_unit": "%",
+              "precision": 2
+            },
+            "layout": { "x": 0, "y": 13, "width": 2, "height": 2 }
+          },
+          {
+            "id": 27112096702006,
+            "definition": {
+              "title": "Cluster CPU Capacity  ",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "horizontal",
+              "legend_columns": ["avg", "min", "max", "value", "sum"],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    { "alias": "capacity", "formula": "query3" },
+                    { "alias": "allocatable", "formula": "query4" },
+                    { "alias": "requests", "formula": "query5" }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes_state.node.cpu_capacity{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query3"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.cpu_allocatable{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query4"
+                    },
+                    {
+                      "query": "sum:kubernetes.cpu.requests{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query5"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ],
+              "yaxis": {
+                "include_zero": true,
+                "scale": "linear",
+                "label": "",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": []
+            },
+            "layout": { "x": 2, "y": 13, "width": 10, "height": 2 }
+          },
+          {
+            "id": 5238957675727826,
+            "definition": {
+              "title": "Memory Usage",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "formulas": [{ "formula": "(query1 / query2) * 100" }],
+                  "conditional_formats": [
+                    {
+                      "palette": "white_on_green",
+                      "value": 80,
+                      "comparator": "<"
+                    },
+                    {
+                      "palette": "white_on_red",
+                      "value": 90,
+                      "comparator": ">"
+                    },
+                    {
+                      "palette": "white_on_yellow",
+                      "value": 90,
+                      "comparator": "<"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes.memory.requests{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "last"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.memory_allocatable{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "last"
+                    }
+                  ]
+                }
+              ],
+              "autoscale": false,
+              "custom_unit": "%",
+              "precision": 2
+            },
+            "layout": { "x": 0, "y": 15, "width": 2, "height": 2 }
+          },
+          {
+            "id": 3000700704832776,
+            "definition": {
+              "title": "Cluster Memory Capacity ",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "horizontal",
+              "legend_columns": ["avg", "min", "max", "value", "sum"],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    { "alias": "capacity", "formula": "query3" },
+                    { "alias": "allocatable", "formula": "query6" },
+                    { "alias": "requests", "formula": "query4" }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes_state.node.memory_capacity{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query3"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.memory_allocatable{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query6"
+                    },
+                    {
+                      "query": "sum:kubernetes.memory.requests{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query4"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ],
+              "yaxis": {
+                "include_zero": true,
+                "scale": "linear",
+                "label": "",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": []
+            },
+            "layout": { "x": 2, "y": 15, "width": 10, "height": 2 }
+          },
+          {
+            "id": 7709953950820678,
+            "definition": {
+              "title": "Pod Utilization",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_value",
+              "requests": [
+                {
+                  "formulas": [{ "formula": "(query1 / query2) * 100" }],
+                  "conditional_formats": [
+                    {
+                      "palette": "white_on_green",
+                      "value": 80,
+                      "comparator": "<"
+                    },
+                    {
+                      "palette": "white_on_yellow",
+                      "value": 90,
+                      "comparator": "<"
+                    },
+                    {
+                      "palette": "white_on_red",
+                      "value": 90,
+                      "comparator": ">"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes.pods.running{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "last"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.pods_capacity{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "last"
+                    }
+                  ]
+                }
+              ],
+              "custom_unit": "%",
+              "precision": 2
+            },
+            "layout": { "x": 0, "y": 17, "width": 2, "height": 2 }
+          },
+          {
+            "id": 1645568509757470,
+            "definition": {
+              "title": "Cluster Pod Utilization",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "horizontal",
+              "legend_columns": ["avg", "min", "max", "value", "sum"],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    { "formula": "query1", "alias": "capacity" },
+                    { "formula": "query2", "alias": "allocatable" },
+                    { "formula": "query3", "alias": "running" }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes_state.node.pods_capacity{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    },
+                    {
+                      "query": "sum:kubernetes_state.node.pods_allocatable{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query2"
+                    },
+                    {
+                      "query": "sum:kubernetes.pods.running{$cluster,$scope}",
+                      "data_source": "metrics",
+                      "name": "query3"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ],
+              "yaxis": {
+                "include_zero": true,
+                "scale": "linear",
+                "label": "",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": []
+            },
+            "layout": { "x": 2, "y": 17, "width": 10, "height": 2 }
+          }
+        ]
+      },
+      "layout": { "x": 0, "y": 0, "width": 12, "height": 20 }
+    }
+  ],
+  "template_variables": [
+    { "name": "scope", "available_values": [], "default": "*" },
+    {
+      "name": "cluster",
+      "prefix": "kube_cluster_name",
+      "available_values": [],
+      "default": "*"
+    }
+  ],
+  "layout_type": "ordered",
+  "notify_list": [],
+  "reflow_type": "fixed",
+  "id": "8n2-ivb-eag"
+}
