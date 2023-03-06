@@ -28,9 +28,10 @@
           {
             "id": 6087428645000872,
             "definition": {
-              "title": "Total Monthly Cost",
+              "title": "Total Monthly Cost (onDemand)",
               "title_size": "16",
               "title_align": "left",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
@@ -103,9 +104,10 @@
           {
             "id": 3637404186302674,
             "definition": {
-              "title": "Monthly Cost by Node",
+              "title": "Monthly Cost by Node (onDemand)",
               "title_size": "16",
               "title_align": "left",
+              "time": {},
               "type": "query_table",
               "requests": [
                 {
@@ -345,9 +347,10 @@
           {
             "id": 7103466439959236,
             "definition": {
-              "title": "Hourly Cost by Container",
+              "title": "Hourly Cost by Container (onDemand)",
               "title_size": "16",
               "title_align": "left",
+              "time": {},
               "requests": [
                 {
                   "response_format": "scalar",
@@ -395,9 +398,10 @@
           {
             "id": 5309240946808430,
             "definition": {
-              "title": "Hourly Cost by Namespace",
+              "title": "Hourly Cost by Namespace (onDemand)",
               "title_size": "16",
               "title_align": "left",
+              "time": {},
               "requests": [
                 {
                   "response_format": "scalar",
