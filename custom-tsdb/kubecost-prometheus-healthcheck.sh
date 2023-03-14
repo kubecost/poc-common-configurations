@@ -1,8 +1,13 @@
 #!/bin/bash
 
+# set hostname to prometheus endpoint.
+# if you don't see "missing test1" the script output is invalid.
+
+export HOST_NAME="http://localhost:9090"
+
 check_metric()
 {
-if  ! curl -s --data-urlencode "query=$1" "http://localhost:9090/api/v1/query"  |jq -r '.data.result[].value' --exit-status > /dev/null  ; then
+if  ! curl -s --data-urlencode "query=$1" "$HOST_NAME/api/v1/query"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
  echo "missing" $1
 fi
 }
