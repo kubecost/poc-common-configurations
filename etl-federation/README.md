@@ -13,7 +13,11 @@ The example in this directory uses the Kubecost Prometheus server. See the [exis
 
 ### Object-Store and Permissions Setup
 
-Create and attach policy to kubecost IAM role (or create service account below):
+Create an S3 compatible bucket to use for the Kubecost metrics and attach policy to kubecost service account.
+
+Update [policy-kubecost-aws-s3.json](federated-store.yaml) and [primary-federator.yaml](primary-federator.yaml) with your bucket name.
+
+Then create the IAM Policy (note the ARN for the attach-policy-arn below):
 
 ```
 aws iam create-policy \
@@ -21,7 +25,7 @@ aws iam create-policy \
  --policy-document file://policy-kubecost-aws-s3.json
 ```
 
-Create object-store for kubecost federation:
+Create the secret for the object-store for kubecost federation:
 
 ```
 kubectl create namespace kubecost
@@ -30,7 +34,7 @@ kubectl create secret generic \
   --from-file federated-store.yaml
 ```
 
-If creating a new service account:
+Creating a new service account:
 
 ```
 eksctl utils associate-iam-oidc-provider \
@@ -48,9 +52,9 @@ eksctl create iamserviceaccount \
 
 ### Install Kubecost Primary Instance:
 
-Be sure to either set the `CLUSTER_NAME` here or in both locations of the [primary-federator.yaml](./primary-federator.yaml).
+Be sure to either set the `CLUSTER_NAME` here or in all 3 locations of the [primary-federator.yaml](./primary-federator.yaml).
 
-> Note: because the CLUSTER_NAME arguments come after the filename, the arguments will win.
+> Note: in the below install command, because the CLUSTER_NAME arguments come after the filename, the arguments will win.
 
 ```
 CLUSTER_NAME=cluster1
@@ -60,6 +64,7 @@ helm install kubecost \
   -f primary-federator.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
+  --set federatedETL.federator.primaryClusterID=$CLUSTER_NAME
 ```
 
 
