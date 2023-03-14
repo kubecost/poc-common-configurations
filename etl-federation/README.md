@@ -52,9 +52,9 @@ eksctl create iamserviceaccount \
 
 ### Install Kubecost Primary Instance:
 
-Be sure to either set the `CLUSTER_NAME` here or in both locations of the [primary-federator.yaml](./primary-federator.yaml).
+Be sure to either set the `CLUSTER_NAME` here or in all 3 locations of the [primary-federator.yaml](./primary-federator.yaml).
 
-> Note: because the CLUSTER_NAME arguments come after the filename, the arguments will win.
+> Note: in the below install command, because the CLUSTER_NAME arguments come after the filename, the arguments will win.
 
 ```
 CLUSTER_NAME=cluster1
@@ -64,6 +64,7 @@ helm install kubecost \
   -f primary-federator.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
+  --set federatedETL.federator.primaryClusterID=$CLUSTER_NAME
 ```
 
 
