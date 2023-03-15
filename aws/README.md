@@ -52,7 +52,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
 ### cloud-integration.json
 
-https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
+https://docs.kubecost.com/install-and-configure/install/multi-cluster/aws/long-term-storage-aws
 
 - `AWS_cloud_integration_athenaBucketName: sample-cur`
 - `AWS_cloud_integration_athenaRegion: us-east-2`
