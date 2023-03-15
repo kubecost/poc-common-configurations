@@ -24,7 +24,8 @@
                 "s3:PutObject"
             ],
             "Resource": [
-                "arn:aws:s3:::your-s3-bucket/*"
+                "arn:aws:s3:::your-s3-bucket/*",
+                "arn:aws:s3:::your-s3-bucket"
             ],
             "Effect": "Allow",
             "Sid": "kubecostMetricsAccess"

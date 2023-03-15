@@ -1,7 +1,7 @@
-global:
-  prometheus:
-    enabled: false
-    fqdn: http://prometheus-operated.monitoring:9090
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostProductConfigs:
   clusterName: CLUSTER_NAME
   # cloudIntegrationSecret: cloud-integration
@@ -11,6 +11,7 @@ federatedETL:
   federatedCluster: true
   federator:
     enabled: true
+    primaryClusterID: CLUSTER_NAME
 kubecostModel:
   containerStatsEnabled: true
   cloudCost:
@@ -21,23 +22,39 @@ serviceAccount: # this example uses AWS IRSA, which creates a service account wi
   create: false
   name: kubecost-irsa-s3
 prometheus:
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
-  nodeExporter:
-    enabled: false
   server:
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        # this must be set, even when prometheus is disabled.
         cluster_id: CLUSTER_NAME
+global:
+  prometheus:
+    enabled: false
+    fqdn: http://prometheus-operator-prometheus.monitoring:9090 # local prometheus endpoint
+  thanos: # prometheus endpoint where multi-cluster metrics exist (does not have to be "thanos")
+    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
+# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
+#   networkCosts:
+#     enabled: true
+#     additionalLabels:
+#       label-key: label-value
 networkCosts:
-  # optional, see: https://docs.kubecost.com/install-and-configure/advanced-configuration/network-costs-configuration
   enabled: true
   config:
     services:
-      # set the appropriate cloud provider to true
-      amazon-web-services: true
-      # google-cloud-services: true
-      # azure-cloud-services: true
+      # set one the following to true based on our cloud provider:
+      amazon-web-services: false
+      google-cloud-services: false
+      azure-cloud-services: false
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: prometheus-kubecost
+          type: prometheus
+          url: http://thanos-query-frontend.thanosnamespace.svc:9090
