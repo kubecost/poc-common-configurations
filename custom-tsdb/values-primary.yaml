@@ -1,3 +1,7 @@
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostModel:
   containerStatsEnabled: true
   cloudCost:
@@ -13,6 +17,9 @@ prometheus:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
 global:
+  grafana:
+    enabled: true
+    proxy: true # must be disabled if grafana is disabled
   prometheus:
     enabled: false
     fqdn: http://prometheus-operator-kube-p-prometheus.monitoring:9090 # local prometheus endpoint
