@@ -47,7 +47,18 @@ avg_over_time(kube_pod_annotations[5m])
 avg_over_time(service_selector_labels[5m])
 avg_over_time(deployment_match_labels[5m])
 sum(avg_over_time(kube_pod_owner{owner_kind="DaemonSet"}[5m]))by(pod,owner_name,namespace)
-sum(avg_over_time(kube_pod_owner{owner_kind="ReplicaSet"}[5m]))by(pod,owner_name,namespace)')
+sum(avg_over_time(kube_pod_owner{owner_kind="ReplicaSet"}[5m]))by(pod,owner_name,namespace)
+kube_node_status_capacity
+kube_node_status_capacity_memory_bytes
+kube_node_status_capacity_cpu_cores
+kube_node_status_allocatable
+kube_node_status_allocatable_memory_bytes
+kube_node_status_allocatable_cpu_cores
+kube_node_labels
+kube_node_status_condition
+kube_namespace_labels
+kube_pod_labels
+kube_pod_owner')
 
 for str in ${myArray[@]}; do
 check_metric $str

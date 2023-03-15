@@ -1,5 +1,9 @@
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostModel:
-  containerStatsEnabled: true
+  containerStatsEnabled: false
   warmCache: false
   warmSavingsCache: false
   etl: false
