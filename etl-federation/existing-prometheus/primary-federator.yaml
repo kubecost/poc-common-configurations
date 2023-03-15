@@ -32,7 +32,7 @@ global:
   prometheus:
     enabled: false
     fqdn: http://prometheus-operator-prometheus.monitoring:9090 # local prometheus endpoint
-  thanos: # prometheus endpoint where multi-cluster metrics exist (does not have to be "thanos")
+  thanos: # this is "thanos" but any prometheus compatible service should work below
     queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
 # serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
 #   enabled: true
