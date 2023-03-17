@@ -6,6 +6,10 @@ Federated-ETL is an efficient method to implement multi-cluster Kubecost while u
 
 When using an existing prometheus instance, Kubecost only requires a single pod per cluster. The example here also enables the networkCosts Daemonset which is optional.
 
+> Note that this script can be used to determine if any metrics are missing from the local Prometheus instance: [https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb](https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb)
+
+> Note: Kubecost can rebuild its data (ETLs) using the Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
+
 [Contact us](https://www.kubecost.com/contact) for help customizing settings.
 
 ## Setup
