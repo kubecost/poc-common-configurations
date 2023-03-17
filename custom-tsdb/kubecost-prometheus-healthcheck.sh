@@ -14,13 +14,28 @@ fi
 
 myArray=('missing
 container_cpu_allocation
+container_cpu_usage_seconds_total
 container_gpu_allocation
 container_memory_allocation_bytes
+container_memory_working_set_bytes
+container_network_receive_bytes_total
+container_network_transmit_bytes_total
 deployment_match_labels
+kube_namespace_labels
+kube_node_labels
+kube_node_status_allocatable
 kube_node_status_allocatable_cpu_cores
 kube_node_status_allocatable_memory_bytes
+kube_node_status_capacity
 kube_node_status_capacity_cpu_cores
 kube_node_status_capacity_memory_bytes
+kube_node_status_condition
+kube_persistentvolume_capacity_bytes
+kube_persistentvolumeclaim_resource_requests_storage_bytes
+kube_pod_container_resource_requests
+kube_pod_container_status_running
+kube_pod_labels
+kube_pod_owner
 kubecost_allocation_data_status
 kubecost_asset_data_status
 kubecost_cluster_info
@@ -53,8 +68,7 @@ process_virtual_memory_bytes
 process_virtual_memory_max_bytes
 pv_hourly_cost
 service_selector_labels
-statefulSet_match_labels
-')
+statefulSet_match_labels')
 
 for str in ${myArray[@]}; do
 check_metric $str
