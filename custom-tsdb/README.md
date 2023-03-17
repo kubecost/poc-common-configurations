@@ -1,12 +1,10 @@
 # Kubecost with existing multi-cluster aggregated metrics
 
-Note that the most common support issue with Kubecost is due to misconfigured Prometheus. Kubecost has a turnkey solution for multi-cluster and the below configuration should only be used by advanced Kubernetes teams.
+There are multiple methods for implementing Kubecost using existing Prometheus instances. The method below assumes that there is a method to ship all metrics to a central Prometheus store (Thanos/Mimir/Grafana Cloud/AWS Managed Prometheus/etc). These methods tend not to scale well in very large environments.
 
-This repo is intended for use during a POC with assistance from the Solutions Engineering team.
+Kubecost recommends using [ETL Federation](https://docs.kubecost.com/install-and-configure/install/multi-cluster/federated-et) in large environments. Configuration here:[ETL Federation with existing Prometheus](../etl-federation/existing-prometheus/README.md)
 
-It is recommended to run Kubecost with default settings during proof-of-concepts in order to reduce issues.
-
-Before disabling Kubecost prometheus, multi-cluster metric aggregation must be reliable and include per-cluster labels.
+ > Note that this script can be used to determine if any metrics are missing from the local Prometheus instance: [https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb](https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb)
 
  > Multi-cluster requires an enterprise subscription
 
@@ -56,6 +54,18 @@ Long-term, Kubecost recommends storing the configuration in `cloud-integration.j
 - [GCP](../gcp/)
 
 ## List of Metrics
+
+You can run the following Prometheus query to list all of the metrics emitted by a given job:
+
+```
+group by(__name__) ({__name__!="", job="kubecost"})
+```
+
+And if you have the networkCosts daemonset:
+
+```
+group by(__name__) ({__name__!="", job="kubecost-networking"})
+```
 
 ```
 container_cpu_allocation

@@ -4,6 +4,7 @@ These are the steps to enable ETL federation with Kubecost.
 
 Federated-ETL is an efficient method to implement multi-cluster Kubecost while using existing Prometheus installations for short-term metrics.
 
+> Note: Kubecost can rebuild the cost-model from Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
 
 The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory for additional configuration required.
 
