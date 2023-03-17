@@ -1,8 +1,24 @@
 global:
   prometheus:
+    enabled: true
+    # fqdn: http://prometheus-operated.monitoring:9090
+  grafana: # prometheus metrics will be local cluster only, disable grafana to save resources
     enabled: false
-    fqdn: http://prometheus-operated.monitoring:9090
+    proxy: false
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostProductConfigs:
+  metricsConfigs:
+    disabledMetrics:
+      - kube_node_status_capacity
+      - kube_node_status_allocatable
+      - kube_node_labels
+      - kube_node_status_condition
+      - kube_namespace_labels
+      - kube_pod_labels
+      - kube_pod_owner
   clusterName: CLUSTER_NAME
   # cloudIntegrationSecret: cloud-integration
 federatedETL:
