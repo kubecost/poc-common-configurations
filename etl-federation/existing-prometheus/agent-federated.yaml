@@ -5,7 +5,20 @@ global:
   grafana:
     enabled: false
     proxy: false
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostProductConfigs:
+  metricsConfigs:
+    disabledMetrics: # drop additional metrics which are still emitted when "emitKsmV1MetricsOnly"
+      - kube_node_status_capacity
+      - kube_node_status_allocatable
+      - kube_node_labels
+      - kube_node_status_condition
+      - kube_namespace_labels
+      - kube_pod_labels
+      - kube_pod_owner
   clusterName: CLUSTER_NAME
 federatedETL:
   useExistingS3Config: false
