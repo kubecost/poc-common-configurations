@@ -8,7 +8,7 @@ When using an existing prometheus instance, Kubecost only requires a single pod 
 
 > Note that this script can be used to determine if any metrics are missing from the local Prometheus instance: [https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb](https://github.com/kubecost/poc-common-configurations/tree/main/custom-tsdb)
 
-> Note: Kubecost can rebuild the cost-model from Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
+> Note: Kubecost can rebuild its data (ETLs) using the Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
 
 [Contact us](https://www.kubecost.com/contact) for help customizing settings.
 
