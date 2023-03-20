@@ -24,7 +24,7 @@ helm upgrade prometheus \
   --set grafana.enabled=false
 ```
 
-The default install of Prometheus will have a serviceMonitor selector that must be passed to the Kubecost serviceMonitor. You can find this with the below command:
+Prometheus may have a serviceMonitor selector that must be passed to the Kubecost serviceMonitor. You can find this with the below command:
 
 ```sh
 kubectl get prometheuses.monitoring.coreos.com \
@@ -41,7 +41,7 @@ Default output:
       release: prometheus
 ```
 
-Update [serviceMonitor.yaml](serviceMonitor.yaml) with your label.
+Update the serviceMonitor config in the helm values with your label.
 
 ### Object-Store and Permissions Setup
 
@@ -82,7 +82,7 @@ eksctl create iamserviceaccount \
 
 Be sure to either set the `CLUSTER_NAME` here or in both locations of the [primary-federator.yaml](./primary-federator.yaml).
 
-> Note: because the CLUSTER_NAME arguments come after the filename, the arguments will win.
+> Note: in the below install command, because the CLUSTER_NAME arguments come after the filename, the arguments will win.
 
 ```
 CLUSTER_NAME=cluster1
@@ -90,9 +90,9 @@ helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost \
   -f primary-federator.yaml \
-  -f serviceMonitor.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
+  --set federatedETL.federator.primaryClusterID=$CLUSTER_NAME
 ```
 
 
@@ -102,7 +102,7 @@ Repeat the `Object-Store and Permissions Setup` above for all clusters, using th
 
 Be sure to either set the `CLUSTER_NAME` here or in both locations of the [agent-federated.yaml](agent-federated.yaml).
 
-> Note: because the CLUSTER_NAME arguments come after the filename, the arguments will win.
+> Note: in the below install command, because the CLUSTER_NAME arguments come after the filename, the arguments will win.
 
 ```
 CLUSTER_NAME=cluster2
@@ -110,7 +110,6 @@ helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost --create-namespace \
   -f agent-federated.yaml \
-  -f serviceMonitor.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
 ```
