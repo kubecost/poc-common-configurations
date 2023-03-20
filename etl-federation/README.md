@@ -6,7 +6,7 @@ Federated-ETL is an efficient method to implement multi-cluster Kubecost while u
 
 > Note: Kubecost can rebuild its data (ETLs) using the Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
 
-The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory for additional configuration required.
+The example in this directory uses the Kubecost Prometheus server. See the [existing-prometheus](./existing-prometheus/) directory otherwise.
 
 [Contact us](https://www.kubecost.com/contact) for help customizing settings.
 
@@ -75,7 +75,7 @@ Repeat the `Object-Store and Permissions Setup` above for all clusters, using th
 
 Be sure to either set the `CLUSTER_NAME` here or in both locations of the [agent-federated.yaml](agent-federated.yaml).
 
-> Note: because the CLUSTER_NAME arguments come after the filename, the arguments will win.
+> Note: in the below install command, because the CLUSTER_NAME arguments come after the filename, the arguments will win.
 
 ```
 CLUSTER_NAME=cluster2
