@@ -66,7 +66,7 @@ https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration
 
 ### object-store.yaml
 
-https://guide.kubecost.com/hc/en-us/articles/4407595952151-AWS-Long-Term-Storage
+https://docs.kubecost.com/install-and-configure/install/multi-cluster/aws/long-term-storage-aws
 
 - `AWS_object_store_bucket: sample-thanos-store`
 - `AWS_object_store_endpoint: s3.amazonaws.com`
