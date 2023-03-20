@@ -38,6 +38,9 @@ prometheus:
         # this must be set, even when prometheus is disabled.
         cluster_id: CLUSTER_NAME
 global:
+  grafana: # prometheus metrics will be local cluster only, disable grafana to save resources
+    enabled: false
+    proxy: false
   prometheus:
     enabled: false
     fqdn: http://prometheus-operator-prometheus.monitoring:9090 # local prometheus endpoint
@@ -59,11 +62,3 @@ networkCosts:
       amazon-web-services: false
       google-cloud-services: false
       azure-cloud-services: false
-grafana:
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: prometheus-kubecost
-          type: prometheus
-          url: http://thanos-query-frontend.thanosnamespace.svc:9090
