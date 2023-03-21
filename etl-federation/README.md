@@ -16,13 +16,13 @@ The example in this directory uses the Kubecost Prometheus server. See the [exis
 
 Create an S3 compatible bucket to use for the Kubecost metrics and attach policy to kubecost service account.
 
-Update [policy-kubecost-aws-s3.json](federated-store.yaml) and [primary-federator.yaml](primary-federator.yaml) with your bucket name.
+Update [policy-kubecost-aws-s3.json](policy-kubecost-aws-s3.json) and [federated-store.yaml](federated-store.yaml) with your bucket name.
 
 Then create the IAM Policy (note the ARN for the attach-policy-arn below):
 
 ```
 aws iam create-policy \
- --policy-name kubecost-s3-federated-policy \
+ --policy-name kubecost-s3-federated-policy-linh \
  --policy-document file://policy-kubecost-aws-s3.json
 ```
 
