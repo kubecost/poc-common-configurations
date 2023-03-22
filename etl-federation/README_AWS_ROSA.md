@@ -176,7 +176,7 @@ export IRSA_ROLE_ARN_KUBECOST_IRSA_S3="eks.amazonaws.com/role-arn=${APP_IAM_ROLE
 oc annotate serviceaccount -n $APP_NAMESPACE kubecost-irsa-s3 $IRSA_ROLE_ARN_KUBECOST_IRSA_S3
 ```
 
-### Step 10: Install Kubecost Primary Instance:
+### Step 8: Install Kubecost Primary Instance:
 
 #### Primary Cluster
 
