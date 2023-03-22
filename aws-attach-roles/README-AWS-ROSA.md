@@ -25,7 +25,7 @@ export APP_NAMESPACE=kubecost
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
 
-`aws s3 mb s3://${ThanosBucketName} --region `
+`aws s3 mb s3://${ThanosBucketName}`
 
 - If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar putting data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
@@ -116,7 +116,7 @@ export OIDC_PROVIDER=$(oc get authentication.config.openshift.io cluster -ojson 
 
 ```bash
 # Create Kubecost namespace/project
-oc create new-project $APP_NAMESPACE
+kubectl create ns $APP_NAMESPACE
 ```
 
 ```bash
@@ -126,7 +126,7 @@ oc create serviceaccount kubecost-serviceaccount-thanos -n $APP_NAMESPACE
 ### Step 6: Create the IAM roles for the service accounts.
 
 ```bash
-$ cat <<EOF > ./IAM-trust-relationship-cur-athena-thanos.json
+cat <<EOF > ./IAM-trust-relationship-cur-athena-thanos.json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -148,7 +148,7 @@ EOF
 ```
 
 ```bash
-$ cat <<EOF > ./IAM-trust-relationship-thanos.json
+cat <<EOF > ./IAM-trust-relationship-thanos.json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -170,17 +170,17 @@ EOF
 ```
 
 ```bash
-$ export APP_IAM_ROLE_CUR_ATHENA_THANOS="iam-kubecost-cur-athena-thanos-role"
-$ export APP_IAM_ROLE_ROLE_DESCRIPTION_CUR_ATHENA_THANOS='IRSA role for kubecost aws cloud integration on ROSA cluster'
-$ aws iam create-role --role-name "${APP_IAM_ROLE_CUR_ATHENA_THANOS}" --assume-role-policy-document file://IAM-trust-relationship-cur-athena-thanos.json --description "${APP_IAM_ROLE_ROLE_DESCRIPTION_CUR_ATHENA_THANOS}"
-$ APP_IAM_ROLE_ARN_CUR_ATHENA_THANOS=$(aws iam get-role --role-name=$APP_IAM_ROLE_CUR_ATHENA_THANOS --query Role.Arn --output text)
+export APP_IAM_ROLE_CUR_ATHENA_THANOS="iam-kubecost-cur-athena-thanos-role"
+export APP_IAM_ROLE_ROLE_DESCRIPTION_CUR_ATHENA_THANOS='IRSA role for kubecost aws cloud integration on ROSA cluster'
+aws iam create-role --role-name "${APP_IAM_ROLE_CUR_ATHENA_THANOS}" --assume-role-policy-document file://IAM-trust-relationship-cur-athena-thanos.json --description "${APP_IAM_ROLE_ROLE_DESCRIPTION_CUR_ATHENA_THANOS}"
+APP_IAM_ROLE_ARN_CUR_ATHENA_THANOS=$(aws iam get-role --role-name=$APP_IAM_ROLE_CUR_ATHENA_THANOS --query Role.Arn --output text)
 ```
 
 ```bash
-$ export APP_IAM_ROLE_THANOS="iam-kubecost-thanos-role"
-$ export APP_IAM_ROLE_ROLE_DESCRIPTION_THANOS='IRSA role for kubecost - Thanos deployment on ROSA cluster'
-$ aws iam create-role --role-name "${APP_IAM_ROLE_THANOS}" --assume-role-policy-document file://IAM-trust-relationship-thanos.json --description "${APP_IAM_ROLE_ROLE_DESCRIPTION_THANOS}"
-$ APP_IAM_ROLE_ARN_THANOS=$(aws iam get-role --role-name=$APP_IAM_ROLE_THANOS --query Role.Arn --output text)
+export APP_IAM_ROLE_THANOS="iam-kubecost-thanos-role"
+export APP_IAM_ROLE_ROLE_DESCRIPTION_THANOS='IRSA role for kubecost - Thanos deployment on ROSA cluster'
+aws iam create-role --role-name "${APP_IAM_ROLE_THANOS}" --assume-role-policy-document file://IAM-trust-relationship-thanos.json --description "${APP_IAM_ROLE_ROLE_DESCRIPTION_THANOS}"
+APP_IAM_ROLE_ARN_THANOS=$(aws iam get-role --role-name=$APP_IAM_ROLE_THANOS --query Role.Arn --output text)
 ```
 ### Step 7: Attach IAM policies to the IAM roles 
 
@@ -200,12 +200,12 @@ aws iam attach-role-policy --role-name "${APP_IAM_ROLE_THANOS}" \
 
 ```bash
 export IRSA_ROLE_ARN_CUR_ATHENA_THANOS="eks.amazonaws.com/role-arn=${APP_IAM_ROLE_ARN_CUR_ATHENA_THANOS}"
-$ oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_CUR_ATHENA_THANOS
+oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_CUR_ATHENA_THANOS
 ```
 
 ```bash
 export IRSA_ROLE_THANOS="eks.amazonaws.com/role-arn=${APP_IAM_ROLE_ARN_THANOS}"
-$ oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_THANOS
+oc annotate serviceaccount -n $APP_NAMESPACE kubecost-serviceaccount-cur-athena-thanos $IRSA_ROLE_ARN_THANOS
 ```
 
 ### Step 9: Create required secret to store the configuration:
