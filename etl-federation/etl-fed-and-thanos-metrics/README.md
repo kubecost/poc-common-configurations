@@ -29,16 +29,17 @@ Create the secret:
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=./object-store.yaml
 ```
 
-Add the [values-thanos-prometheus-shipper.yaml](values-thanos-prometheus-shipper.yaml) to the end of your helm install:
+Add the [values-prometheus-thanos-sidecar.yaml](values-prometheus-thanos-sidecar.yaml) to the end of your helm install:
 
-Example:
+Example (values-secondary.yaml is the kubecost config- see the cloud provider specific folders in this repo):
 
 ```sh
 helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost --create-namespace \
   -f values-secondary.yaml \
-  -f values-thanos-prometheus-shipper.yaml
+  -f values-prometheus-thanos-sidecar.yaml \
+  -f grafana-datasource.yaml
 ```
 
 ## Thanos Configuration
@@ -47,7 +48,7 @@ Create namespace and secret for thanos, use same bucket as above:
 
 ```sh
 kubectl create secret generic kubecost-thanos \
-  --from-file thanos.yaml=./object-store.yaml \
+  --from-file objstore.yml=./object-store.yaml \
   -n kubecost-thanos
 ```
 
@@ -57,5 +58,5 @@ Install thanos:
 helm install kubecost-thanos \
   --repo https://charts.bitnami.com/bitnami thanos \
   --namespace kubecost-thanos  \
-  -f values-thanos.yaml
+  -f values-thanos-store-primary.yaml
 ```
