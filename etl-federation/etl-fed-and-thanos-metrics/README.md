@@ -7,7 +7,7 @@ This method will allow Prometheus to ship metrics to a shared object store witho
 
 See official docs: <https://docs.kubecost.com/install-and-configure/install/multi-cluster/federated-etl/federated-etl-backups-alerting#option-2-metrics-backup>
 
-## Configuration
+## Prometheus Configuration
 
 Configure an object store for the Thanos Metrics:
 
@@ -25,7 +25,7 @@ Sample yaml configurations for various providers (any S3 compatible store will w
 
 Create the secret:
 
-```
+```sh
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=./object-store.yaml
 ```
 
@@ -33,10 +33,29 @@ Add the [values-thanos-prometheus-shipper.yaml](values-thanos-prometheus-shipper
 
 Example:
 
-```
+```sh
 helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost --create-namespace \
   -f values-secondary.yaml \
   -f values-thanos-prometheus-shipper.yaml
+```
+
+## Thanos Configuration
+
+Create namespace and secret for thanos, use same bucket as above:
+
+```sh
+kubectl create secret generic kubecost-thanos \
+  --from-file thanos.yaml=./object-store.yaml \
+  -n kubecost-thanos
+```
+
+Install thanos:
+
+```sh
+helm install kubecost-thanos \
+  --repo https://charts.bitnami.com/bitnami thanos \
+  --namespace kubecost-thanos  \
+  -f values-thanos.yaml
 ```

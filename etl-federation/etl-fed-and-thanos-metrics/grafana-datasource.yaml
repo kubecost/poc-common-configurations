@@ -1,0 +1,10 @@
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: thanos-kubecost
+          type: prometheus
+          url: http://kubecost-thanos-query-frontend.kubecost-thanos:9090
+          access: proxy
+          isDefault: true

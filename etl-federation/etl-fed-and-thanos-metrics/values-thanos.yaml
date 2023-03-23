@@ -1,0 +1,23 @@
+bucketweb:
+  enabled: true
+compactor:
+  enabled: true
+storegateway:
+  enabled: true
+objstoreConfig: |-
+    type: GCS
+    config:
+      bucket: "jesse-csv-temp"
+      service_account: |-
+        {
+          "type": "service_account",
+          "project_id": "guestbook-227502",
+          "private_key_id": "69bdb43db421bc146ac198ed4a9ab6af819b10f1",
+          "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDTLOuSj/6tMcaI\nTmhTL8/1ia0LkWsJwFBu6dLVMAOemwsk5mS/dhxSS3S5T5wFICVjlWnUHE9JbKbf\nIP596WcLzR67Ldgz1TI8E0yfltfyEG6+KTRlzPD8/ym8CZB31Q+hlQ5g/W7vSl56\nJkbqp8IBvRDHi4PbyMr8DKdlzrphKzCJKJ2iUwki/TlRlRxU/WfsyuJoZBltpsrQ\nBHJTyzYjx0vbsxU0ipXoGmZeC+FdkvSFwK2P+ay76tEY6FNM7ryHhdnCGI1HBpqt\nMqrykJTWhArVSNTsCBj/GgoiVFFIp646nCMPK3yi4zpoJSVyTVftF9nPwwNdv6gM\n2BF0MDmFAgMBAAECggEACA4QYkPGn0z+jKTcMXTpn5NqNVgm10ItqNb+AsG7fml3\nKfSPAG3J5yp+DLKu4Dpf34XyE0DzlhJkS+IfTI0CY2ty8gk6oPRPeTknO0Mh5r4E\nhPf4/RUT8CKJF5h2mT6+qbD2az6sSsmK0JzBjoidmG4uXXfCrNFI5NPt73uZYl4u\n+CPsrAvt9nJfHXxlGw9mukzID1Venc1XFVKeJkBPS4JuTpm2TerBZ3m3a5CMXkYu\nLiAWdHim+WgSj+zVhQ4REsm87b7joCf6L+D8M80tCcodOASVatY6h0JUObP/Ap79\nN7uN7FOiAZ5nshxOKwysckUE4RKLiLXA0bq6IACEIQKBgQD9PblmykklX/5VURMQ\nA9K5CSVJfxsxIm8NBjqU6F1uYfaqyOsIfE/nLCaYKtnPu7dFON7wQqFXAfQS/M+i\nOrpt8YLYHwto2hjcq3HqQyBuwYJDrrKlYDPeqJqVkK160b449gvZCCKUQfYyo+PO\nJ1iF7mwdLLYaZZSJPLCJfhPQnQKBgQDVeeCO8DovN+6ck53H9tTtgwDY3Rhe/OFC\nVsYWwtvf5ykbsZgXaHe0lrmQ/hcE/idWn93PGtjKgbdqpbaEwp0zZrft4lE55/Yq\nfgnSpimA5rPtJrBWUNuQWg5JH8WHMuR6IUbQ2YyxhgRY4e7adjrRFDX5AeX+h+uN\nd4kuljY0CQKBgE4wn60QKjODBxk6liMsuwRswXmG6FNsaVNhJ/dQI4DweGPU81TE\nZTtgU25KVMQiFn0mCRevyvb9YGn4aveRIHzPw/GM7E3sgR6pRNvq6/mmf9z79KbB\nJGLMNiaV7Cpu1kfqGFBjhaG3GBgcqDq/xUJdEj6Tzoop8QnKlktthRq1AoGALwDc\n3twqE4d/NF6UWRkSHRHBN/7GhPOtLYwppY1WGGCvfneGA3FvGgYt6azoqKLFSp98\nmUNSBJS3K/Y8z9KCBnVRfkFcnSFj5EtIImePr+AcMdVY8khvb8NEbfle5rvf7rww\n+X9NKTFW97MXgmaR4MNQdvliCL8osEdnnyhX2vECgYB4JGV9q3fH/vuRywiPnmZG\n4stkoa3MHDAMskFQpH9WqD635D+R/efPcF+hr5DxKRHfzOFT/TKzfrKmI7FXpiDP\nOD0PQs/Z65hbYWXKteurYUftoes6HxAtaNrGJcG4s+H8idQjDgk27+qbFr8+egHk\nCnHiKX5IGRBHQBbfn8r7gA==\n-----END PRIVATE KEY-----\n",
+          "client_email": "jesse-buckets-user@guestbook-227502.iam.gserviceaccount.com",
+          "client_id": "115948959574245449312",
+          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+          "token_uri": "https://oauth2.googleapis.com/token",
+          "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+          "client_x509_cert_url": "www.googleapis.com/robot/v1/metadata/x509/jesse-buckets-user%40guestbook-227502.iam.gserviceaccount.com"
+        }
