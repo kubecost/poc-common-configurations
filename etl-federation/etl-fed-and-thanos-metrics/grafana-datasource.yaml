@@ -7,4 +7,5 @@ grafana:
           type: prometheus
           url: http://kubecost-thanos-query-frontend.kubecost-thanos:9090
           access: proxy
-          isDefault: true
+          isDefault: false
+          # this should be true, but cost-analyzer helm chart needs some work https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/charts/grafana/templates/configmap.yaml#L32
