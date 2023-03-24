@@ -9,9 +9,10 @@ kubecostProductConfigs:
       - kube_node_status_allocatable
       - kube_node_labels
       - kube_node_status_condition
-      - kube_namespace_labels
-      - kube_pod_labels
       - kube_pod_owner
+      # all labels must be allowlisted in order for kubecost to aggregate by custom labels. Don't disable these unless it is causing an issue:
+      # - kube_pod_labels
+      # - kube_namespace_labels
   clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 kubecostModel:
   containerStatsEnabled: false

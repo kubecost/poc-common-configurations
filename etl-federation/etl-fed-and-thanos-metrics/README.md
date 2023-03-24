@@ -60,3 +60,7 @@ helm install kubecost-thanos \
   --namespace kubecost-thanos  \
   -f values-thanos-store-primary.yaml
 ```
+
+## Diagram
+
+![diagram](Federated-ETL-Thanos-Architecture.png)
