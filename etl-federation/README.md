@@ -22,7 +22,7 @@ Then create the IAM Policy (note the ARN for the attach-policy-arn below):
 
 ```
 aws iam create-policy \
- --policy-name kubecost-s3-federated-policy-linh \
+ --policy-name kubecost-s3-federated-policy \
  --policy-document file://policy-kubecost-aws-s3.json
 ```
 
