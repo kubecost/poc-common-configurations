@@ -38,6 +38,18 @@ prometheus:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         # this must be set, even when prometheus is disabled.
         cluster_id: CLUSTER_NAME
+# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
+#   networkCosts:
+#     enabled: true
+#     additionalLabels:
+#       label-key: label-value
+# prometheusRule: # https://docs.kubecost.com/install-and-configure/install/custom-prom#recording-rules
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
 networkCosts:
   # optional, see: https://docs.kubecost.com/install-and-configure/advanced-configuration/network-costs-configuration
   enabled: true
