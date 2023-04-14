@@ -1,15 +1,5 @@
 prometheus:
-  # Note: Even though we are disabling the kubecost bundled kube-state-metrics, kubecost still emits v1 metrics.
-  # For more information, see: https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
   server:
-    global:
-      external_labels:
-        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-        cluster_id: kubecostProductConfigs_clusterName
     retention: 4w
     # enable thanos to ship data to a bucket:
     extraArgs:
@@ -33,10 +23,3 @@ prometheus:
       - name: storage-volume
         mountPath: /data
         subPath: ""
-  # Disable node exporter+service account if cluster/node rightsizing recommendations are not required. This report currently only supports the local cluster.
-  # In addition, node-export must be disabled if there is an existing daemonset: https://guide.kubecost.com/hc/en-us/articles/4407601830679-Troubleshoot-Install#a-name-node-exporter-a-issue-failedscheduling-kubecost-prometheus-node-exporter
-  nodeExporter:
-    enabled: false
-  serviceAccounts:
-    nodeExporter:
-      create: false
