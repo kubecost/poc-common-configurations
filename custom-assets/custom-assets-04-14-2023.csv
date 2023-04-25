@@ -1,0 +1,13 @@
+Date,MeterCategory,SubscriptionId,ResourceId,ConsumedService,Tags,AdditionalInfo,CostInBillingCurrency
+04/13/2023,Custom License,my-company-assets,/custom-asset1,custom-asset1,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",1.11
+04/15/2023,Custom License,my-company-assets,/custom-asset2,custom-asset2,"{""owner"":""jesse""}",,2.22
+04/15/2023,Custom License,my-company-assets,/custom-asset5,custom-asset5,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",3.33
+04/16/2023,Custom License,my-company-assets,/custom-asset4,custom-asset4,"{""owner"":""jesse""}",,4.44
+04/16/2023,Custom License,my-company-assets,/custom-asset1,custom-asset1,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",1.11
+04/17/2023,Custom License,my-company-assets,/custom-asset5,custom-asset5,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",4.33
+04/18/2023,Custom License,my-company-assets,/custom-asset1,custom-asset1,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",1.11
+04/18/2023,Custom License,my-company-assets,/custom-asset5,custom-asset5,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",4.33
+04/19/2023,Custom License,my-company-assets,/custom-asset2,custom-asset2,"{""owner"":""jesse""}",,2.22
+04/22/2023,Custom License,my-company-assets,/custom-asset4,custom-asset4,"{""owner"":""jesse""}",,4.44
+04/22/2023,Custom License,my-company-assets,/custom-asset5,custom-asset5,"{""custom:label"":""jesse"",""owner"":""frontend-engineering""}","{""key"":""value""}",4.33
+04/24/2023,Custom License,my-company-assets,/custom-asset3,custom-asset3,"{""owner"":""jesse"",""owner"":""frontend-engineering""}",,3.33
