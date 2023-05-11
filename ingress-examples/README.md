@@ -1,5 +1,9 @@
 # Kubecost Ingress Example Configurations
 
+Pre-requisites:
+
+- An [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+
 ## Examples
 
 [ingress-alb.yaml](ingress-alb.yaml): AWS ALB Ingress
@@ -16,11 +20,13 @@
 
 ## Quickstart if using Nginx Ingress Controller (`ingressClassName: nginx`)
 
+https://kubernetes.github.io/ingress-nginx/
+
 ```sh
 # 1. Nginx helm chart
-$ helm repo add nginx-stable https://helm.nginx.com/stable
-$ helm repo update
-$ helm install nginx nginx-stable/nginx-ingress -n kube-system
+$ helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
 
 # 2. Edit `ingress-simple.yaml` to your desired domain name
 
