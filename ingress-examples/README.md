@@ -36,4 +36,3 @@ $ kubectl get ingress -n kubecost
 
 # 4. Configure DNS records. (CNAME for domain names, A for static IP addresses)
 ```
-
