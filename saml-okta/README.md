@@ -225,8 +225,8 @@ As an example, we will configure the following:
 
    ```yaml
    saml:
-   encryptionCertSecret: "kubecost-saml-cert"
-   decryptionKeySecret: "kubecost-saml-decryption-key"
+      encryptionCertSecret: "kubecost-saml-cert"
+      decryptionKeySecret: "kubecost-saml-decryption-key"
    ```
 
 ---
