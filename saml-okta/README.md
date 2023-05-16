@@ -221,7 +221,7 @@ As an example, we will configure the following:
    kubectl create secret generic kubecost-saml-decryption-key --from-file saml-encryption-key.pem --namespace kubecost
    ```
 
-7. Set the following values in the helm chart:
+7. Add the following values to your helm configuration:
 
    ```yaml
    saml:
