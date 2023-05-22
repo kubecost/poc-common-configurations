@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  labels:
+    app: istio-gateway
+  name: ingress-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: istio-gateway
+  servers:
+  - hosts:
+    - your.com
+    port:
+      name: ingress-gateway-https
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: ingress-certificate
+      maxProtocolVersion: TLSV1_3
+      minProtocolVersion: TLSV1_2
+      mode: SIMPLE
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kubecost-vs
+  namespace: kubecost
+spec:
+  gateways:
+  - istio-system/ingress-gateway
+  hosts:
+  - your.com
+  http:
+  - match:
+    - uri:
+        prefix: /kubecost
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: kubecost-cost-analyzer
+        port:
+          number: 9090      
