@@ -190,6 +190,47 @@ As an example, we will configure the following:
    kubectl delete configmap -n kubecost group-filters && kubectl create configmap -n kubecost group-filters --from-file filters.json
    ```
 
+---
+
+## Encrypted SAML Claims
+
+1. Generate an X509 certificate and private key. Below is an example using `openssl`
+
+   ```sh
+   # Generate private key
+   openssl genpkey -algorithm RSA -out saml-encryption-key.pem -pkeyopt rsa_keygen_bits:2048
+   # Generate a certificate signing request (CSR)
+   openssl req -new -key saml-encryption-key.pem -out request.csr
+   # Request your organization's domain owner to sign the certificate,
+   # ... or generate a self-signed certificate
+   openssl x509 -req -days 365 -in request.csr -signkey saml-encryption-key.pem -out saml-encryption-cert.cer
+   ```
+
+2. In Okta set: `Show Advanced Settings > Assertion Encryption > Encrypted`
+3. In Okta set: `Show Advanced Settings > Encryption Algorithm > AES256-CBC`
+4. In Okta upload your encryption certificate to `Show Advanced Settings > Encryption Certificate`
+5. Create a secret with the certificate:
+
+   ```sh
+   kubectl create secret generic kubecost-saml-cert --from-file saml-encryption-cert.cer --namespace kubecost
+   ```
+
+6. Create a secret with the private key:
+
+   ```sh
+   kubectl create secret generic kubecost-saml-decryption-key --from-file saml-encryption-key.pem --namespace kubecost
+   ```
+
+7. Add the following values to your helm configuration:
+
+   ```yaml
+   saml:
+      encryptionCertSecret: "kubecost-saml-cert"
+      decryptionKeySecret: "kubecost-saml-decryption-key"
+   ```
+
+---
+
 ## Troubleshooting / Logs
 
 You can look at the logs on the cost-model container. In this example, the assumption is that the prefix for Kubecost groups is `kubecost_`. This is script is currently a work in progress.

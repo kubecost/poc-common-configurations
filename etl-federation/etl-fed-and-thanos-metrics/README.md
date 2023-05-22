@@ -23,26 +23,31 @@ Sample yaml configurations for various providers (any S3 compatible store will w
 
 > Note that Kubecost supports service account to IAM role mappings, secret keys are not required (though the k8s object is still a secret).
 
-Create the secret:
+
+## Agent (secondary) Clusters
+Create the secret for the Thanos object-store:
 
 ```sh
 kubectl create secret generic kubecost-thanos -n kubecost --from-file=./object-store.yaml
 ```
 
-Add the [values-prometheus-thanos-sidecar.yaml](values-prometheus-thanos-sidecar.yaml) to the end of your helm install:
+Follow the steps in [etl-federation repo](https://github.com/kubecost/poc-common-configurations/tree/main/etl-federation) to configure an object-store for Kubecost ETL-Federation.
 
-Example (values-secondary.yaml is the kubecost config- see the cloud provider specific folders in this repo):
+Configure [agent-federated.yaml](../agent-federated.yaml) with your cluster specific settings
+
+Then add the [values-prometheus-thanos-sidecar.yaml](values-prometheus-thanos-sidecar.yaml) to the end of your helm install:
 
 ```sh
 helm install kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost --create-namespace \
-  -f values-secondary.yaml \
-  -f values-prometheus-thanos-sidecar.yaml \
-  -f grafana-datasource.yaml
+  -f agent-federated.yaml \
+  -f values-prometheus-thanos-sidecar.yaml
 ```
 
-## Thanos Configuration
+## Primary Cluster Only
+
+Thanos is not used directly by Kubecost. This is simply for Grafana dashboards.
 
 Create namespace and secret for thanos, use same bucket as above:
 
@@ -60,3 +65,18 @@ helm install kubecost-thanos \
   --namespace kubecost-thanos  \
   -f values-thanos-store-primary.yaml
 ```
+
+Add the Thanos query-frontend to Kubecost bundled Grafana:
+
+```sh
+helm install kubecost \
+  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --namespace kubecost --create-namespace \
+  -f primary-federator.yaml \
+  -f values-prometheus-thanos-sidecar.yaml \
+  -f grafana-datasource.yaml
+```
+
+## Diagram
+
+![diagram](Federated-ETL-Thanos-Architecture.png)

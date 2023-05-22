@@ -9,11 +9,20 @@ kubecostProductConfigs:
       - kube_node_status_allocatable
       - kube_node_labels
       - kube_node_status_condition
-      - kube_namespace_labels
-      - kube_pod_labels
       - kube_pod_owner
+      # all labels must be allowlisted in order for kubecost to aggregate by custom labels. Don't disable these unless it is causing an issue:
+      # - kube_pod_labels
+      # - kube_namespace_labels
   clusterName: CLUSTER_NAME
+  # for accurate billing data use cloudIntegrationSecret or all of the variables below it
   # cloudIntegrationSecret: cloud-integration
+  # masterPayerARN:
+  # athenaProjectID:
+  # athenaBucketName:
+  # athenaRegion:
+  # athenaDatabase:
+  # athenaTable:
+  # athenaWorkgroup: Primary
 federatedETL:
   useExistingS3Config: false
   primaryCluster: true
@@ -44,8 +53,6 @@ global:
   prometheus:
     enabled: false
     fqdn: http://prometheus-operator-prometheus.monitoring:9090 # local prometheus endpoint
-  thanos: # this is "thanos" but any prometheus compatible service should work below
-    queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
 # serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
 #   enabled: true
 #   additionalLabels:
@@ -54,6 +61,10 @@ global:
 #     enabled: true
 #     additionalLabels:
 #       label-key: label-value
+# prometheusRule: # https://docs.kubecost.com/install-and-configure/install/custom-prom#recording-rules
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
 networkCosts:
   enabled: true
   config:
@@ -62,3 +73,5 @@ networkCosts:
       amazon-web-services: false
       google-cloud-services: false
       azure-cloud-services: false
+costEventsAudit:
+  enabled: true
