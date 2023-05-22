@@ -1,0 +1,8 @@
+existingObjstoreSecret: kubecost-thanos
+# existingObjstoreSecretItems: objstore.yml
+bucketweb:
+  enabled: true
+compactor:
+  enabled: true
+storegateway:
+  enabled: true
