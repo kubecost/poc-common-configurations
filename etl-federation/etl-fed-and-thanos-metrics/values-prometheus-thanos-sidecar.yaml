@@ -1,0 +1,25 @@
+prometheus:
+  server:
+    retention: 4w
+    # enable thanos to ship data to a bucket:
+    extraArgs:
+      storage.tsdb.min-block-duration: 2h
+      storage.tsdb.max-block-duration: 2h
+    extraVolumes:
+    - name: object-store-volume
+      secret:
+        # Ensure this secret name matches thanos.storeSecretName
+        secretName: kubecost-thanos
+    sidecarContainers:
+    - name: thanos-sidecar
+      image: thanosio/thanos:v0.30.2
+      args:
+        - sidecar
+        - --prometheus.url=http://127.0.0.1:9090
+        - --objstore.config-file=/etc/config/object-store.yaml
+      volumeMounts:
+      - name: object-store-volume
+        mountPath: /etc/config
+      - name: storage-volume
+        mountPath: /data
+        subPath: ""

@@ -19,6 +19,9 @@ kubecostProductConfigs:
   # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
 kubecostModel:
   containerStatsEnabled: true
+  cloudCost:
+    enabled: true # Set to true to enable CloudCost view that gives you visibility of your Cloud provider resources cost
+  etlCloudAsset: false # Set etlCloudAsset to false when cloudCost.enabled is true to reduce cluster resources consumption. Set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
 prometheus:
   # Note: Even though we are disabling our bundled version of kube-state-metrics, Kubecost still emits v1 metrics.
   # Care will need to be taken in environments that already have KSM deployed.

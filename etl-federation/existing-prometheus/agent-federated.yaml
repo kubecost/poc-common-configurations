@@ -1,11 +1,25 @@
 global:
   prometheus:
     enabled: false
-    fqdn: http://prometheus-operated.monitoring:9090
+    fqdn: http://prometheus-operator-prometheus.monitoring:9090 # local prometheus endpoint
   grafana:
     enabled: false
     proxy: false
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
 kubecostProductConfigs:
+  metricsConfigs:
+    disabledMetrics: # drop additional metrics which are still emitted when "emitKsmV1MetricsOnly"
+      - kube_node_status_capacity
+      - kube_node_status_allocatable
+      - kube_node_labels
+      - kube_node_status_condition
+      - kube_pod_owner
+      # all labels must be allowlisted in order for kubecost to aggregate by custom labels. Don't disable these unless it is causing an issue:
+      # - kube_pod_labels
+      # - kube_namespace_labels
   clusterName: CLUSTER_NAME
 federatedETL:
   useExistingS3Config: false
@@ -18,15 +32,24 @@ serviceAccount:
   create: false
   name: kubecost-irsa-s3
 prometheus:
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
   server:
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        # this must be set, even when prometheus is disabled.
         cluster_id: CLUSTER_NAME
+# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
+#   networkCosts:
+#     enabled: true
+#     additionalLabels:
+#       label-key: label-value
+# prometheusRule: # https://docs.kubecost.com/install-and-configure/install/custom-prom#recording-rules
+#   enabled: true
+#   additionalLabels:
+#     label-key: label-value
 networkCosts:
   # optional, see: https://docs.kubecost.com/install-and-configure/advanced-configuration/network-costs-configuration
   enabled: true

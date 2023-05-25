@@ -1,12 +1,26 @@
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
+kubecostProductConfigs:
+  metricsConfigs:
+    disabledMetrics: # drop additional metrics which are still emitted when "emitKsmV1MetricsOnly"
+      - kube_node_status_capacity
+      - kube_node_status_allocatable
+      - kube_node_labels
+      - kube_node_status_condition
+      - kube_pod_owner
+      # all labels must be allowlisted in order for kubecost to aggregate by custom labels. Don't disable these unless it is causing an issue:
+      # - kube_pod_labels
+      # - kube_namespace_labels
+  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 kubecostModel:
-  containerStatsEnabled: true
+  containerStatsEnabled: false
   warmCache: false
   warmSavingsCache: false
   etl: false
   etlCloudAsset: false
   maxQueryConcurrency: 1
-kubecostProductConfigs:
-  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 prometheus:
   server:
     global:
