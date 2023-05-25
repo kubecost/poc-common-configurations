@@ -1,6 +1,11 @@
 # Kubecost Ingress Example Configurations
 
+Pre-requisites:
+
+- An [Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+
 ## Examples
+[mabassador-mapping.yaml](ambassador-mapping.yaml)
 
 [ingress-alb.yaml](ingress-alb.yaml): AWS ALB Ingress
 
@@ -14,5 +19,24 @@
 
 [ingress-subdir-non-root.yaml](ingress-subdir-non-root.yaml): use your.com/kubecost instead of kubecost on the root path
 
+[istio-gateway.yaml](istio-gateway.yaml)
+
+## Quickstart if using Nginx Ingress Controller (`ingressClassName: nginx`)
+
+https://kubernetes.github.io/ingress-nginx/
 
 
+1. Nginx helm chart
+
+```sh
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+```
+2. Edit `ingress-simple.yaml` to your desired domain name
+
+3. Apply
+$ kubectl apply -f ingress-simple.yaml -n kubecost
+$ kubectl get ingress -n kubecost
+
+4. Configure DNS records. (CNAME for domain names, A for static IP addresses)

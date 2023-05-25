@@ -1,9 +1,25 @@
+kubecostMetrics:
+  # Guide: https://docs.kubecost.com/architecture/ksm-metrics#disabling-ksm-emission
+  emitKsmV1Metrics: false # emit all KSM metrics in KSM v1 if true.
+  emitKsmV1MetricsOnly: true # emit only the KSM metrics missing from KSM v2, this is required to be true.
+kubecostProductConfigs:
+  metricsConfigs:
+    disabledMetrics: # drop additional metrics which are still emitted when "emitKsmV1MetricsOnly"
+      - kube_node_status_capacity
+      - kube_node_status_allocatable
+      - kube_node_labels
+      - kube_node_status_condition
+      - kube_pod_owner
+      # all labels must be allowlisted in order for kubecost to aggregate by custom labels. Don't disable these unless it is causing an issue:
+      # - kube_pod_labels
+      # - kube_namespace_labels
+  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 kubecostModel:
   containerStatsEnabled: true
-  etlCloudAsset: false # set to true to enable kubecost to include out-of-cluster cloud resources  (uses more memory)
+  cloudCost:
+    enabled: true # Set to true to enable CloudCost view that gives you visibility of your Cloud provider resources cost
+  etlCloudAsset: false # Set etlCloudAsset to false when cloudCost.enabled=true
   promClusterIDLabel: YOUR_PROMETHEUS_CLUSTER_KEY # set this to the same as the key used for prometheus cluster labels (potentially "cluster" or "cluster_id")
-kubecostProductConfigs:
-  clusterName: kubecostProductConfigs_clusterName # set this to the name of the primary cluster. ideally the same as the value that promClusterIDLabel would be
 prometheus:
   server:
     global:
@@ -11,6 +27,9 @@ prometheus:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
 global:
+  grafana:
+    enabled: true
+    proxy: true # must be disabled if grafana is disabled
   prometheus:
     enabled: false
     fqdn: http://prometheus-operator-kube-p-prometheus.monitoring:9090 # local prometheus endpoint

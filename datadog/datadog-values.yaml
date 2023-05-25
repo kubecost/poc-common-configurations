@@ -1,0 +1,91 @@
+global:
+  podAnnotations:
+    ad.datadoghq.com/cost-model.checks: |
+      {
+        "openmetrics": {
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:9003/metrics",
+              "namespace": "kubecost",
+              "metrics": [
+                  {"node_cpu_hourly_cost": "node.cpu.hourly.cost"},
+                  {"node_gpu_hourly_cost": "node.gpu.hourly.cost"},
+                  {"node_ram_hourly_cost": "node.ram.hourly.cost"},
+                  {"node_total_hourly_cost": "node.total.hourly.cost"},
+                  {"kubecost_load_balancer_cost": "kubecost.load.balancer.cost"},
+                  {"kubecost_cluster_management_cost": "kubecost.cluster.management.cost"},
+                  {"pv_hourly_cost": "pv.hourly.cost"},
+                  {"node_gpu_count": "node.gpu.count"},
+                  {"container_cpu_allocation": "container.cpu.allocation"},
+                  {"container_gpu_allocation": "container.gpu.allocation"},
+                  {"container_memory_allocation_bytes": "container.memory.allocation.bytes"},
+                  {"pod_pvc_allocation": "pod.pvc.allocation"},
+                  {"kubecost_node_is_spot": "kubecost.node.is.spot"},
+                  {"kubecost_network_zone_egress_cost": "kubecost.network.zone.egress.cost"},
+                  {"kubecost_network_region_egress_cost": "kubecost.network.region.egress.cost"},
+                  {"kubecost_network_internet_egress_cost": "kubecost.network.internet.egress.cost"},
+                  {"service_selector_labels": "service.selector.labels"},
+                  {"deployment_match_labels": "deployment.match.labels"},
+                  {"statefulSet_match_labels": "statefulSet.match.labels"},
+                  {"kubecost_cluster_memory_working_set_bytes": "kubecost.cluster.memory.working.set.bytes"},
+                  {"kube_deployment_spec_replicas": "kube.deployment.spec.replicas"},
+                  {"kube_deployment_status_replicas_available": "kube.deployment.status.replicas.available"},
+                  {"kube_job_status_failed": "kube.job.status.failed"},
+                  {"kube_namespace_annotations": "kube.namespace.annotations"},
+                  {"kube_namespace_labels": "kube.namespace.labels"},
+                  {"kube_node_labels": "kube.node.labels"},
+                  {"kube_node_status_allocatable": "kube.node.status.allocatable"},
+                  {"kube_node_status_allocatable_cpu_cores": "kube.node.status.allocatable.cpu.cores"},
+                  {"kube_node_status_allocatable_memory_bytes": "kube.node.status.allocatable.memory.bytes"},
+                  {"kube_node_status_capacity": "kube.node.status.capacity"},
+                  {"kube_node_status_capacity_cpu_cores": "kube.node.status.capacity.cpu.cores"},
+                  {"kube_node_status_capacity_memory_bytes": "kube.node.status.capacity.memory.bytes"},
+                  {"kube_node_status_condition": "kube.node.status.condition"},
+                  {"kube_persistentvolume_capacity_bytes": "kube.persistentvolume.capacity.bytes"},
+                  {"kube_persistentvolume_status_phase": "kube.persistentvolume.status.phase"},
+                  {"kube_persistentvolumeclaim_info": "kube.persistentvolumeclaim.info"},
+                  {"kube_persistentvolumeclaim_resource_requests_storage_bytes": "kube.persistentvolumeclaim.resource.requests.storage.bytes"},
+                  {"kube_pod_annotations": "kube.pod.annotations"},
+                  {"kube_pod_container_resource_limits": "kube.pod.container.resource.limits"},
+                  {"kube_pod_container_resource_limits_cpu_cores": "kube.pod.container.resource.limits.cpu.cores"},
+                  {"kube_pod_container_resource_limits_memory_bytes": "kube.pod.container.resource.limits.memory.bytes"},
+                  {"kube_pod_container_resource_requests": "kube.pod.container.resource.requests"},
+                  {"kube_pod_container_status_restarts_total": "kube.pod.container.status.restarts.total"},
+                  {"kube_pod_container_status_running": "kube.pod.container.status.running"},
+                  {"kube_pod_container_status_terminated_reason": "kube.pod.container.status.terminated.reason"},
+                  {"kube_pod_labels": "kube.pod.labels"},
+                  {"kube_pod_owner": "kube.pod.owner"},
+                  {"kube_pod_status_phase": "kube.pod.status.phase"},
+                  {"kube_replicaset_owner": "kube.replicaset.owner"}
+                ]
+            }
+          ]
+        }
+      }
+
+networkCosts:
+  # For existing Prometheus Installs, annotates the Service which generates Endpoints for each of the network-costs pods.
+  # The Service is annotated with prometheus.io/scrape: "true" to automatically get picked up by the prometheus config.
+  # NOTE: Setting this option to true and leaving the above extraScrapeConfig "job_name: kubecost-networking" configured will cause the
+  # NOTE: pods to be scraped twice.
+  # NOTE: set prometheusScrape to true when you enable networkCost and want Datadog agent to collect corresponding networkCost metrics
+  # prometheusScrape: true
+
+  # Port will set both the containerPort and hostPort to this value.
+  # These must be identical due to network-costs being run on hostNetwork
+  port: 3001
+
+# Note: Un-comment the below section when networkCosts.prometheusScrape is enabled
+# prometheus:
+#   extraScrapeConfigs: |
+#     - job_name: kubecost
+#       honor_labels: true
+#       scrape_interval: 1m
+#       scrape_timeout: 60s
+#       metrics_path: /metrics
+#       scheme: http
+#       dns_sd_configs:
+#       - names:
+#         - {{ template "cost-analyzer.serviceName" . }}
+#         type: 'A'
+#         port: 9003

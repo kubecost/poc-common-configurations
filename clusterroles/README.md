@@ -3,7 +3,7 @@
 ## Overview
 
 Kubecost requires ClusterRoles in order to retrieve the metadata necessary to calculate costs for all cluster resources.
-Some organizations don't allow teams to create clusterroles at deployment time. These examples are meant to create the necessary permissions and service accounts that Kubecost needs to functions within the cluster.
+Some organizations don't allow teams to create clusterroles at deployment time. These examples are meant to create the necessary permissions and service accounts that Kubecost needs to function within the cluster.
 
 > Note: These examples assume the namespace Kubecost is being deployed to is named `kubecost`. If your namespace differs, you will need to update the manifests and the commands below.
 
