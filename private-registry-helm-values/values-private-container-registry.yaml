@@ -2,9 +2,9 @@
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
@@ -12,20 +12,20 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-imageVersion: "prod-1.98.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+imageVersion: "prod-1.104.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
-  # fullImageName: "YOUR_REGISTRY/frontend:prod-1.91" # Use image -OR- fullImageName.
+  # fullImageName: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
   image: "YOUR_REGISTRY/frontend"
   imagePullPolicy: Always
 
 kubecostModel:
-  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.91" # Use image -OR- fullImageName.
+  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.104.0" # Use image -OR- fullImageName.
   image: "YOUR_REGISTRY/cost-model"
   imagePullPolicy: Always
 
 networkCosts:
-  image: YOUR_REGISTRY/kubecost-network-costs:v16.2  # Always the full image path with version tag.
+  image: YOUR_REGISTRY/kubecost-network-costs:v16.6  # Always the full image path with version tag.
   imagePullPolicy: Always
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
