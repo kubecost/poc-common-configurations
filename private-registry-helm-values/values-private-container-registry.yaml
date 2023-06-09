@@ -2,9 +2,9 @@
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
@@ -29,9 +29,9 @@ networkCosts:
   imagePullPolicy: Always
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
-# clusterController:
-#   image: YOUR_REGISTRY/cluster-controller:v0.0.6 # Always the full image path with version tag.
-#   imagePullPolicy: Always
+clusterController:
+  image: YOUR_REGISTRY/cluster-controller:v0.11.0 # Always the full image path with version tag.
+  imagePullPolicy: Always
 
 # initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
 
