@@ -2,9 +2,9 @@
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost --repo https://kubecost.github.io/nightly-helm-chart cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
