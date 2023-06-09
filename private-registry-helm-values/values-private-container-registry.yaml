@@ -47,7 +47,7 @@ prometheus:
       pullPolicy: IfNotPresent
     sidecarContainers:
     - name: thanos-sidecar
-      image: YOUR_REGISTRY/thanos:v0.24.0
+      image: YOUR_REGISTRY/thanos:v0.29.0
 
   # alertmanager:
   #   image:
@@ -68,11 +68,14 @@ prometheus:
     #     pullPolicy: IfNotPresent
 
   nodeExporter:
+# node exporter is optional. in multi cluster, there is no value to running it:
+    enabled: false
+    # if required: 
     image:
       repository: YOUR_REGISTRY/node-exporter
       tag: v1.3.0
       pullPolicy: IfNotPresent
-
+  # pushgateway is not enabled by default
   # pushgateway:
   #   image:
   #     repository: YOUR_REGISTRY/pushgateway
@@ -80,7 +83,11 @@ prometheus:
   #     pullPolicy: IfNotPresent
 
   ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus/charts/kube-state-metrics
-  # kube-state-metrics:
+  # kube-state-metrics is not required. The required metrics are already in kubecost's metric endpoint
+  kube-state-metrics:
+    disabled: true
+  kubeStateMetrics:
+    enabled: false
   #   image:
   #     repository: YOUR_REGISTRY/kube-state-metrics
   #     tag: v1.9.8
@@ -96,7 +103,11 @@ grafana:
     repository: YOUR_REGISTRY/grafana
     tag: 9.0.2
     pullPolicy: IfNotPresent
-
+  sidecar:
+    image:
+      repository: YOUR_REGISTRY/k8s-sidecar
+      tag: 1.23.1
+      pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -109,13 +120,9 @@ grafana:
   #   tag: latest
   #   pullPolicy: IfNotPresent
 
-  sidecar:
-    image: YOUR_REGISTRY/k8s-sidecar:1.19.2
-    imagePullPolicy: IfNotPresent
-
 ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/thanos
 thanos:
   image:
     repository: YOUR_REGISTRY/thanos
-    tag: v0.24.0
+    tag: v0.29.0
     pullPolicy: IfNotPresent
