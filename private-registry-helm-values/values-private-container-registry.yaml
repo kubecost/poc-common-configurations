@@ -15,21 +15,25 @@
 imageVersion: "prod-1.104.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
-  # fullImageName: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
+  # default: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
+  # fullImageName: YOUR_REGISTRY/frontend:prod-1.104.0
   image: "YOUR_REGISTRY/frontend"
   imagePullPolicy: Always
 
 kubecostModel:
+  # default: gcr.io/kubecost1/frontend:prod-1.104.0
   # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.104.0" # Use image -OR- fullImageName.
   image: "YOUR_REGISTRY/cost-model"
   imagePullPolicy: Always
 
 networkCosts:
+  # default: gcr.io/kubecost1/kubecost-network-costs:v0.16.6
   image: YOUR_REGISTRY/kubecost-network-costs:v16.6  # Always the full image path with version tag.
   imagePullPolicy: Always
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
 clusterController:
+  # default: gcr.io/kubecost1/cluster-controller:v0.11.0
   image: YOUR_REGISTRY/cluster-controller:v0.11.0 # Always the full image path with version tag.
   imagePullPolicy: Always
 
@@ -70,7 +74,7 @@ prometheus:
   nodeExporter:
 # node exporter is optional. in multi cluster, there is no value to running it:
     enabled: false
-    # if required: 
+    # if required:
     image:
       repository: YOUR_REGISTRY/node-exporter
       tag: v1.3.0
