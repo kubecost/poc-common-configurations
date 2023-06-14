@@ -10,6 +10,7 @@ Follow ReadMe-Enterprise to setup object-storage secrets for your given cloud pr
 - [GCP](../gcp/README-enterprise.md)
 
  > The installation below assumes you have created the kubecost namespace and kubecost-thanos secrets prior to running the commands.
+ > Also note that while you are free to perform this integration, we provide best effort support for our Free customers.
 
 ### Install Kubecost on the Primary Cluster
 
