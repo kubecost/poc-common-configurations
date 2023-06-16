@@ -10,8 +10,12 @@ There are multiple methods for doing this, if the method below does not fit your
 
 1. You have Amazon EKS cluster set up using eksctl, but will be similar for other setups that can leverage OIDC authentication of Kubernetes service accounts. Please refer to the AWS documentation at [Enable IAM roles for Service Accounts (IRSA) on the EKS cluster](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html)
 2. You have appropriate IAM permissions to manage Amazon EKS cluster and manage,create and assign AWS IAM.
-3. Clone this repository into your machine and navigate to poc-common-configurations/aws-attach-roles
-4. Remember to update cloud-integration.json with appropriate information of your Athena set up for Cost Usage Report (CUR). For more information, please refer to this [documentation](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations)
+3. Clone this repository into your machine and navigate to poc-common-configurations/aws-attach-roles. Example commands:
+```bash
+git clone https://github.com/kubecost/poc-common-configurations.git
+cd poc-common-configurations/aws-attach-roles
+```
+5. Remember to update [cloud-integration.json](https://github.com/kubecost/poc-common-configurations/blob/main/aws-attach-roles/cloud-integration.json) with appropriate information of your Athena set up for Cost Usage Report (CUR). For more information, please refer to this [documentation](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations)
 
 ## Instructions:
 
@@ -19,14 +23,14 @@ There are multiple methods for doing this, if the method below does not fit your
 - Set up necessary ENV Variable:
 
 ```
-BucketName="<your-object-store-bucket-name>"
+BUCKETNAME="<your-object-store-bucket-name>"
 AWS_REGION="<your-desired-aws-region>"
 YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 ```
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
 
-`aws s3 mb s3://${BucketName} --region `
+`aws s3 mb s3://${BUCKETNAME} --region `
 
 - If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
@@ -61,8 +65,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::BucketName/*",
-                "arn:aws:s3:::BucketName"
+                "arn:aws:s3:::${BUCKETNAME}/*",
+                "arn:aws:s3:::${BUCKETNAME}"
             ]
         }
     ]
@@ -87,8 +91,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::BucketName/*",
-                "arn:aws:s3:::BucketName"
+                "arn:aws:s3:::${BUCKETNAME}/*",
+                "arn:aws:s3:::${BUCKETNAME}"
             ]
         }
     ]
