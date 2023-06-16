@@ -1,15 +1,17 @@
-This is still a work in progress, meant as an example method for attached an IAM role to the service account used by Kubecost.
+>This guide is in development, please send feedback via Github issues.
+
+# Using Kubecost with IRSA
+
+This guide has the steps to enable IAM Roles for Service Accounts (IRSA) for the service account used by Kubecost.
 
 There are multiple methods for doing this, if the method below does not fit your requirements, please reach out to us.
 
-Using aws with IAM roles attached to service accounts:
-
 ## Prerequisites:
 
-1. You have Amazon EKS cluster set up using eksctl. If you have Amazon EKS cluster set up via different method, please refer to AWS documentation at [Enable IAM roles for Service Accounts (IRSA) on the EKS cluster](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html)
-2. You have approriate IAM permissions to manage Amazon EKS cluster and manage,create and assign AWS IAM.
-3. Clone this repository into your machine and navigate to POC-COMMON-CONFIGURATION-TEST/aws-attach-roles
-4. Remember to update cloud-integration.jon with approriate information of your Athena set up for Cost Usage Report (CUR). For more information, please refer to this [documentation](https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration)
+1. You have Amazon EKS cluster set up using eksctl, but will be similar for other setups that can leverage OIDC authentication of Kubernetes service accounts. Please refer to the AWS documentation at [Enable IAM roles for Service Accounts (IRSA) on the EKS cluster](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html)
+2. You have appropriate IAM permissions to manage Amazon EKS cluster and manage,create and assign AWS IAM.
+3. Clone this repository into your machine and navigate to poc-common-configurations/aws-attach-roles
+4. Remember to update cloud-integration.json with appropriate information of your Athena set up for Cost Usage Report (CUR). For more information, please refer to this [documentation](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations)
 
 ## Instructions:
 
@@ -17,14 +19,14 @@ Using aws with IAM roles attached to service accounts:
 - Set up necessary ENV Variable:
 
 ```
-ThanosBucketName="<your-object-store-bucket-name>"
+BucketName="<your-object-store-bucket-name>"
 AWS_REGION="<your-desired-aws-region>"
 YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 ```
 
 ### Step 1: Create Object store S3 bucket to store Thanos data:
 
-`aws s3 mb s3://${ThanosBucketName} --region `
+`aws s3 mb s3://${BucketName} --region `
 
 - If your 2nd cluster is running on different AWS account, you need to set appropriate permission and IAM policy to allow Thanos sidecar put data on a central S3 bucket located on primary account. There are 2 ways to do that:
 
@@ -38,7 +40,7 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
 
     * This is an example of S3 bucket policy that grant access to additional AWS accounts:
 
-```Json
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -46,9 +48,9 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "arn:aws:iam::<ReplacewithAccountBID>:root",
-                    "arn:aws:iam::<ReplacewithAccountCID>:root",
-                    "arn:aws:iam::<ReplacewithAccountDID>:root"
+                    "arn:aws:iam::ACCOUNT_NUMBER_A:root",
+                    "arn:aws:iam::ACCOUNT_NUMBER_B:root",
+                    "arn:aws:iam::ACCOUNT_NUMBER_C:root"
                 ]
             },
             "Action": [
@@ -59,8 +61,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::<ThanosBucketName>/*",
-                "arn:aws:s3:::<ThanosBucketName>"
+                "arn:aws:s3:::BucketName/*",
+                "arn:aws:s3:::BucketName"
             ]
         }
     ]
@@ -70,7 +72,7 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
    * This is an example of IAM policy you need to add on non-primary AWS accounts to have access to the central S3 bucket:
 
 
-```Json
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -85,8 +87,8 @@ YOUR_CLUSTER_NAME="<your-eks-cluster-name>"
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::<ThanosBucketName>/*",
-                "arn:aws:s3:::<ThanosBucketName>"
+                "arn:aws:s3:::BucketName/*",
+                "arn:aws:s3:::BucketName"
             ]
         }
     ]
