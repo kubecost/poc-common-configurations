@@ -28,6 +28,8 @@ federatedETL:
 kubecostModel:
   containerStatsEnabled: true
   federatedStorageConfigSecret: kubecost-object-store
+  warmCache: false
+  warmSavingsCache: false
 serviceAccount:
   create: false
   name: kubecost-irsa-s3
