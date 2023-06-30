@@ -1,0 +1,41 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "kubecostGetCurResults",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:GetBucketAcl",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::ATHENA_RESULTS_BUCKET_NAME/*",
+                "arn:aws:s3:::ATHENA_RESULTS_BUCKET_NAME",
+                "arn:aws:s3:::CUR_BUCKET_NAME/*",
+                "arn:aws:s3:::CUR_BUCKET_NAME"
+            ]
+        },
+        {
+            "Sid": "kubecostAthenaGlueAccess",
+            "Effect": "Allow",
+            "Action": [
+                "glue:GetDatabase",
+                "athena:StartQueryExecution",
+                "glue:GetPartitions",
+                "athena:GetQueryExecution",
+                "athena:GetQueryResults",
+                "glue:GetDatabases",
+                "glue:GetTable"
+            ],
+            "Resource": [
+                "arn:aws:glue:*:ATHENA_PROJECT_ID:database/ATHENA_DATABASE",
+                "arn:aws:glue:*:ATHENA_PROJECT_ID:catalog",
+                "arn:aws:glue:*:ATHENA_PROJECT_ID:table/ATHENA_DATABASE/ATHENA_TABLE",
+                "arn:aws:athena:*:ATHENA_PROJECT_ID:workgroup/ATHENA_WORKGROUP"
+            ]
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 type: S3
 config:
-  bucket: "<ThanosBucketName>"
+  bucket: "KUBECOST_METRICS_BUCKET"
   endpoint: "s3.amazonaws.com"
   region: "us-east-2"
   insecure: false
