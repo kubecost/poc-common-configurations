@@ -2,9 +2,9 @@
 # Kubecost has monthly releases and often time point releases within the month to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost kubecost/cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
@@ -12,26 +12,30 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-imageVersion: "prod-1.98.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+imageVersion: "prod-1.104.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
-  # fullImageName: "YOUR_REGISTRY/frontend:prod-1.91" # Use image -OR- fullImageName.
+  # default: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
+  # fullImageName: YOUR_REGISTRY/frontend:prod-1.104.0
   image: "YOUR_REGISTRY/frontend"
   imagePullPolicy: Always
 
 kubecostModel:
-  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.91" # Use image -OR- fullImageName.
+  # default: gcr.io/kubecost1/frontend:prod-1.104.0
+  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.104.0" # Use image -OR- fullImageName.
   image: "YOUR_REGISTRY/cost-model"
   imagePullPolicy: Always
 
 networkCosts:
-  image: YOUR_REGISTRY/kubecost-network-costs:v16.2  # Always the full image path with version tag.
+  # default: gcr.io/kubecost1/kubecost-network-costs:v0.16.6
+  image: YOUR_REGISTRY/kubecost-network-costs:v16.6  # Always the full image path with version tag.
   imagePullPolicy: Always
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
-# clusterController:
-#   image: YOUR_REGISTRY/cluster-controller:v0.0.6 # Always the full image path with version tag.
-#   imagePullPolicy: Always
+clusterController:
+  # default: gcr.io/kubecost1/cluster-controller:v0.11.0
+  image: YOUR_REGISTRY/cluster-controller:v0.11.0 # Always the full image path with version tag.
+  imagePullPolicy: Always
 
 # initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
 
@@ -47,7 +51,7 @@ prometheus:
       pullPolicy: IfNotPresent
     sidecarContainers:
     - name: thanos-sidecar
-      image: YOUR_REGISTRY/thanos:v0.24.0
+      image: YOUR_REGISTRY/thanos:v0.29.0
 
   # alertmanager:
   #   image:
@@ -68,11 +72,14 @@ prometheus:
     #     pullPolicy: IfNotPresent
 
   nodeExporter:
+# node exporter is optional. in multi cluster, there is no value to running it:
+    enabled: false
+    # if required:
     image:
       repository: YOUR_REGISTRY/node-exporter
       tag: v1.3.0
       pullPolicy: IfNotPresent
-
+  # pushgateway is not enabled by default
   # pushgateway:
   #   image:
   #     repository: YOUR_REGISTRY/pushgateway
@@ -80,7 +87,11 @@ prometheus:
   #     pullPolicy: IfNotPresent
 
   ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus/charts/kube-state-metrics
-  # kube-state-metrics:
+  # kube-state-metrics is not required. The required metrics are already in kubecost's metric endpoint
+  kube-state-metrics:
+    disabled: true
+  kubeStateMetrics:
+    enabled: false
   #   image:
   #     repository: YOUR_REGISTRY/kube-state-metrics
   #     tag: v1.9.8
@@ -96,7 +107,11 @@ grafana:
     repository: YOUR_REGISTRY/grafana
     tag: 9.0.2
     pullPolicy: IfNotPresent
-
+  sidecar:
+    image:
+      repository: YOUR_REGISTRY/k8s-sidecar
+      tag: 1.23.1
+      pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -109,13 +124,9 @@ grafana:
   #   tag: latest
   #   pullPolicy: IfNotPresent
 
-  sidecar:
-    image: YOUR_REGISTRY/k8s-sidecar:1.19.2
-    imagePullPolicy: IfNotPresent
-
 ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/thanos
 thanos:
   image:
     repository: YOUR_REGISTRY/thanos
-    tag: v0.24.0
+    tag: v0.29.0
     pullPolicy: IfNotPresent
