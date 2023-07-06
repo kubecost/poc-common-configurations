@@ -17,7 +17,7 @@ spec:
   source:
     chart: cost-analyzer
     repoURL: https://kubecost.github.io/cost-analyzer/
-    targetRevision: 1.96.0
+    targetRevision: 1.104.3
     helm:
       releaseName: kubecost
       valueFiles:
