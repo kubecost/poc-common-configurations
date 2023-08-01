@@ -1,4 +1,4 @@
-# Kubecost SSO and RBAC - AzureAD Integration
+# Kubecost SSO and RBAC - Azure Entra ID Integration
 
 ![Enterprise Subscription Required](./images/kubecost-enterprise.png)
 
@@ -6,28 +6,28 @@
 
 Kubecost supports SAML 2.0 providers for:
 
-1. Single sign on (SSO)
-1. Role Based Access Control (RBAC): controlling read-only or admin access to Kubecost configuration within the UI (optional)
+1. Single sign-on (SSO)
+1. Role-based access control (RBAC): controlling read-only or admin access to Kubecost configuration within the UI (optional)
 1. Filtering namespaces and clusters based on group membership (optional)
 
-This guide uses Azure Active Directory (AzureAD) as an example, but the concepts apply to other providers as well.
+This guide uses Azure Entra ID (formerly called Azure AD) as an example, but the concepts apply to other providers as well.
 
 ## Requirements
 
-Both SSO and RBAC require an Enterprise Subscription.
+Both SSO and RBAC require a Kubecost Enterprise plan.
 
-We recommend using our [helm chart](https://github.com/kubecost/cost-analyzer-helm-chart) to install Kubecost.
+We recommend using our [Helm chart](https://github.com/kubecost/cost-analyzer-helm-chart) to install Kubecost.
 
 ## Assistance and Feedback
 
-We are looking for any feedback you may have on these functions and we are here to help!. Please don't hesitate to contact us via our [Slack community](https://join.slack.com/t/kubecost/shared_invite/enQtNTA2MjQ1NDUyODE5LWFjYzIzNWE4MDkzMmUyZGU4NjkwMzMyMjIyM2E0NGNmYjExZjBiNjk1YzY5ZDI0ZTNhZDg4NjlkMGRkYzFlZTU) - check out #support for any help you may need & drop your introduction in the #general channel.
+We are looking for any feedback you may have on these functions and we are here to help!. Please don't hesitate to contact us via our [Slack community](https://kubecost.slack.com/ssb/redirect). Check out #support for any help you may need and drop your introduction in #general.
 
 ## AzureAD Configuration
 
 ### Create an Enterprise Application in AzureAD for Kubecost (SSO)
 
 1. Go to Azure Active Directory in the [Azure Portal](https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview) and select `Manage > Enterprise Application` and select `+ New Application`
-1. On the "Browse Azure AD Gallery" page select `+ Create your own application` and select `Create`
+1. On the "Browse EntraID Gallery" page select `+ Create your own application` and select `Create`
 
 ### Configuring your AzureAD Enterprise Application
 
