@@ -6,8 +6,8 @@
             "athenaDatabase": "AWS_cloud_integration_athenaDatabase",
             "athenaTable": "AWS_cloud_integration_athenaBucketName",
             "projectID": "AWS_cloud_integration_athena_projectID",
-            "serviceKeyName": "AWS_cloud_integration_athena_serviceKeyName",
-            "serviceKeySecret": "AWS_cloud_integration_athena_serviceKeySecret"
+            "serviceKeyName": "optional_use_IRSA",
+            "serviceKeySecret": "optional_use_IRSA"
         }
     ]
 }
