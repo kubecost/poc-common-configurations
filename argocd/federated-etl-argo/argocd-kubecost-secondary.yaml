@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubecost
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: cost-analyzer
+    repoURL: https://kubecost.github.io/cost-analyzer/
+    targetRevision: 1.105.1
+    helm:
+      releaseName: kubecost
+      valueFiles:
+        # Be sure to set the relative path to the secondary values file kubecost-secondary-federated-cluster-values.yaml
+        - file://kubecost-secondary-federated-cluster-values.yaml
+      values: |
+        kubecostProductConfigs:
+          clusterName: CLUSTER_NAME
+        prometheus:
+          server:
+            global:
+              external_labels:
+                cluster_id: CLUSTER_NAME
+        networkCosts:
+          enabled: true
+          config:
+            services:
+            # set the provider that this cluster is on to true
+              amazon-web-services: false
+              google-cloud-services: false
+              azure-cloud-services: false                
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kubecost
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
