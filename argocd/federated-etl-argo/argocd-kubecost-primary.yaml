@@ -8,11 +8,11 @@ spec:
   source:
     chart: cost-analyzer
     repoURL: https://kubecost.github.io/cost-analyzer/
-    targetRevision: 1.105.7
+    targetRevision: 1.105.1
     helm:
       releaseName: kubecost
       valueFiles:
-      # Be sure to set the relative path to the secondary values file kubecost-primary-federator-values.yaml
+      # Be sure to set the relative path to the primary values file kubecost-primary-federator-values.yaml
       - file://kubecost-primary-federator-values.yaml
       values: |
         kubecostProductConfigs:
