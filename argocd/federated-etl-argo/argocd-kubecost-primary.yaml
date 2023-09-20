@@ -13,7 +13,7 @@ spec:
       releaseName: kubecost
       valueFiles:
       # Be sure to set the relative path to the primary values file kubecost-primary-federator-values.yaml
-      - file://kubecost-primary-federator-values.yaml
+      - $values/PATH/TO/KUBECOST/PRIMARY/FEDERATOR/kubecost-primary-federator-values.yaml
       values: |
         kubecostProductConfigs:
           clusterName: CLUSTER_NAME
