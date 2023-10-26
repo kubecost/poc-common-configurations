@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubebox
+  labels:
+    app: kubebox
+spec:
+  containers:
+  - name: kubebox
+    image: {docker.io/<hub-user>/<repo-name>:<tag>} 
+    command: ["/bin/sleep", "3650d"]
+    imagePullPolicy: Always
+  restartPolicy: Always
