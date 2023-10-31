@@ -1,0 +1,15 @@
+# For full details on configuration options, see the documentation:
+# https://prometheus.io/docs/alerting/latest/configuration/
+
+receivers:
+  - name: slack
+    slack_configs:
+      - api_url: https://hooks.slack.com/services/REDACTED/REDACTED/REDACTED
+        channel: alertmanager
+
+route:
+  receiver: slack
+  continue: false
+  group_wait: 10s
+  group_interval: 5m
+  repeat_interval: 3h

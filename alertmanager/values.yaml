@@ -1,0 +1,31 @@
+## NOTE: This is still a work in progress. Contributions welcome!
+##
+## For Thanos environments, each of the below expressions are run against every
+## `cluster_id`. So for example the alert will check `node_cpu_hourly_cost > 0`
+## is true for each `cluster_id`
+
+prometheus:
+  ## AlertManager is used to trigger notifications (slack/email) when alerts fire
+  alertmanager:
+    enabled: true
+  serverFiles:
+    alerting_rules.yml:
+      groups:
+        - name: Alerts
+          rules:
+          ## This is a test Alert
+          - alert: Control
+            expr: node_cpu_hourly_cost > 0
+            for: 0m
+            labels:
+              severity: test
+            annotations:
+              summary: This alert acts as a control, and should always fire. Remove this when done testing.
+          ## This checks the presence of a Kubecost metric. This validates whether (1) Kubecost is running, and (2) Prometheus is scraping Kubecost
+          - alert: Kubecost metrics for all clusters
+            expr: absent(node_total_hourly_cost)
+            for: 3h
+            labels:
+              severity: critical
+            annotations:
+              summary: Check Kubecost metric exists. Alert when it is missing for three hours.
