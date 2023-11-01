@@ -24,7 +24,7 @@ prometheus:
           annotations:
             summary: This alert acts as a control, and should always fire. Remove this when done testing.
         ## Compare number of unique cluster_ids 3h ago to 1d ago. Alert if we
-        ## now have fewer cluster_ids. If you intentionally removing a cluster
+        ## now have fewer cluster_ids. If you intentionally remove a cluster
         ## from being monitored by Kubecost, these alerts will fire for ~1d.
         - alert: MissingKubecostMetrics
           expr: count(avg(node_total_hourly_cost offset 3h) by (cluster_id)) < count(avg(node_total_hourly_cost offset 1d) by (cluster_id))
