@@ -4,9 +4,7 @@
 
 ## Usage
 
-To begin testing the alerting rules, add the configurations shown in this directory's `values.yaml`.
-
-In FedETL environments, ensure that these configs are applied to every cluster that Kubecost is monitoring. In Thanos environments, these configs only need to be applied on your primary cluster.
+To start testing these alerting rules, you can apply these additional configs to your Kubecost primary cluster. Eventually they will need to be applied to each cluster Kubecost is monitoring.
 
 ```bash
 helm upgrade -i kubecost cost-analyzer \

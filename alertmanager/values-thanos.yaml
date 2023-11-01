@@ -1,0 +1,35 @@
+## FOR THANOS ENVIRONMENTS ONLY
+## 
+## Use these rules if you only want to configure alerting on your primary
+## cluster. The below expressions are offset by 3h to account for the time it
+## takes for all secondary Prometheus deployments to ship their metrics to
+## Thanos bucket.
+## 
+
+prometheus:
+  ## AlertManager sends notifications (slack/email) when alerts fire
+  alertmanager:
+    enabled: true
+  serverFiles:
+    alerting_rules.yml:
+      groups:
+      - name: Alerts
+        rules:
+        ## Test alert
+        - alert: Control
+          expr: avg(node_total_hourly_cost offset 3h) by (cluster_id) > 0
+          for: 0m
+          labels:
+            severity: test
+          annotations:
+            summary: This alert acts as a control, and should always fire. Remove this when done testing.
+        ## Compare number of unique cluster_ids 3h ago to 1d ago. Alert if we
+        ## now have fewer cluster_ids. If you intentionally removing a cluster
+        ## from being monitored by Kubecost, these alerts will fire for ~1d.
+        - alert: MissingKubecostMetrics
+          expr: count(avg(node_total_hourly_cost offset 3h) by (cluster_id)) < count(avg(node_total_hourly_cost offset 1d) by (cluster_id))
+          for: 3h
+          labels:
+            severity: critical
+          annotations:
+            summary: Kubecost metric is missing from one or more clusters. Alert if missing for at least 3 hours.
