@@ -1,15 +1,22 @@
 ## NOTE: This is still a work in progress. Contributions welcome!
 ##
-prometheus:
-  ## AlertManager sends notifications (slack/email) when alerts fire
+
+prometheus:  
   alertmanager:
     enabled: true
+  
+  configmapReload:
+    alertmanager:
+      enabled: false
+
+  # These are the rules which will trigger alerts
+  # Ref: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
   serverFiles:
     alerting_rules.yml:
       groups:
         - name: Alerts
           rules:
-          ## This is a test Alert
+          # This is a test Alert
           - alert: Control
             expr: node_cpu_hourly_cost > 0
             for: 0m
@@ -17,8 +24,8 @@ prometheus:
               severity: test
             annotations:
               summary: This alert acts as a control, and should always fire. Remove this when done testing.
-          ## Checks the presence of a Kubecost metric. Validates whether (1)
-          ## Kubecost is running, and (2) Prometheus is scraping Kubecost
+          # Checks the presence of a Kubecost metric. Validates whether (1)
+          # Kubecost is running, and (2) Prometheus is scraping Kubecost
           - alert: Kubecost metrics for all clusters
             expr: absent(node_total_hourly_cost)
             for: 3h
@@ -26,3 +33,19 @@ prometheus:
               severity: critical
             annotations:
               summary: Check Kubecost metric exists. Alert when it is missing for three hours.
+
+  # These configs define where notifications are sent to
+  # Ref: https://prometheus.io/docs/alerting/latest/configuration/
+  alertmanagerFiles:
+    alertmanager.yml:
+      receivers:
+        - name: slack
+          slack_configs:
+            - api_url: https://hooks.slack.com/services/REDACTED/REDACTED/REDACTED
+              channel: alertmanager
+      route:
+        receiver: slack
+        continue: false
+        group_wait: 10s
+        group_interval: 5m
+        repeat_interval: 3h
