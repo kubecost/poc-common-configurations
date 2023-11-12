@@ -22,7 +22,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: jaeger-stable.waterfowl-scale-dev.aws.kubecost.xyz
+  - host: yourhost.fqdn.com
     http:
       paths:
       - backend:
@@ -34,5 +34,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - jaeger-stable.waterfowl-scale-dev.aws.kubecost.xyz
+    - yourhost.fqdn.com
     secretName: jaeger-ingress-tls
