@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: aggregator
+  name: aggregator-jaeger-svc
+spec:
+  ports:
+  - port: 16686
+    protocol: TCP
+    targetPort: 16686
+    name: jaeger
+  selector:
+    app: aggregator
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-http
+  name: aggregator-jaeger
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: jaeger-stable.waterfowl-scale-dev.aws.kubecost.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: aggregator-jaeger-svc
+            port:
+              name: jaeger
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - jaeger-stable.waterfowl-scale-dev.aws.kubecost.xyz
+    secretName: jaeger-ingress-tls
