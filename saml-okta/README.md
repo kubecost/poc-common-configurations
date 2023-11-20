@@ -1,5 +1,7 @@
 # Kubecost SSO and RBAC - Okta Integration
 
+> **Note**: There is an updated version of this doc which lives on our official docs website. See [Okta SAML Integration for Kubecost](https://docs.kubecost.com/install-and-configure/advanced-configuration/user-management-saml/okta-saml-integration) for the most accurate information and instructions.
+
 ![Enterprise Subscription Required](./images/kubecost-enterprise.png)
 
 ## Overview
