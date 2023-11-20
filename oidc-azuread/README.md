@@ -1,5 +1,7 @@
 # Kubecost SSO and RBAC - AzureAD Integration
 
+> **Note**: There is an updated version of this doc which lives on our official docs website. See [Microsoft Entra ID OIDC Integration for Kubecost](https://docs.kubecost.com/install-and-configure/advanced-configuration/user-management-oidc/microsoft-entra-id-oidc-integration-for-kubecost) for the most accurate information and instructions.
+
 > **Note**: This feature requires an Enterprise license.
 
 ## Pre-requisites
