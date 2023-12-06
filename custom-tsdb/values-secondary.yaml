@@ -34,14 +34,18 @@ global:
   prometheus:
     enabled: false
     fqdn: http://prometheus-server-service-name.prometheus-server-namespace.svc:80 # local prometheus endpoint
-# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
+# serviceMonitor: # if your prometheus supports serviceMonitors, set this to true as well as prometheusRule.enabled. Otherwise see extraScrapeConfigs.yaml in the parent directory
 #   enabled: true
 #   additionalLabels:
-#     label-key: label-value
+#     release: prometheus
 #   networkCosts:
 #     enabled: true
 #     additionalLabels:
-#       label-key: label-value
+#       release: prometheus
+# prometheusRule:
+#   enabled: true
+#   additionalLabels:
+#     release: prometheus
 networkCosts:
   enabled: true
   config:

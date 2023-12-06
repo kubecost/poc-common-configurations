@@ -1,4 +1,6 @@
 # Kubecost with Datadog integration
+--
+> **Note**: There is an updated version of this doc which lives on our official docs website. See [Integrating Kubecost with Datadog](https://docs.kubecost.com/integrations/integrating-kubecost-with-datadog) for the most accurate information and instructions.
 
 ## Overview
 This repository is designed to give you a solution to integrate Kubecost with Datadog. By default, Kubecost will emit cost allocation metrics (unaggregated, unreconciled) in a Prometheus-compatible format with cloud providers) via `/metrics` endpoint. This solution installs Kubecost with additional annotations in cost-model pods, which allows the Datadog agent to look into the `/metrics` endpoint, map Prometheus-compatible metrics to the Datadog-compatible metrics, then push the metrics to your Datadog account.

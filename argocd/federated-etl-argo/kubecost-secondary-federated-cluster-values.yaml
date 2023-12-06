@@ -1,0 +1,24 @@
+global:
+  prometheus:
+    enabled: true
+    # fqdn: http://prometheus-operated.monitoring:9090
+  grafana:
+    enabled: false
+    proxy: false
+federatedETL:
+  useExistingS3Config: false
+  primaryCluster: false
+  federatedCluster: true
+kubecostModel:
+  containerStatsEnabled: true
+  federatedStorageConfigSecret: kubecost-object-store
+  warmCache: false
+  warmSavingsCache: false
+serviceAccount:
+  create: false
+  name: kubecost-irsa-s3
+prometheus:
+  kubeStateMetrics:
+    enabled: false
+  kube-state-metrics:
+    disabled: true

@@ -35,14 +35,18 @@ global:
     fqdn: http://prometheus-operator-kube-p-prometheus.monitoring:9090 # local prometheus endpoint
   thanos:
     queryService: http://thanos-query-frontend.thanosnamespace.svc:9090 # the location of the aggregated metrics. For thanos, thanos-query-frontend is recommended
-# serviceMonitor: # if your prometheus supports serviceMonitors, set these to true. Otherwise see extraScrapeConfigs.yaml in this directory
+# serviceMonitor: # if your prometheus supports serviceMonitors, set this to true as well as prometheusRule.enabled. Otherwise see extraScrapeConfigs.yaml in the parent directory
 #   enabled: true
 #   additionalLabels:
-#     label-key: label-value
+#     release: prometheus
 #   networkCosts:
 #     enabled: true
 #     additionalLabels:
-#       label-key: label-value
+#       release: prometheus
+# prometheusRule:
+#   enabled: true
+#   additionalLabels:
+#     release: prometheus
 networkCosts:
   enabled: true
   config:
