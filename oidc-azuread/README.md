@@ -25,6 +25,7 @@
 # values.yaml
 oidc:
   enabled: true
+  useIDToken: true
   clientID: "{APPLICATION_CLIENT_ID}"
   clientSecret: "{CLIENT_CREDENTIALS} > {SECRET}"
   secretName: "kubecost-oidc-secret"
@@ -59,13 +60,15 @@ Add these to your existing `values.yaml`:
 ```yaml
 oidc:
   enabled: true
+  # THIS IS REQUIRED FOR AZUREAD. AzureAD communicates roles via the id_token instead of the access_token.
+  useIDToken: true
   rbac:
     enabled: true
     groups:
       - name: admin
         # If admin is disabled, all authenticated users will be able to make configuration changes to the kubecost frontend
         enabled: true
-        # Set this exact value for AzureAD. This is the string AzureAD uses in its OIDC tokens.
+        # SET THIS EXACT VALUE FOR AZUREAD. This is the string AzureAD uses in its OIDC tokens.
         claimName: "roles"
         # These strings need to exactly match with the App roles created in AzureAD
         claimValues:
@@ -108,9 +111,8 @@ kubecostModel:
 
 ### Kubecost Support
 
-For further assistance, reach out to support@kubecost.com and provide logs, and a [HAR file](https://support.google.com/admanager/answer/10358597?hl=en).
+For further assistance, reach out to support@kubecost.com. Please provide logs and a [HAR file](https://support.google.com/admanager/answer/10358597?hl=en).
 
 <!-- TODO:
 - screenshots
-- troubleshooting OIDC (HAR file, decoding the id_token and access_token, debug logs)
 -->

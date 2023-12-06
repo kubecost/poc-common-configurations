@@ -1,7 +1,6 @@
-# Argo CD sample files for Kubecost Enterprise
+# Argo CD sample files for Kubecost Enterprise with Thanos
 
-## federated-etl-argo
-In this folder you will find an example of deploying Kubecost using the Federated ETL method for data federation
+## Installation
 
 ### Prerequisites
 
@@ -11,7 +10,6 @@ Follow ReadMe-Enterprise to setup object-storage secrets for your given cloud pr
 - [GCP](../gcp/README-enterprise.md)
 
  > The installation below assumes you have created the kubecost namespace and kubecost-thanos secrets prior to running the commands.
- > Also note that while you are free to perform this integration, we provide best effort support for our Free customers.
 
 ### Install Kubecost on the Primary Cluster
 

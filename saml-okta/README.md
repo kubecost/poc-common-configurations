@@ -212,12 +212,14 @@ As an example, we will configure the following:
 5. Create a secret with the certificate:
 
    ```sh
+   # Filename MUST be "saml-encryption-cert.cer"
    kubectl create secret generic kubecost-saml-cert --from-file saml-encryption-cert.cer --namespace kubecost
    ```
 
 6. Create a secret with the private key:
 
    ```sh
+   # Filename MUST be "saml-encryption-key.pem"
    kubectl create secret generic kubecost-saml-decryption-key --from-file saml-encryption-key.pem --namespace kubecost
    ```
 
