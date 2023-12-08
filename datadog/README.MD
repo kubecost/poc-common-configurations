@@ -1,5 +1,5 @@
 # Kubecost with Datadog integration
---
+
 > **Note**: There is an updated version of this doc which lives on our official docs website. See [Integrating Kubecost with Datadog](https://docs.kubecost.com/integrations/integrating-kubecost-with-datadog) for the most accurate information and instructions.
 
 ## Overview
