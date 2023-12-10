@@ -1,0 +1,45 @@
+kubecostAggregator:
+  jaeger:
+    enabled: true
+    image: jaegertracing/all-in-one
+    imageVersion: latest
+# extraObjects:
+# - apiVersion: v1
+#   kind: Service
+#   metadata:
+#     labels:
+#       app: aggregator
+#     name: aggregator-jaeger-svc
+#   spec:
+#     ports:
+#     - port: 16686
+#       protocol: TCP
+#       targetPort: 16686
+#       name: jaeger
+#     selector:
+#       app: aggregator
+# to enable an ingress modify the values below:
+# ---
+# - apiVersion: networking.k8s.io/v1
+#   kind: Ingress
+#   metadata:
+#     annotations:
+#       cert-manager.io/cluster-issuer: letsencrypt-http
+#     name: aggregator-jaeger
+#   spec:
+#     ingressClassName: nginx
+#     rules:
+#     - host: yourhost.fqdn.com
+#       http:
+#         paths:
+#         - backend:
+#             service:
+#               name: aggregator-jaeger-svc
+#               port:
+#                 name: jaeger
+#           path: /
+#           pathType: ImplementationSpecific
+#     tls:
+#     - hosts:
+#       - yourhost.fqdn.com
+#       secretName: jaeger-ingress-tls
