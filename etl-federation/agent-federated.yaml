@@ -1,3 +1,5 @@
+diagnostics:
+  enabled: true # enabled by default, but can be disabled
 global:
   prometheus:
     enabled: true
@@ -8,7 +10,6 @@ global:
 kubecostProductConfigs:
   clusterName: CLUSTER_NAME
 federatedETL:
-  useExistingS3Config: false
   primaryCluster: false
   federatedCluster: true
 kubecostModel:
@@ -16,6 +17,8 @@ kubecostModel:
   federatedStorageConfigSecret: kubecost-object-store
   warmCache: false
   warmSavingsCache: false
+kubecostFrontend:
+  enabled: false
 serviceAccount:
   create: false
   name: kubecost-irsa-s3
@@ -24,7 +27,10 @@ prometheus:
     enabled: false
   kube-state-metrics:
     disabled: true
+  nodeExporter:
+    enabled: false
   server:
+    retention: 49h
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
