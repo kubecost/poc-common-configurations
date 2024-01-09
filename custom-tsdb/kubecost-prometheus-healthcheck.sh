@@ -3,31 +3,24 @@
 # set HOST_NAME to prometheus endpoint.
 # there is a false negative test, if you don't see "FALSE_NEGATIVE" in the the OPTIONAL_METRICS, script output is invalid.
 # some metrics are optional: kubecost_pod_network*/GPU metrics/container_fs
+# metrics are expoesed on cost-model container :9003/metrics
+# show all kubecost metrics in grafana: topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
 
-export HOST_NAME="http://localhost:9090"
+# HOST_NAME=$KUBECOST_SERVICE
+export HOST_NAME="http://localhost:9090/model/prometheusQuery"
 
 check_metric()
 {
-if  curl -s --data-urlencode "query=absent_over_time($1[5m])" "$HOST_NAME/api/v1/query"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
- echo $1
+
+if  curl -sG --data-urlencode "query=absent_over_time($1[2m])" "$HOST_NAME"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
+echo "Missing: $1"
 fi
+# curl -sG --data-urlencode "query=absent_over_time($1[5m])" "$HOST_NAME"  |jq -r '.data.result[].value[]'
 }
 
 REQUIRED_METRICS=('container_cpu_allocation
+container_cpu_cfs_throttled_periods_total
 container_cpu_usage_seconds_total
-kube_node_status_allocatable
-kube_node_status_allocatable_cpu_cores
-kube_node_status_allocatable_memory_bytes
-kube_node_status_capacity
-kube_node_status_capacity_cpu_cores
-kube_node_status_capacity_memory_bytes
-kube_pod_container_resource_requests
-kube_pod_container_status_running
-node_cpu_hourly_cost
-node_ram_hourly_cost
-node_total_hourly_cost')
-
-OPTIONAL_METRICS=('FALSE_NEGATIVE
 container_fs_limit_bytes
 container_fs_usage_bytes
 container_gpu_allocation
@@ -36,47 +29,58 @@ container_memory_working_set_bytes
 container_network_receive_bytes_total
 container_network_transmit_bytes_total
 deployment_match_labels
-kube_namespace_annotations
 kube_namespace_labels
 kube_node_labels
-kube_node_status_condition
+kube_node_status_allocatable_cpu_cores
+kube_node_status_allocatable_memory_bytes
+kube_node_status_capacity_cpu_cores
+kube_node_status_capacity_memory_bytes
 kube_persistentvolume_capacity_bytes
 kube_persistentvolumeclaim_info
 kube_persistentvolumeclaim_resource_requests_storage_bytes
-kube_pod_annotations
+kube_pod_container_resource_requests
+kube_pod_container_status_running
+kube_pod_container_status_terminated_reason
 kube_pod_labels
 kube_pod_owner
+kube_pod_status_phase
 kube_replicaset_owner
 kubecost_allocation_data_status
 kubecost_asset_data_status
 kubecost_cluster_info
 kubecost_cluster_management_cost
-kubecost_etl_events_total
-kubecost_etl_progress_percent
+kubecost_container_cpu_usage_irate
 kubecost_load_balancer_cost
 kubecost_network_internet_egress_cost
 kubecost_network_region_egress_cost
 kubecost_network_zone_egress_cost
 kubecost_node_is_spot
-kubecost_pod_network_egress_bytes_total
-kubecost_pod_network_ingress_bytes_total
 kubecost_pv_info
-kubelet_volume_stats_used_bytes
-node_cpu_seconds_total
+node_cpu_hourly_cost
 node_gpu_count
 node_gpu_hourly_cost
+node_ram_hourly_cost
+node_total_hourly_cost
 pod_pvc_allocation
-process_cpu_seconds_total
-process_max_fds
-process_open_fds
-process_resident_memory_bytes
-process_start_time_seconds
-process_virtual_memory_bytes
-process_virtual_memory_max_bytes
 pv_hourly_cost
 service_selector_labels
 statefulSet_match_labels')
 
+OPTIONAL_METRICS=('false_positive
+kube_namespace_annotations
+kube_pod_annotations
+kubecost_pod_network_egress_bytes_total
+kubelet_volume_stats_used_bytes
+node_cpu_seconds_total
+node_memory_MemTotal_bytes
+prometheus_target_interval_length_seconds')
+
+
+# the pod runs this command on a loop:
+# while true; do
+
+echo "------------Starting_Check--------------"
+echo "Host: $HOST_NAME"
 echo "REQUIRED_METRICS Missing:"
 for str in ${REQUIRED_METRICS[@]}; do
 check_metric $str
@@ -86,3 +90,7 @@ echo "OPTIONAL_METRICS Missing:"
 for str in ${OPTIONAL_METRICS[@]}; do
 check_metric $str
 done
+
+echo "-----------Sleeping 60 seconds----------"
+# sleep 60
+# done
