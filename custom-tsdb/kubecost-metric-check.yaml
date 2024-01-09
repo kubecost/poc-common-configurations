@@ -11,7 +11,7 @@ spec:
     imagePullPolicy: Always
     env:
     - name: KUBECOST_SERVICE
-      value: http://kubecost106-cost-analyzer:9003/prometheusQuery
+      value: http://kubecost-cost-analyzer:9003/prometheusQuery
     - name: OUTPUT_LABELS
       value: "true"
     resources: {}
