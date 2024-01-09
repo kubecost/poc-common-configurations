@@ -7,15 +7,21 @@
 # show all kubecost metrics in grafana: topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
 
 # HOST_NAME=$KUBECOST_SERVICE
-export HOST_NAME="http://localhost:9090/model/prometheusQuery"
+OUTPUT_LABELS="true"
+HOST_NAME="http://localhost:9090/model/prometheusQuery"
 
-check_metric()
+check_metric_missing()
 {
 
 if  curl -sG --data-urlencode "query=absent_over_time($1[2m])" "$HOST_NAME"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
 echo "Missing: $1"
 fi
 # curl -sG --data-urlencode "query=absent_over_time($1[5m])" "$HOST_NAME"  |jq -r '.data.result[].value[]'
+}
+
+check_metric_labels()
+{
+echo $1 $(curl -sG --data-urlencode "query=topk(1,$1)" "$HOST_NAME")
 }
 
 REQUIRED_METRICS=('container_cpu_allocation
@@ -75,22 +81,28 @@ node_cpu_seconds_total
 node_memory_MemTotal_bytes
 prometheus_target_interval_length_seconds')
 
-
-# the pod runs this command on a loop:
+# The pod script runs in a loop, but this standalone script does not.
 # while true; do
 
-echo "------------Starting_Check--------------"
-echo "Host: $HOST_NAME"
-echo "REQUIRED_METRICS Missing:"
-for str in ${REQUIRED_METRICS[@]}; do
-check_metric $str
-done
+    echo "------------Starting_Missing_Metrics_Check--------------"
+    echo "Host: $HOST_NAME"
+    echo "REQUIRED_METRICS Missing:"
+    for str in ${REQUIRED_METRICS[@]}; do
+    check_metric_missing $str
+    done
 
-echo "OPTIONAL_METRICS Missing:"
-for str in ${OPTIONAL_METRICS[@]}; do
-check_metric $str
-done
+    echo "OPTIONAL_METRICS Missing:"
+    for str in ${OPTIONAL_METRICS[@]}; do
+    check_metric_missing $str
+    done
 
-echo "-----------Sleeping 60 seconds----------"
-# sleep 60
+    if [[ "$OUTPUT_LABELS" ]]; then
+        echo "Label Check:"
+        for str in ${REQUIRED_METRICS[@]}; do
+        check_metric_labels $str
+        done
+    fi
+
+#     echo "-----------Sleeping 600 seconds----------"
+#     sleep 600
 # done

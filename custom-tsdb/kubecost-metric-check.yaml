@@ -8,9 +8,12 @@ spec:
   containers:
   - image: gcr.io/guestbook-227502/metric-check:1.0.0
     name: kubecost-metric-check
+    imagePullPolicy: Always
     env:
     - name: KUBECOST_SERVICE
-      value: http://kubecost-cost-analyzer:9003/prometheusQuery
+      value: http://kubecost106-cost-analyzer:9003/prometheusQuery
+    - name: OUTPUT_LABELS
+      value: "true"
     resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Never
