@@ -10,10 +10,21 @@ spec:
     name: kubecost-metric-check
     imagePullPolicy: Always
     env:
+    # Kubecost exposes the prometheusQuery endpoint at http://KUBECOST_SERVICE:9003/prometheusQuery. The default service name is "kubecost-cost-analyzer"
     - name: KUBECOST_SERVICE
-      value: http://kubecost-cost-analyzer:9003/prometheusQuery
-    - name: OUTPUT_LABELS
+      value: "http://kubecost-cost-analyzer:9003/prometheusQuery"
+    # if Kubecost is using a multi-cluster Prometheus, you must specify the label used to identify the cluster and cluster name
+    # unless kubecostModel.promClusterIDLabel is set, the default is "cluster_id"
+    - name: MULTI_CLUSTER
       value: "true"
+    - name: PROM_CLUSTERID_LABEL
+      value: "cluster_id"
+    - name: CLUSTER_NAME
+      value: "my-cluster-name"
+    - name: OUTPUT_LABELS
+      value: "false"
+    - name: CHECK_LABELS
+      value: "false"
     resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Never
