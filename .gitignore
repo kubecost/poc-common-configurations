@@ -9,3 +9,4 @@ update-keys-jesse.sh
 rancher
 custom-prometheus
 temp/
+.idea/

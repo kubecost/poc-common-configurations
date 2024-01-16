@@ -65,7 +65,6 @@ data:
         endpoint: "https://aps-workspaces.YOUR_REGION.amazonaws.com/workspaces/ws-YOUR_WORKSPACE/api/v1/remote_write"
         auth:
           authenticator: sigv4auth
-        namespace: "adot"
       logging:
         loglevel: debug
 
