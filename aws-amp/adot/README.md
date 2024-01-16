@@ -8,7 +8,7 @@ This guide will walk you through the steps to deploy Kubecost with AWS Distro fo
 
 Follow AWS guide to install the ADOT daemonset: <https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-onboard-ingest-metrics-OpenTelemetry.html>
 
-Update all configuration containing `YOUR_*` with your values.
+Update all configuration files in this folder that contain `YOUR_*` with your values.
 
 ## Configuration
 
