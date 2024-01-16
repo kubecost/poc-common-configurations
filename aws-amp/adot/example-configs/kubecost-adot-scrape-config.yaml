@@ -16,11 +16,11 @@ data:
             scrape_interval: 60s
             scrape_timeout: 50s
           scrape_configs:
-          - job_name: kubecost-agent
+          - job_name: kubecost-amp
             honor_labels: true
             dns_sd_configs:
             - names:
-              - kubecost-agent-cost-analyzer.kubecost-agent
+              - YOUR_NAMESPACE-cost-analyzer.YOUR_NAMESPACE
               type: 'A'
               port: 9003
           # optionally add kubecost network costs scrape job:
@@ -61,7 +61,7 @@ data:
         endpoint: "https://aps-workspaces.YOUR_REGION.amazonaws.com/workspaces/ws-YOUR_WORKSPACE/api/v1/remote_write"
         auth:
           authenticator: sigv4auth
-        namespace: "adot"
+
       logging:
         loglevel: debug
 

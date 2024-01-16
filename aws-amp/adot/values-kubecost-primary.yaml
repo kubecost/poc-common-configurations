@@ -1,3 +1,6 @@
+kubecostAggregator:
+  replicas: 1
+  enabled: true
 federatedETL:
   useMultiClusterDB: true
   federatedCluster: true
@@ -33,4 +36,4 @@ sigV4Proxy:
   region: YOUR_REGION
 
 kubecostFrontend:
-  enabled: false
+  enabled: true
