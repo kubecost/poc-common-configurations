@@ -1,6 +1,3 @@
-kubecostMetrics:
-  exporter:
-    enabled: true
 federatedETL:
   useMultiClusterDB: true
 global:
