@@ -1,0 +1,5 @@
+type: S3
+config:
+  bucket: qa-amp-fed
+  endpoint: s3.amazonaws.com
+  region: YOUR_REGION

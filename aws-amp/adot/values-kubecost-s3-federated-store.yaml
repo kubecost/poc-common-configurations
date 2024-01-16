@@ -1,0 +1,9 @@
+extraObjects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: federated-store
+    namespace: kubecost-agent
+  type: Opaque
+  data:
+    federated-store.yaml: dHlwZTogUzMKY29uZmlnOgogIGJ1Y2tldDogcWEtYW1wLWZlZAogIGVuZHBvaW50OiBzMy5hbWF6b25hd3MuY29tCiAgcmVnaW9uOiB1cy1lYXN0LTI=

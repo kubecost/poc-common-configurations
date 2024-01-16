@@ -1,0 +1,39 @@
+kubecostMetrics:
+  exporter:
+    enabled: true
+federatedETL:
+  useMultiClusterDB: true
+global:
+  amp:
+    enabled: true
+    prometheusServerEndpoint: http://localhost:8005/workspaces/ws-YOUR_WORKSPACE
+    sigV4Proxy:
+      region: YOUR_REGION
+  prometheus:
+    enabled: false
+  grafana:
+    enabled: false
+    proxy: false
+kubecostModel:
+  promClusterIDLabel: cluster
+kubecostProductConfigs:
+  clusterName: YOUR_CLUSTER_NAME_HERE
+# NetworkCosts Daemonset is optional
+networkCosts:
+  enabled: true
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: YOUR_CLUSTER_NAME_HERE
+serviceAccount:
+  create: false
+  name: kubecost-sa
+sigV4Proxy:
+  host: aps-workspaces.YOUR_REGION.amazonaws.com
+  region: YOUR_REGION
+
+kubecostFrontend:
+  enabled: false
+agentCsi:
+  enabled: false
