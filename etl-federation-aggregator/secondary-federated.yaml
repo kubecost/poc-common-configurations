@@ -9,6 +9,7 @@ kubecostProductConfigs:
   clusterName: CLUSTER_NAME
 federatedETL:
   federatedCluster: true
+  agentOnly: true
 kubecostModel:
   containerStatsEnabled: true
   federatedStorageConfigSecret: kubecost-object-store
