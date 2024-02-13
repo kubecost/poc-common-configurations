@@ -6,3 +6,7 @@ serviceMonitor: # if your prometheus supports serviceMonitors, set these to true
     enabled: true
     additionalLabels:
       release: prometheus
+prometheusRule:
+  enabled: true
+  additionalLabels:
+    release: prometheus

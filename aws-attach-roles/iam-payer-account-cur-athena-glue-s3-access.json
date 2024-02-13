@@ -25,6 +25,7 @@
                 "glue:GetDatabase",
                 "athena:StartQueryExecution",
                 "glue:GetPartitions",
+                "glue:GetPartition",
                 "athena:GetQueryExecution",
                 "athena:GetQueryResults",
                 "glue:GetDatabases",
