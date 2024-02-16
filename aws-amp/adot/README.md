@@ -58,6 +58,8 @@ Alternatively, you can add these items to your [existing configmap](example-conf
 
 1. Configure the Kubecost Service Account:
 
+    * If the following fails, be sure that IRSA is enabled on your EKS cluster. <https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html>
+
     ```bash
     eksctl create iamserviceaccount \
     --name kubecost-sa \
@@ -68,7 +70,9 @@ Alternatively, you can add these items to your [existing configmap](example-conf
     --override-existing-serviceaccounts --approve --profile admin
     ```
 
-1. Create the Kubecost federated s3 object store secret.
+2. Create the Kubecost federated s3 object store secret.
+
+    * There are many ways to create the secret, the below method may work best for automated tools.
 
     Copy the output from:
 
@@ -78,7 +82,7 @@ Alternatively, you can add these items to your [existing configmap](example-conf
 
     And replace the place holder in `values-kubecost-s3-federated-store.yaml`
 
-1. Deploy the Kubecost agent:
+3. Deploy the Kubecost agent:
 
     ```bash
     helm install YOUR_NAMESPACE \
