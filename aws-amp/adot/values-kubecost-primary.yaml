@@ -1,0 +1,42 @@
+kubecostAggregator:
+  replicas: 1
+  enabled: true
+federatedETL:
+  useMultiClusterDB: true
+  federatedCluster: true
+global:
+  amp:
+    enabled: true
+    prometheusServerEndpoint: http://localhost:8005/workspaces/ws-YOUR_WORKSPACE
+    sigV4Proxy:
+      region: YOUR_REGION
+  prometheus:
+    enabled: false
+  # Grafana is optional. It is possible to use with AMP, but requires additional configuration
+  grafana:
+    enabled: false
+    proxy: false
+kubecostModel:
+  promClusterIDLabel: cluster
+  federatedStorageConfigSecret: federated-store
+kubecostProductConfigs:
+  clusterName: YOUR_CLUSTER_NAME_HERE
+# NetworkCosts Daemonset is optional
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      # google-cloud-services: true
+      # azure-cloud-services: true
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: YOUR_CLUSTER_NAME_HERE
+serviceAccount:
+  create: false
+  name: kubecost-sa
+sigV4Proxy:
+  host: aps-workspaces.YOUR_REGION.amazonaws.com
+  region: YOUR_REGION
