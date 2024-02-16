@@ -12,6 +12,10 @@ Update all configuration files in this folder that contain `YOUR_*` with your va
 
 This guide assumes that the Kubecost helm release name and the Kubecost namespace are equal, which allows a global find and replace on `YOUR_NAMESPACE`.
 
+## Architecture Diagram
+
+![Architecture Diagram](multi-cluster-prometheus-kubecost-architecture.png)
+
 ## Configuration
 
 1. Update all configuration files with your cluster name (replace all `YOUR_CLUSTER_NAME_HERE`). The examples use the key of `cluster` for the cluster name. You can use any key you want, but you will need to update the configmap and deployment files to match. A simplified version of the ADOT DS installation is below.

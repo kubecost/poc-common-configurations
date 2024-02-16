@@ -12,6 +12,7 @@ global:
       region: YOUR_REGION
   prometheus:
     enabled: false
+  # Grafana is optional. It is possible to use with AMP, but requires additional configuration
   grafana:
     enabled: false
     proxy: false
@@ -23,6 +24,11 @@ kubecostProductConfigs:
 # NetworkCosts Daemonset is optional
 networkCosts:
   enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      # google-cloud-services: true
+      # azure-cloud-services: true
 prometheus:
   server:
     global:
@@ -34,6 +40,3 @@ serviceAccount:
 sigV4Proxy:
   host: aps-workspaces.YOUR_REGION.amazonaws.com
   region: YOUR_REGION
-
-kubecostFrontend:
-  enabled: true
