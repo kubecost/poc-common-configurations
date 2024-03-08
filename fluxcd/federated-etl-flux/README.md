@@ -8,7 +8,6 @@ Federated-ETL is an efficient method to implement multi-cluster Kubecost while u
 
 > Note: Kubecost can rebuild its data (ETLs) using the Prometheus metrics from each cluster. It is recommended to retain local cluster Prometheus metrics that meet an organization's disaster recovery requirements.
 
-We recommend pulling down a local version of the federated-etl-argo folder for your setup
 
 ## Setup
 
@@ -51,9 +50,9 @@ eksctl create iamserviceaccount \
     --approve
 ```
 
-Once this is complete, you can populate `kubecostModel.federatedStorageConfigSecret` with the object store secret name and `serviceAccount.name` with the irsa service account name in both file://helmrelease-flux-primary.yaml and file://helmrelease-flux-secondary.yaml
+Once this is complete, you can populate `kubecostModel.federatedStorageConfigSecret` with the object store secret name and `serviceAccount.name` with the irsa service account name in both `helmrelease-flux-primary.yaml` and `helmrelease-flux-secondary.yaml`
 
-*Note: please DO NOT change the name of the file file://federated-store.yaml. Kubecost requires the name of the file behind the secret to remain the same.
+*Note: please DO NOT change the name of the file  `federated-store.yaml` . Kubecost requires the name of the file behind the secret to remain the same.
 
 
 ### Installation Process
