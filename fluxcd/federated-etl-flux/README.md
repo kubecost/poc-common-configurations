@@ -83,7 +83,7 @@ Instead please use the Multi-Cloud configuration option by follow the steps in t
 
 https://docs.kubecost.com/install-and-configure/install/cloud-integration/multi-cloud
 
-Once you have created the required secret, uncomment `kubecostProductConfigs.cloudIntegrationSecret` and populate the secret in file://helmrelease-flux-primary.yaml and apply the changes.
+Once you have created the required secret, uncomment `kubecostProductConfigs.cloudIntegrationSecret` and populate the secret in `helmrelease-flux-primary.yaml` and apply the changes.
 
 ### Debugging Steps
 
