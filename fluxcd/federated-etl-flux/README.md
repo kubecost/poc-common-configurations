@@ -2,7 +2,7 @@
 
 # Overview
 
-These are the steps to enable ETL federation with Kubecost using Argo CD
+These are the steps to enable ETL federation with Kubecost using Flux CD
 
 Federated-ETL is an efficient method to implement multi-cluster Kubecost while using existing Prometheus installations for short-term metrics.
 
