@@ -1,8 +1,10 @@
 kubecostAggregator:
+  enabled: false
   deployMethod: singlepod
+  cloudCost:
+    enabled: false
 federatedETL:
   useMultiClusterDB: true
-  federatedCluster: true
 global:
   amp:
     enabled: true
@@ -32,7 +34,6 @@ grafana:
         url: http://amp-proxy:8005/workspaces/ws-YOUR_WORKSPACE
 kubecostModel:
   promClusterIDLabel: cluster_id # This must match the key used in the Prometheus configuration global.external_labels.cluster_id
-  federatedStorageConfigSecret: federated-store
 kubecostProductConfigs:
   clusterName: YOUR_CLUSTER_NAME_HERE
 # NetworkCosts Daemonset is optional

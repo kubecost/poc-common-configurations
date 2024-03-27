@@ -23,7 +23,7 @@ data:
         config:
           global:
             external_labels:
-              cluster: YOUR_CLUSTER_NAME_HERE
+              cluster_id: YOUR_CLUSTER_NAME_HERE
             scrape_interval: 60s
             scrape_timeout: 50s
           scrape_configs:
