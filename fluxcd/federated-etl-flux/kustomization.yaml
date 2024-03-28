@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+## This is just a placeholder with the template files , mention all of the files that you are using for your config in this file
+- cloud-integration-sealed.yaml
+- federated-store-sealed.yaml
+- helmrelease-flux-primary.yaml
+- helmrepo.yaml

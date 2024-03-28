@@ -1,0 +1,12 @@
+type: S3
+config:
+  bucket: "kubecost-shared-storage-for-cluster-metrics"
+  endpoint: "s3.amazonaws.com"
+  region: "us-east-1"
+  access_key: "AWS_ACCESS_KEY"
+  secret_key: "AWS_SECRET_KEY"
+  insecure: false
+  signature_version2: false
+  put_user_metadata:
+    "X-Amz-Acl": "bucket-owner-full-control"
+prefix: ""
