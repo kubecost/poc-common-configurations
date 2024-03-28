@@ -1,0 +1,8 @@
+type: S3
+config:
+  bucket: "AWS_object_store_bucket"
+  endpoint: "s3.amazonaws.com"
+  region: "AWS_object_store_region"
+  ## Use IAM for authentication, otherwise:
+  # access_key: "AWS_object_store_access_key"
+  # secret_key: "AWS_object_store_secret_key"

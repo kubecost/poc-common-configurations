@@ -1,0 +1,78 @@
+kubecostAggregator:
+  enabled: false
+  deployMethod: singlepod
+  cloudCost:
+    enabled: false
+federatedETL:
+  useMultiClusterDB: true
+global:
+  amp:
+    enabled: true
+    prometheusServerEndpoint: http://localhost:8005/workspaces/ws-YOUR_WORKSPACE
+    sigV4Proxy:
+      region: YOUR_REGION
+  prometheus:
+    enabled: false
+  # Grafana is optional.
+  grafana: # disable both when disabling grafana
+    enabled: true
+    proxy: true
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - access: proxy
+        isDefault: true
+        jsonData:
+          httpMethod: POST
+          prometheusType: Thanos
+          prometheusVersion: 0.29.0
+          timeInterval: 1m
+        name: Prometheus
+        type: prometheus
+        url: http://amp-proxy:8005/workspaces/ws-YOUR_WORKSPACE
+kubecostModel:
+  promClusterIDLabel: cluster_id # This must match the key used in the Prometheus configuration global.external_labels.cluster_id
+kubecostProductConfigs:
+  clusterName: YOUR_CLUSTER_NAME_HERE
+# NetworkCosts Daemonset is optional
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      # google-cloud-services: true
+      # azure-cloud-services: true
+prometheus:
+  server:
+    global:
+      external_labels:
+        cluster_id: YOUR_CLUSTER_NAME_HERE
+serviceAccount:
+  create: false
+  name: kubecost-sa
+sigV4Proxy:
+  host: aps-workspaces.YOUR_REGION.amazonaws.com
+  region: YOUR_REGION
+extraObjects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: cost-analyzer
+    name: amp-proxy
+    namespace: kubecost
+  spec:
+    ports:
+    - name: amp-proxy
+      port: 8005
+      protocol: TCP
+      targetPort: 8005
+    selector:
+      app: cost-analyzer
+      app.kubernetes.io/instance: kubecost
+      app.kubernetes.io/name: cost-analyzer
+    type: ClusterIP
+upgrade:
+  toV2: true

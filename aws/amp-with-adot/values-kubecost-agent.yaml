@@ -1,6 +1,5 @@
 federatedETL:
   useMultiClusterDB: true
-  federatedCluster: true
   agentOnly: true
 global:
   amp:
@@ -11,8 +10,7 @@ global:
   prometheus:
     enabled: false
 kubecostModel:
-  promClusterIDLabel: cluster
-  federatedStorageConfigSecret: federated-store
+  promClusterIDLabel: cluster_id # This must match the key used in the Prometheus configuration global.external_labels.cluster_id
 kubecostProductConfigs:
   clusterName: YOUR_CLUSTER_NAME_HERE
 # NetworkCosts Daemonset is optional
