@@ -1,5 +1,8 @@
 # Flux CD sample files for Kubecost Enterprise
 
+Many thanks to @jash2105 for the amazing write up for this. 
+This configuration guide is provided as-is with best effort support for Kubecost Enterprise users. Kubecost support has limited experience with FluxCD.
+
 ## federated-etl-flux
 In this folder you will find an example of deploying Kubecost using the Federated ETL method for data federation
 
