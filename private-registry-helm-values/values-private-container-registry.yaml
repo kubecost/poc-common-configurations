@@ -12,7 +12,7 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-imageVersion: "prod-1.104.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+imageVersion: "prod-2.2.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
   # default: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
@@ -86,21 +86,6 @@ prometheus:
   #     tag: v1.4.2
   #     pullPolicy: IfNotPresent
 
-  ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus/charts/kube-state-metrics
-  # kube-state-metrics is not required. The required metrics are already in kubecost's metric endpoint
-  kube-state-metrics:
-    disabled: true
-  kubeStateMetrics:
-    enabled: false
-  #   image:
-  #     repository: YOUR_REGISTRY/kube-state-metrics
-  #     tag: v1.9.8
-  #     pullPolicy: IfNotPresent
-  #   serviceAccount:
-  #     # Reference to one or more secrets to be used when pulling images
-  #     # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  #     imagePullSecrets: []
-
 ## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/grafana
 grafana:
   image:
@@ -123,10 +108,3 @@ grafana:
   #   repository: YOUR_REGISTRY/curl
   #   tag: latest
   #   pullPolicy: IfNotPresent
-
-## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/thanos
-thanos:
-  image:
-    repository: YOUR_REGISTRY/thanos
-    tag: v0.29.0
-    pullPolicy: IfNotPresent
