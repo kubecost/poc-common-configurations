@@ -1,9 +1,6 @@
-kubecostAggregator:
-  replicas: 1
-  enabled: true
 federatedETL:
   useMultiClusterDB: true
-  federatedCluster: true
+  agentOnly: true
 global:
   amp:
     enabled: true
@@ -12,13 +9,8 @@ global:
       region: YOUR_REGION
   prometheus:
     enabled: false
-  # Grafana is optional. It is possible to use with AMP, but requires additional configuration
-  grafana:
-    enabled: false
-    proxy: false
 kubecostModel:
-  promClusterIDLabel: cluster
-  federatedStorageConfigSecret: federated-store
+  promClusterIDLabel: cluster_id # This must match the key used in the Prometheus configuration global.external_labels.cluster_id
 kubecostProductConfigs:
   clusterName: YOUR_CLUSTER_NAME_HERE
 # NetworkCosts Daemonset is optional
