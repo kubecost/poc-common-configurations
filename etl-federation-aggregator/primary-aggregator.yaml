@@ -1,8 +1,7 @@
 kubecostAggregator:
-  replicas: 1
   deployMethod: statefulset
 kubecostProductConfigs:
-  clusterName: YOUR_CLUSTER_NAME
+  clusterName: CLUSTER_NAME
 #  cloudIntegrationSecret: cloud-integration
   productKey:
     enabled: true
@@ -10,13 +9,10 @@ kubecostProductConfigs:
 federatedETL:
   federatedCluster: true
 kubecostModel:
-  containerStatsEnabled: true
   federatedStorageConfigSecret: kubecost-object-store
 serviceAccount: # this example uses AWS IRSA, which creates a service account with rights to the s3 bucket. If using keys+secrets in the federated-store, set create: true
   create: false
   name: kubecost-irsa-s3
-kubecostDeployment:
-  queryServiceReplicas: 0 # to improve performance, increase replica count. see: https://docs.kubecost.com/install-and-configure/install/etl-backup/query-service-replicas
 global:
   prometheus:
     enabled: true
@@ -25,11 +21,7 @@ global:
     enabled: false
     proxy: false
 prometheus:
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
-  nodeExporter:
+  nodeExporter: # node exporter is disabled by default, enable if needed
     enabled: false
   server:
     global:
@@ -42,6 +34,6 @@ networkCosts:
   config:
     services:
       # set the appropriate cloud provider to true
-      amazon-web-services: true
-      # google-cloud-services: true
-      # azure-cloud-services: true
+      amazon-web-services: false
+      google-cloud-services: false
+      azure-cloud-services: false

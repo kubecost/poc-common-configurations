@@ -1,5 +1,9 @@
 # Kubecost Setup for AWS
 
+This guide is the most common configurations of Kubecost in AWS.
+
+See
+
 This folder assumes AWS User/Service account keys and secrets will be used. See the [aws-attach-roles](../aws-attach-roles/) folder for the IRSA setup.
 
 Many will want to skip to [Enterprise Setup](README-enterprise.md)
