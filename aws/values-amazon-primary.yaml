@@ -1,0 +1,25 @@
+kubecostProductConfigs:
+  projectID: "AWS_ACCOUNT_NUMBER"
+  cloudIntegrationSecret: cloud-integration
+  # clustername should be unique for all clusters
+  clusterName: kubecostProductConfigs_clusterName
+
+kubecostModel:
+  containerStatsEnabled: true
+  cloudCost:
+    enabled: true # Set to true to enable CloudCost view that gives you visibility of your Cloud provider resources cost
+
+prometheus:
+  server:
+    global:
+      external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        cluster_id: kubecostProductConfigs_clusterName
+
+networkCosts:
+  enabled: true
+  config:
+    services:
+      amazon-web-services: true
+      # google-cloud-services: true
+      # azure-cloud-services: true
