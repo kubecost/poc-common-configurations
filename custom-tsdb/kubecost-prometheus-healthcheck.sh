@@ -7,8 +7,19 @@
 # show all kubecost metrics in grafana: topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
 
 # HOST_NAME=$KUBECOST_SERVICE
-OUTPUT_LABELS="true"
-HOST_NAME="http://localhost:9090/model/prometheusQuery"
+HOST_NAME=$KUBECOST_SERVICE
+# export HOST_NAME="http://localhost:9090/model/prometheusQuery"
+
+if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="false"; fi
+if [[ -z $CHECK_LABELS ]]; then CHECK_LABELS="false"; fi
+if [[ -z $MULTI_CLUSTER ]]; then echo "The env varaible for MULTI_CLUSTER must be true or false" && exit 1 ; fi
+
+if ${MULTI_CLUSTER}; then
+    if [[ -z $PROM_CLUSTERID_LABEL ]]; then echo "The env varaible for PROM_CLUSTERID_LABEL must be set" && exit 1 ; fi
+    if [[ -z $CLUSTER_NAME ]]; then echo "The env varaible for CLUSTER_NAME must be set" && exit 1 ; fi
+
+    CLUSTER_FILTER="{$PROM_CLUSTERID_LABEL=\"$CLUSTER_NAME\"}"
+fi
 
 check_metric_missing()
 {
@@ -49,8 +60,6 @@ kube_pod_container_status_running
 kube_pod_container_status_terminated_reason
 kube_pod_labels
 kube_pod_owner
-kube_pod_status_phase
-kube_replicaset_owner
 kubecost_allocation_data_status
 kubecost_asset_data_status
 kubecost_cluster_info
@@ -97,6 +106,15 @@ prometheus_target_interval_length_seconds')
     done
 
     if [[ "$OUTPUT_LABELS" ]]; then
+        echo "This script will now verify that labels exist for required metrics. This can be then sent to support."
+        echo " "
+        echo -n "Would you like to continue [y/N]? "
+        read r
+
+        if [ "$r" == "${r#[y]}" ]; then
+        echo "Exiting..."
+        exit 0
+        fi
         echo "Label Check:"
         for str in ${REQUIRED_METRICS[@]}; do
         check_metric_labels $str

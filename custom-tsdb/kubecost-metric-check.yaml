@@ -6,17 +6,21 @@ metadata:
   name: kubecost-metric-check
 spec:
   containers:
-  - image: gcr.io/guestbook-227502/metric-check:1.0.0
+  - image: ubuntu:latest
     name: kubecost-metric-check
     imagePullPolicy: Always
+    command:
+    - /bin/sh
+    - -c
+    - /apps/kubecost-prometheus-healthcheck.sh;
     env:
     # Kubecost exposes the prometheusQuery endpoint at http://KUBECOST_SERVICE.YOUR_NAMESPACE:9003/prometheusQuery. The default service name is "kubecost-cost-analyzer.kubecost"
     - name: KUBECOST_SERVICE
-      value: "http://kubecost-cost-analyzer.kubecost:9003/prometheusQuery"
+      value: "http://kubecost22:9003/prometheusQuery"
     # if Kubecost is using a multi-cluster Prometheus, you must specify the label used to identify the cluster and cluster name
     # unless kubecostModel.promClusterIDLabel is set, the default is "cluster_id"
     - name: MULTI_CLUSTER
-      value: "true"
+      value: "false"
     - name: PROM_CLUSTERID_LABEL
       value: "cluster_id"
     - name: CLUSTER_NAME
@@ -26,5 +30,12 @@ spec:
     - name: CHECK_LABELS
       value: "false"
     resources: {}
-  dnsPolicy: ClusterFirst
-  restartPolicy: Never
+    volumeMounts:
+    - name: health-script-volume
+      mountPath: /apps
+  volumes:
+  - name: health-script-volume
+    configMap:
+      name: health-script
+      defaultMode: 0777
+#

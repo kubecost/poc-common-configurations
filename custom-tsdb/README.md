@@ -1,4 +1,24 @@
-# Kubecost with existing multi-cluster aggregated metrics
+# Using Kubecost without bundled Prometheus
+
+See <https://docs.kubecost.com/install-and-configure/advanced-configuration/custom-prom> for official Kubecost documentation for using Kubecost with an existing Prometheus instance.
+
+## Diagnostics pod
+
+To assist in troubleshooting, a diagnostics pod can be deployed to check the health of the Prometheus instance. This pod will check for the presence of all required metrics.
+
+See:
+
+[Pod manifest](kubecost-metric-check.yaml) which runs this script: [kubecost-prometheus-healthcheck.sh](kubecost-prometheus-healthcheck.sh)
+
+```sh
+
+```
+
+## Notice
+
+> The remainder of this document is dated. See official docs for the most up-to-date information.
+
+## Kubecost with existing multi-cluster aggregated metrics
 
 There are multiple methods for implementing Kubecost using existing Prometheus instances. The method below assumes that there is a method to ship all metrics to a central Prometheus store (Thanos/Mimir/Grafana Cloud/AWS Managed Prometheus/etc). These methods tend not to scale well in very large environments.
 
@@ -17,7 +37,7 @@ To scrape the Kubecost exporter, either use Kubecost serviceMonitor (in the yaml
 
 Negative idle costs are almost always a result of missing these metrics.
 
-### Primary cluster install:
+### Primary cluster install
 
 ```sh
 helm install kubecost \
@@ -26,7 +46,7 @@ helm install kubecost \
   -f values-primary.yaml
 ```
 
-### Secondary clusters run a minimal footprint.
+### Secondary clusters run a minimal footprint
 
 ```sh
 helm install kubecost \
@@ -57,17 +77,11 @@ Long-term, Kubecost recommends storing the configuration in `cloud-integration.j
 
 You can run the following Prometheus query to list all of the metrics emitted by a given job:
 
-```
+```sh
 group by(__name__) ({__name__!="", job="kubecost"})
 ```
 
-And if you have the networkCosts daemonset:
-
-```
-group by(__name__) ({__name__!="", job="kubecost-networking"})
-```
-
-```
+```yaml
 container_cpu_allocation
 container_gpu_allocation
 container_memory_allocation_bytes
@@ -101,10 +115,21 @@ go_memstats_stack_inuse_bytes
 go_memstats_stack_sys_bytes
 go_memstats_sys_bytes
 go_threads
+kube_namespace_labels
+kube_node_labels
+kube_node_status_allocatable
 kube_node_status_allocatable_cpu_cores
 kube_node_status_allocatable_memory_bytes
+kube_node_status_capacity
 kube_node_status_capacity_cpu_cores
 kube_node_status_capacity_memory_bytes
+kube_persistentvolume_capacity_bytes
+kube_persistentvolumeclaim_info
+kube_persistentvolumeclaim_resource_requests_storage_bytes
+kube_pod_container_resource_requests
+kube_pod_container_status_running
+kube_pod_labels
+kube_pod_owner
 kubecost_allocation_data_status
 kubecost_asset_data_status
 kubecost_cluster_info
@@ -122,6 +147,7 @@ kubecost_network_internet_egress_cost
 kubecost_network_region_egress_cost
 kubecost_network_zone_egress_cost
 kubecost_node_is_spot
+kubecost_pv_info
 node_cpu_hourly_cost
 node_gpu_count
 node_gpu_hourly_cost
@@ -145,4 +171,19 @@ scrape_samples_scraped
 scrape_series_added
 service_selector_labels
 statefulSet_match_labels
+```
+
+And if you have the networkCosts daemonset:
+
+```sh
+group by(__name__) ({__name__!="", job="kubecost-networking"})
+```
+
+```yaml
+kubecost_pod_network_egress_bytes_total
+kubecost_pod_network_ingress_bytes_total
+scrape_duration_seconds
+scrape_samples_post_metric_relabeling
+scrape_samples_scraped
+scrape_series_added
 ```
