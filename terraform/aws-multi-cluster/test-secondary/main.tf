@@ -17,7 +17,7 @@ variable "cluster_id" {
 module "kubecost" {
   source                   = "../"
   license                  = data.aws_ssm_parameter.kubecost_license_id.value
-  primary_cluster          = true
+  primary_cluster          = false
   federated_storage_bucket = "kubecost-poc-2024-03"
   kubecost_version         = "2.2.0"
   cluster_id               = var.cluster_id
