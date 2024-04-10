@@ -1,5 +1,9 @@
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
+data "aws_eks_cluster" "aws_eks_cluster" {
+  name = var.cluster_id
+}
+
 
 resource "aws_s3_bucket" "kubecost_federated_storage" {
   count  = var.primary_cluster ? 1 : 0
@@ -34,10 +38,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "kubecost_federate
   }
 }
 
-data "aws_eks_cluster" "aws_eks_cluster" {
-  name = var.cluster_id
-}
-
+# This is to allow kubecost applications to read and write to federated S3 bucket
+# This is to be done for primary and secondary
 resource "aws_iam_role" "kubecost_federated_storage" {
   count = var.primary_cluster ? 1 : 0
   name  = "kubecost_federated_storage-s3"
