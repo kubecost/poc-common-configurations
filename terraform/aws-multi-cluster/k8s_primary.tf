@@ -1,3 +1,6 @@
+# K8s resources for Kubecost Primary cluster defined here. The Helm provider
+# effectively performs a `helm template` then `kubectl apply`.
+
 resource "helm_release" "kubecost_core_primary" {
   count = var.primary_cluster ? 1 : 0
 
@@ -9,7 +12,7 @@ resource "helm_release" "kubecost_core_primary" {
 
   postrender {
     binary_path = var.helm_postrender_script_path
-    args        = [var.helm_postrender_script_args] # TODO: for now we assumg that there is only one argument
+    args        = [var.helm_postrender_script_args]
   }
 
   depends_on = [kubernetes_secret.kubecost_license]
@@ -54,7 +57,6 @@ resource "kubernetes_secret" "kubecost_license" {
   }
 
   data = {
-    "productkey.json" = base64encode(var.license)
+    "productkey.json" = var.license
   }
 }
-

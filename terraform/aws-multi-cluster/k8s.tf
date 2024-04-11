@@ -1,3 +1,5 @@
+# All common k8s resources defined here
+
 resource "kubernetes_secret" "federated_store" {
   metadata {
     name      = "federated-store"

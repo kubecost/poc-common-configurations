@@ -54,6 +54,7 @@ variable "helm_postrender_script_path" {
   default = ""
 }
 
+# TODO: Currently only supports one argument
 variable "helm_postrender_script_args" {
   description = "Arguments for the script"
   default = ""

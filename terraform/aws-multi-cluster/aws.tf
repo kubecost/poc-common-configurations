@@ -61,13 +61,13 @@ POLICY
   tags   = var.tags
 }
 
-
 resource "aws_iam_role_policy_attachment" "kubecost_federated_storage" {
   count      = var.primary_cluster ? 1 : 0
   role       = aws_iam_role.kubecost_federated_storage[count.index].name
   policy_arn = aws_iam_policy.kubecost_federated_storage[count.index].arn
 }
 
+# TODO: Need to be able to add Principals for _multiple_ secondary accounts
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   count  = var.primary_cluster ? 1 : 0
   bucket = aws_s3_bucket.kubecost_federated_storage[0].id
