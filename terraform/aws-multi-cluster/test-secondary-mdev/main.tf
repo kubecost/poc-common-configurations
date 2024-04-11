@@ -19,7 +19,7 @@ module "kubecost" {
   license                  = data.aws_ssm_parameter.kubecost_license_id.value
   primary_cluster          = false
   federated_storage_bucket = "kubecost-poc-2024-03"
-  primary_s3_bukcet_region = "us-west-2"
+  primary_s3_bucket_region = "us-west-2"
   kubecost_version         = "2.2.0"
   cluster_id               = var.cluster_id
   kubecost_helm_release_name = "kubecost2"
