@@ -39,3 +39,12 @@ variable "secondary_account_number" {
   description = "AWS Account number"
   default     = "11111111"
 }
+
+variable "kubecost_helm_release_name" {
+  description = "Use it to customize release name"
+  default = "kubecost"
+}
+
+variable "primary_s3_bukcet_region" {
+  description = "Use it to customize release name"
+}

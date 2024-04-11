@@ -8,7 +8,7 @@ resource "aws_iam_role" "kubecost_federated_storage_secondary" {
     account_id      = data.aws_caller_identity.current.account_id,
     oidc            = replace(data.aws_eks_cluster.aws_eks_cluster.identity[0].oidc[0].issuer, "https://", "")
     namespace       = var.namespace
-    service-account = "${helm_release.name}-cost-analyzer"
+    service-account = "${var.kubecost_helm_release_name}-cost-analyzer"
   })
 
   tags = var.tags

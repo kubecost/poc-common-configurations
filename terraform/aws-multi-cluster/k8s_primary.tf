@@ -1,7 +1,7 @@
 resource "helm_release" "kubecost_core_primary" {
   count = var.primary_cluster ? 1 : 0
 
-  name       = "kubecost"
+  name       = var.kubecost_helm_release_name
   repository = "https://kubecost.github.io/cost-analyzer/"
   chart      = "cost-analyzer"
   version    = var.kubecost_version
