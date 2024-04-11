@@ -23,4 +23,8 @@ module "kubecost" {
   kubecost_version         = "2.2.0"
   cluster_id               = var.cluster_id
   kubecost_helm_release_name = "kubecost2"
+
+  helm_postrender_script_path = "${path.module}/kustom/helm-post-render.sh"
+  helm_postrender_script_args = "${path.module}/kustom"
+
 }

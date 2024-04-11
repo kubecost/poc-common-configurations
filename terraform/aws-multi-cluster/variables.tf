@@ -48,3 +48,13 @@ variable "kubecost_helm_release_name" {
 variable "primary_s3_bukcet_region" {
   description = "Use it to customize release name"
 }
+
+variable "helm_postrender_script_path" {
+  description = "Script to run the post render for kuebcost helm release, typically used for adding labels to all k8s resources"
+  default = ""
+}
+
+variable "helm_postrender_script_args" {
+  description = "Arguments for the script"
+  default = ""
+}

@@ -7,6 +7,10 @@ resource "helm_release" "kubecost_core_primary" {
   version    = var.kubecost_version
   namespace  = var.namespace
 
+  postrender {
+    binary_path = var.helm_postrender_script_path
+    args        = [var.helm_postrender_script_args] # TODO: for now we assumg that there is only one argument
+  }
 
   depends_on = [kubernetes_secret.kubecost_license]
 
