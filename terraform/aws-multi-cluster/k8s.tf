@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "federated_store" {
   metadata {
-    name = "federated-store"
+    name      = "federated-store"
     namespace = var.namespace
   }
 

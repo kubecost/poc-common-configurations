@@ -35,6 +35,7 @@ variable "cluster_id" {
   description = "Name for the EKS clutser - e.g. dev,staging"
 }
 
-variable "account_number" {
+variable "secondary_account_number" {
   description = "AWS Account number"
+  default     = "11111111"
 }

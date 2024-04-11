@@ -45,7 +45,7 @@ serviceAccount:
 resource "kubernetes_secret" "kubecost_license" {
   count = var.primary_cluster ? 1 : 0
   metadata {
-    name = "kubecost-license"
+    name      = "kubecost-license"
     namespace = var.namespace
   }
 

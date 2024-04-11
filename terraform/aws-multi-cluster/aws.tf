@@ -4,7 +4,6 @@ data "aws_eks_cluster" "aws_eks_cluster" {
   name = var.cluster_id
 }
 
-
 resource "aws_s3_bucket" "kubecost_federated_storage" {
   count  = var.primary_cluster ? 1 : 0
   bucket = var.federated_storage_bucket
@@ -84,8 +83,62 @@ POLICY
 
 
 resource "aws_iam_role_policy_attachment" "kubecost_federated_storage" {
-  count = var.primary_cluster ? 1 : 0
+  count      = var.primary_cluster ? 1 : 0
   role       = aws_iam_role.kubecost_federated_storage[count.index].name
   policy_arn = aws_iam_policy.kubecost_federated_storage[count.index].arn
 }
 
+
+resource "aws_iam_role" "kubecost_federated_storage_tobe_used_second" {
+  count = var.primary_cluster ? 1 : 0
+  name  = "kubecost_federated_storage-s3_secon"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::${var.secondary_account_number}:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+
+  tags = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "kubecost_federated_storage_tobe_used_second" {
+  count      = var.primary_cluster ? 1 : 0
+  role       = aws_iam_role.kubecost_federated_storage_tobe_used_second[count.index].name
+  policy_arn = aws_iam_policy.kubecost_federated_storage[count.index].arn
+}
+
+
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+  count  = var.primary_cluster ? 1 : 0
+  bucket = aws_s3_bucket.kubecost_federated_storage[0].id
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::${var.secondary_account_number}:role/kubecost_federated_storage-s3-atmos-mdev"
+            },
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.federated_storage_bucket}/*",
+                "arn:aws:s3:::${var.federated_storage_bucket}"
+            ]
+        }
+    ]
+}
+POLICY
+}

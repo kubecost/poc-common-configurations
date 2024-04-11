@@ -46,7 +46,7 @@ POLICY
 
 
 resource "aws_iam_role_policy_attachment" "kubecost_federated_storage_secondary" {
-  count = var.primary_cluster ? 0 : 1
+  count      = var.primary_cluster ? 0 : 1
   role       = aws_iam_role.kubecost_federated_storage_secondary[count.index].name
   policy_arn = aws_iam_policy.kubecost_federated_storage_secondary[count.index].arn
 }
