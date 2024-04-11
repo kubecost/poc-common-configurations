@@ -10,7 +10,7 @@ type: S3
 config:
   bucket: ${var.federated_storage_bucket}
   endpoint: "s3.amazonaws.com"
-  region: ${var.primary_s3_bukcet_region}
+  region: ${var.primary_s3_bucket_region}
   insecure: false
   signature_version2: false
   put_user_metadata:

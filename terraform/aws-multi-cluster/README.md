@@ -31,7 +31,7 @@ Federation Configured:
     Create this role in every account
         https://github.com/kubecost/poc-common-configurations/tree/main/etl-federation-aggregator#setup
 
-1. post render script
+1. kubernetes resoruce labels
 2. SAML
 
 Cloud Cost Integration Configured

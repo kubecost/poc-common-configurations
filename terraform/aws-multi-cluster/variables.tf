@@ -45,7 +45,7 @@ variable "kubecost_helm_release_name" {
   default = "kubecost"
 }
 
-variable "primary_s3_bukcet_region" {
+variable "primary_s3_bucket_region" {
   description = "Use it to customize release name"
 }
 
