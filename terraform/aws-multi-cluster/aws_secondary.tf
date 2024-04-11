@@ -1,5 +1,3 @@
-
-
 # This is to allow kubecost applications to read and write to federated S3 bucket
 # This is to be done for primary and secondary
 resource "aws_iam_role" "kubecost_federated_storage_secondary" {
@@ -10,7 +8,7 @@ resource "aws_iam_role" "kubecost_federated_storage_secondary" {
     account_id      = data.aws_caller_identity.current.account_id,
     oidc            = replace(data.aws_eks_cluster.aws_eks_cluster.identity[0].oidc[0].issuer, "https://", "")
     namespace       = var.namespace
-    service-account = "kubecost-cost-analyzer"
+    service-account = "${helm_release.name}-cost-analyzer"
   })
 
   tags = var.tags
@@ -44,10 +42,8 @@ POLICY
   tags   = var.tags
 }
 
-
 resource "aws_iam_role_policy_attachment" "kubecost_federated_storage_secondary" {
   count      = var.primary_cluster ? 0 : 1
   role       = aws_iam_role.kubecost_federated_storage_secondary[count.index].name
   policy_arn = aws_iam_policy.kubecost_federated_storage_secondary[count.index].arn
 }
-
