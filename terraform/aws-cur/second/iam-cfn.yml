@@ -1,0 +1,244 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Kubecost Masterpayer Account Template
+
+Parameters:
+  SpotDataFeedBucketName:
+    Description: Optional. The bucket where the spot data feed is sent from the “Setting up the Spot Data feed” step.
+    Type: String
+
+Conditions:
+  HasSpotFeedBucketName: !Not [ !Equals [ !Ref SpotDataFeedBucketName, "" ] ]
+
+Resources:
+  KubecostAutomationRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: '${AWS_KUBECOST_ROLE}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'ec2.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Ref "AWS::AccountId"
+            Action:
+              - 'sts:AssumeRole'
+      Path: "/"
+      Policies:
+        - PolicyName: SSMParametersPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ssm:*
+                Resource:
+                  - "arn:aws:ssm:*:${ACCOUNT_NUM}:parameter*/*kubecost*"
+  SpotFeedPolicy:
+    Type: 'AWS::IAM::Policy'
+    Condition: HasSpotFeedBucketName
+    Properties:
+      Roles:
+        - !Ref KubecostAutomationRole
+      PolicyName: 'kubecost-spot-data-feed-access'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: SpotDataAccess
+            Effect: Allow
+            Action:
+              - s3:ListAllMyBuckets
+              - s3:ListBucket
+              - s3:HeadBucket
+              - s3:HeadObject
+              - s3:List*
+              - s3:Get*
+            Resource: "*"
+  AthenaPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      Roles:
+        - !Ref KubecostAutomationRole
+      PolicyName: 'kubecost-athena-access'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AthenaAccess
+            Effect: Allow
+            Action:
+              - athena:*
+            Resource:
+              - "*"
+          - Sid: ReadAccessToAthenaCurDataViaGlue
+            Effect: Allow
+            Action:
+              - glue:GetDatabase*
+              - glue:GetTable*
+              - glue:GetPartition*
+              - glue:GetUserDefinedFunction
+              - glue:BatchGetPartition
+            Resource:
+              - arn:aws:glue:*:*:catalog
+              - arn:aws:glue:*:*:database/athenacurcfn*
+              - arn:aws:glue:*:*:table/athenacurcfn*/*
+              - arn:aws:glue:*:*:database/enterprise*
+              - arn:aws:glue:*:*:table/enterprise*/*
+          - Sid: AthenaQueryResultsOutput
+            Effect: Allow
+            Action:
+              - s3:GetBucketLocation
+              - s3:GetObject
+              - s3:ListBucket
+              - s3:ListBucketMultipartUploads
+              - s3:ListMultipartUploadParts
+              - s3:AbortMultipartUpload
+              - s3:CreateBucket
+              - s3:PutObject
+            Resource:
+              - arn:aws:s3:::aws-athena-query-results-*
+          - Sid: S3ReadAccessToAwsBillingData
+            Effect: Allow
+            Action:
+              - s3:PutObject
+              - s3:GetObject
+              - s3:List*
+            Resource:
+              - !Sub 'arn:aws:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}*'
+          - Sid: S3ReadAccessToAwsBillingBucket
+            Effect: Allow
+            Action:
+              - s3:ListBucket
+            Resource:
+              - !Sub 'arn:aws:s3:::${CUR_BUCKET}'
+          - Sid: S3ReadAccessToStatusBucket
+            Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource:
+              - !Sub 'arn:aws:s3:::${CUR_BUCKET}/cost_and_usage_data_status/*'
+          - Sid: ReadAccessToAccountTags
+            Effect: Allow
+            Action:
+              - organizations:ListAccounts
+              - organizations:ListTagsForResource
+            Resource:
+              - "*"
+          - Sid: ReadEc2 
+            Effect: Allow
+            Action:
+              - ec2:Describe*
+            Resource:
+              - "*"
+  AWSCURCrawlerComponentFunction:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'awskubecost-AWSCURCrawlerComponentFunction'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - !Sub 'arn:$${AWS::Partition}:iam::aws:policy/service-role/AWSGlueServiceRole'
+      Policies:
+        - PolicyName: AWSCURCrawlerComponentFunction
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
+              - Effect: Allow
+                Action:
+                  - 'glue:UpdateDatabase'
+                  - 'glue:UpdatePartition'
+                  - 'glue:CreateTable'
+                  - 'glue:UpdateTable'
+                  - 'glue:ImportCatalogToGlue'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}*'
+        - PolicyName: AWSCURKMSDecryption
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                Resource: '*'
+  AWSCURCrawlerLambdaExecutor:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'awskubecost-AWSCURCrawlerLambdaExecutor'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: AWSCURCrawlerLambdaExecutor
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
+              - Effect: Allow
+                Action:
+                  - 'glue:StartCrawler'
+                Resource: '*'
+  AWSS3CURLambdaExecutor:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'awskubecost-AWSS3CURLambdaExecutor'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: AWSS3CURLambdaExecutor
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
+              - Effect: Allow
+                Action:
+                  - 's3:PutBucketNotification'
+                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}/'

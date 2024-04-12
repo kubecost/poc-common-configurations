@@ -93,7 +93,7 @@ resource "aws_iam_policy" "kubecost_athena_cur" {
         "s3:PutObject"
       ],
       "Resource": [
-        ${aws_s3_bucket.kubecost_athena_bucket.arn}
+        "${aws_s3_bucket.kubecost_athena_bucket[0].arn}"
       ]
     },
     {
