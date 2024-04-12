@@ -93,7 +93,7 @@ resource "aws_iam_policy" "kubecost_athena_cur" {
         "s3:PutObject"
       ],
       "Resource": [
-        ${aws_s3_bucket.kubecost_athena_bucket}
+        ${aws_s3_bucket.kubecost_athena_bucket.arn}
       ]
     },
     {
@@ -113,7 +113,7 @@ POLICY
   tags   = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "kubecost_federated_storage" {
+resource "aws_iam_role_policy_attachment" "kubecost_athena_cur" {
   count  = var.primary_cluster ? 1 : 0
   role       = aws_iam_role.kubecost_federated_storage.name
   policy_arn = aws_iam_policy.kubecost_athena_cur[0].arn
