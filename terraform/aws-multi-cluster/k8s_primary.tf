@@ -27,6 +27,7 @@ kubecostProductConfigs:
   productKey:
     enabled: true
     secretname: kubecost-license
+  cloudIntegrationSecret: "cloud-integration"
 prometheus:
   server:
     global:
@@ -59,3 +60,28 @@ resource "kubernetes_secret" "kubecost_license" {
     "productkey.json" = var.license
   }
 }
+
+resource "kubernetes_secret" "kubecost_cloud_integration" {
+  count = var.primary_cluster ? 1 : 0
+  metadata {
+    name      = "cloud-integration"
+    namespace = var.namespace
+  }
+
+  data = {
+    "cloud-integration.json" = <<EOF
+{
+    "aws": [
+        {
+            "athenaBucketName": "s3://${var.athena_storage_bucket}",
+            "athenaRegion": "us-west-2",
+            "athenaDatabase": "kubecost_776719623202",
+            "athenaTable": "kubecost_776719623202",
+            "projectID": "776719623202"
+        }
+    ]
+}
+    EOF
+  }
+}
+
