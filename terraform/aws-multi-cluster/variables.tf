@@ -18,9 +18,9 @@ variable "athena_storage_bucket" {
   description = "Name of the bucket in the primary account which stores athena query restuls. This module will create the bucket"
 }
 
-variable "billing_bucket_name" {
+variable "cur_bucket_name" {
   type        = string
-  description = "Name of the bucket in the primary account which stores athena query restuls. This module will not create the bucket"
+  description = "Name of the cur bucket"
   default = "kubecostrics"
 }
 
