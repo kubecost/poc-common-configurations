@@ -13,6 +13,17 @@ variable "federated_storage_bucket" {
   description = "Name of the bucket in the primary account which stores federated metrics data. All clusters push to this bucket. This module will create the bucket"
 }
 
+variable "athena_storage_bucket" {
+  type        = string
+  description = "Name of the bucket in the primary account which stores athena query restuls. This module will create the bucket"
+}
+
+variable "billing_bucket_name" {
+  type        = string
+  description = "Name of the bucket in the primary account which stores athena query restuls. This module will not create the bucket"
+  default = "kubecostrics"
+}
+
 variable "tags" {
   type        = map(string)
   description = "default tags applied to all AWS resources"
