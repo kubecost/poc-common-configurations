@@ -42,7 +42,7 @@ kubecostModel:
   federatedStorageConfigSecret: federated-store
 serviceAccount:
   annotations:
-    "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage[0].arn}
+    "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage.arn}
     
     EOF
   ]
