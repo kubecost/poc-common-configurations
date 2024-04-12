@@ -4,11 +4,9 @@
 
 1. Assumes an EKS cluster already exists
 2. Assumes the Namespace you are deploying Kubecost to already exists
-3. Your Kubecost Enterprise license key is stored in AWS SSM.
+3. Assumes your Kubecost Enterprise license key is stored in AWS SSM.
 
 ## Testing
-
-1. Copy the contents of this `aws-multi-cluster` folder.
 
 ```bash
 # 1. Copy the contents of this `aws-multi-cluster` folder.
