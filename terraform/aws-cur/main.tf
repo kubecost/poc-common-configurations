@@ -1,3 +1,11 @@
+
+provider "aws" {
+  region = "us-west-2"
+}
+
+data "aws_caller_identity" "current" {
+}
+
 data "template_file" "crawler_cfn" {
   template = file("${path.module}/crawler-cfn.yml")
   vars = {
@@ -9,7 +17,7 @@ data "template_file" "crawler_cfn" {
 }
 
 resource "aws_cloudformation_stack" "kubecost" {
-  name = "enterprisekubecost"
+  name = "kubecost"
 
   template_body = data.template_file.crawler_cfn.rendered
   capabilities  = ["CAPABILITY_IAM"]

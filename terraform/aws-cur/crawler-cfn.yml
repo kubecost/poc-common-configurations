@@ -26,7 +26,7 @@ Resources:
               - 'sts:AssumeRole'
       Path: /
       ManagedPolicyArns:
-        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSGlueServiceRole'
+        - !Sub 'arn:$${AWS::Partition}:iam::aws:policy/service-role/AWSGlueServiceRole'
       Policies:
         - PolicyName: AWSCURCrawlerComponentFunction
           PolicyDocument:
@@ -37,7 +37,7 @@ Resources:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
-                Resource: !Sub 'arn:${AWS::Partition}:logs:*:*:*'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
               - Effect: Allow
                 Action:
                   - 'glue:UpdateDatabase'
@@ -84,7 +84,7 @@ Resources:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
-                Resource: !Sub 'arn:${AWS::Partition}:logs:*:*:*'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
               - Effect: Allow
                 Action:
                   - 'glue:StartCrawler'
@@ -210,7 +210,7 @@ Resources:
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
-                Resource: !Sub 'arn:${AWS::Partition}:logs:*:*:*'
+                Resource: !Sub 'arn:$${AWS::Partition}:logs:*:*:*'
               - Effect: Allow
                 Action:
                   - 's3:PutBucketNotification'
