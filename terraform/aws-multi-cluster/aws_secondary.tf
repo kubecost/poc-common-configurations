@@ -1,5 +1,6 @@
-# This is to allow kubecost applications to read and write to federated S3 bucket
-# This is to be done for primary and secondary
+# AWS resources associated with the Kubecost secondary.
+
+# This allows the k8s serviceaccount to assume the IAM role. The role gets attached to a policy which allows read/write access to the Kubecost federated storage bucket.
 resource "aws_iam_role" "kubecost_federated_storage_secondary" {
   count = var.primary_cluster ? 0 : 1
   name  = "kubecost_federated_storage-s3-${var.cluster_id}"

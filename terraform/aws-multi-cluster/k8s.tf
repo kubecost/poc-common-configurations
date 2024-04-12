@@ -1,5 +1,6 @@
 # All common k8s resources defined here
 
+# The federated-store secret is used by all Kubecost-monitored clusters. It specifies which bucket to push metrics to.
 resource "kubernetes_secret" "federated_store" {
   metadata {
     name      = "federated-store"

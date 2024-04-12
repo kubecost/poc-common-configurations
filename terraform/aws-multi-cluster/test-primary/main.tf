@@ -23,5 +23,4 @@ module "kubecost" {
   kubecost_version         = "2.2.0"
   cluster_id               = var.cluster_id
   secondary_account_number = "942795021942"
-  
 }

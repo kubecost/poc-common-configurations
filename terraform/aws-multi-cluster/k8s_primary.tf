@@ -1,5 +1,4 @@
-# K8s resources for Kubecost Primary cluster defined here. The Helm provider
-# effectively performs a `helm template` then `kubectl apply`.
+# K8s resources for Kubecost primary cluster defined here. The primary cluster aggregates all metrics from a central bucket and hosts the Kubecost frontend.
 
 resource "helm_release" "kubecost_core_primary" {
   count = var.primary_cluster ? 1 : 0

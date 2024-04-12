@@ -4,7 +4,7 @@ variable "license" {
 }
 
 variable "primary_cluster" {
-  description = "Primary Cluster to consolidate all secondary Clusters Metrics Data and primary's data. Secondary clusters sends metrics data to the primary cluster"
+  description = "A flag indicating whether we are running Terraform on a primary cluster. The secondary clusters push their metrics to a central bucket. The primary cluster aggregates all metrics and displays them in the frontend."
   default     = false
 }
 
@@ -46,16 +46,16 @@ variable "kubecost_helm_release_name" {
 }
 
 variable "primary_s3_bucket_region" {
-  description = "Use it to customize release name"
+  description = "Specify the region the federated storage bucket is in"
 }
 
 variable "helm_postrender_script_path" {
-  description = "Script to run the post render for kuebcost helm release, typically used for adding labels to all k8s resources"
+  description = "Specify a script that runs after the Kubecost Helm release is rendered. Typically used for adding labels to all k8s resources."
   default = ""
 }
 
 # TODO: Currently only supports one argument
 variable "helm_postrender_script_args" {
-  description = "Arguments for the script"
+  description = "Arguments for the postrender script"
   default = ""
 }

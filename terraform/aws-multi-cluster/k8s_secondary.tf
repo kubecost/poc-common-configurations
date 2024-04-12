@@ -1,3 +1,5 @@
+# K8s resources for Kubecost secondary cluster defined here. Secondary clusters are responsible for monitoring, processing metrics into ETL data, then pushing ETL data to the central storage bucket.
+
 resource "helm_release" "kubecost_core_secondary" {
   count = var.primary_cluster ? 0 : 1
 
@@ -9,7 +11,7 @@ resource "helm_release" "kubecost_core_secondary" {
 
   postrender {
     binary_path = var.helm_postrender_script_path
-    args        = [var.helm_postrender_script_args] # TODO: for now we assumg that there is only one argument
+    args        = [var.helm_postrender_script_args]
   }
 
   values = [
