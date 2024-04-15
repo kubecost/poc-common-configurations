@@ -14,7 +14,7 @@ resource "helm_release" "kubecost_core_primary" {
     args        = [var.helm_postrender_script_args]
   }
 
-  depends_on = [kubernetes_secret.kubecost_license]
+  depends_on = [kubernetes_secret.kubecost_license, kubernetes_secret.kubecost_cloud_integration, kubernetes_secret.kubecost_saml_secret]
 
   values = [
     <<EOF
@@ -52,8 +52,8 @@ saml:
   appRootURL: "${var.saml_app_root_url}"
     
     EOF
-,
-fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
+    ,
+    fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
 
   ]
 }
