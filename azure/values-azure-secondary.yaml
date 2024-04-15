@@ -8,28 +8,26 @@ kubecostProductConfigs:
   azureBillingRegion: US # Be sure these values are set to reflect your bill data
   currencyCode: USD # Be sure these values are set to reflect your bill data
   serviceKeySecretName: azure-service-key
+
+federatedETL:
+  federatedCluster: true
+  agentOnly: true
+
 kubecostModel:
-  containerStatsEnabled: true
-  warmCache: false
-  warmSavingsCache: false
-  etl: false
-  etlCloudAsset: false
-  maxQueryConcurrency: 1
-# kubecostMetrics:
-  # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+  federatedStorageConfigSecret: kubecost-federated-store
+
+networkCosts:
+  enabled: true
+  config:
+    services:
+      azure-cloud-services: true
+  
 global:
   grafana:
     enabled: false
     proxy: false
+    
 prometheus:
-  # Note: Even though we are disabling our bundled version of kube-state-metrics, Kubecost still emits v1 metrics.
-  # Care will need to be taken in environments that already have KSM deployed.
-  # For more information, see: https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  kubeStateMetrics:
-    enabled: false
-  kube-state-metrics:
-    disabled: true
   server:
     global:
       external_labels:
@@ -43,17 +41,7 @@ prometheus:
   # serviceAccounts:
   #   nodeExporter:
   #     create: false
-thanos:
-  compact:
-    enabled: false
-  bucket:
-    enabled: false
-  query:
-    enabled: false
-  queryFrontend:
-    enabled: false
-  store:
-    enabled: false
+  
 networkCosts:
   enabled: true
   config:
