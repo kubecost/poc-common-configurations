@@ -46,6 +46,9 @@ serviceAccount:
     "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage.arn}
     
     EOF
+,
+fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
+
   ]
 }
 
@@ -84,4 +87,3 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
     EOF
   }
 }
-

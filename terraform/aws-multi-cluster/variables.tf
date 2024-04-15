@@ -70,3 +70,8 @@ variable "helm_postrender_script_args" {
   description = "Arguments for the postrender script"
   default = ""
 }
+
+variable "helm_values_overrides_path" {
+  description = "Patht to the values overrides for kubecost"
+  default = ""
+}
