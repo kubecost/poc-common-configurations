@@ -5,6 +5,9 @@ federatedETL:
 kubecostProductConfigs:
   # clustername should be unique for all clusters
   clusterName: kubecostProductConfigs_clusterName
+  # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
+  # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
+  # awsSpotDataPrefix: dev
 
 kubecostModel:
   federatedStorageConfigSecret: federated-store
