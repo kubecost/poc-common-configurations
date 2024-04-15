@@ -37,14 +37,14 @@ kubectl create secret generic \
   --from-file federated-store.yaml
 ```
 
-You can user the default Kubecost service account, or create a new dedicated service account.
+You can use the default Kubecost service account, or create a new dedicated service account.
 
-Option A: Using the default Kubecost service account:
+**Option A: Using the default Kubecost service account:** 
 
 * Kubecost's default service account 'kubecost-cost-analyzer' is automatically created in the kubecost namespace upon installation.
 * This service account can be linked to an IAM Role via Annotation + IAM Trust Policy.
 
-Create an IAM Role in the same account as your primary cluster. In the Helm values for your Kubecost deployment, add the following section:
+Create an IAM Role in the same account as your primary cluster. In /primary-aggregator.yaml, add the following section:
 
 ```yaml
 serviceAccount:
@@ -57,7 +57,9 @@ serviceAccount:
 * [Use the sample trust policy here](https://github.com/kubecost/poc-common-configurations/blob/main/aws/iam-policies/irsa-iam-role-trust-policy-for-default-service-account)
 * Verify you have replaced the example OIDC URL with your unique cluster OIDC URL on all lines in the sample policy.
 
-Option B: Creating a new service account using eksctl:
+**Option B: Creating a new service account using eksctl.**
+
+Note: With this method, the trust policy and IAM Role are created automatically.
 
 ```sh
 eksctl utils associate-iam-oidc-provider \
@@ -71,6 +73,13 @@ eksctl create iamserviceaccount \
     --region us-east-2 \
     --attach-policy-arn arn:aws:iam::111222333:policy/kubecost-s3-federated-policy \
     --approve
+```
+
+To use your dedicated service account, set the following in /primary-aggregator.yaml
+```yaml
+serviceAccount:
+  create: false
+  name: kubecost-irsa-s3
 ```
 
 ### Install Kubecost Primary Instance
