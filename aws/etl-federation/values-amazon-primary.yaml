@@ -1,10 +1,12 @@
 federatedETL:
   agentOnly: false
   federatedCluster: true
+  
 serviceAccount:
   create: false # Set this to false if you're bringing your own service account.
   # annotations: {}
-  name: kubecost-sa
+  name: kubecost-serviceaccount
+  
 kubecostProductConfigs:
   # projectID: "AWS_kubecostProductConfigs_projectID"
   cloudIntegrationSecret: cloud-integration
@@ -17,8 +19,10 @@ kubecostProductConfigs:
   # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
   # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
   # awsSpotDataPrefix: dev
+  
 kubecostModel:
   federatedStorageConfigSecret: federated-store
+  
 prometheus:
   server:
     global:
@@ -29,6 +33,7 @@ prometheus:
     server:
       create: false
       name: kubecost-serviceaccount
+      
 networkCosts:
   enabled: true
   config:
