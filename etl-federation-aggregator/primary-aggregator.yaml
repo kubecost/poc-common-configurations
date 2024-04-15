@@ -12,12 +12,16 @@ federatedETL:
   federatedCluster: true
   
 kubecostModel:
-  federatedStorageConfigSecret: kubecost-object-store
+  federatedStorageConfigSecret: kubecost-federated-store
   
-serviceAccount: # This example uses a dedicated service account. To use the Kubecost default service account, set to "true" and add annotations as needed.
-  create: false
-  name: kubecost-irsa-s3
-  
+serviceAccount: 
+# This example has Kubecost create the service account + annotation. It does not automatically configure the role/ to trust the service account.
+# To use a dedicated service account, set create to false, remove the annotation, and specify the name of your dedicated service account. 
+  create: true
+  annotations: # Use the annotation for your cloud provider. This example uses AWS IAM Roles.
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/<roleName>
+ # name: kubecost-irsa-sa
+    
 global:
   prometheus:
     enabled: true
