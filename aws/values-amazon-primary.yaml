@@ -4,11 +4,6 @@ kubecostProductConfigs:
   # clustername should be unique for all clusters
   clusterName: kubecostProductConfigs_clusterName
 
-kubecostModel:
-  containerStatsEnabled: true
-  cloudCost:
-    enabled: true # Set to true to enable CloudCost view that gives you visibility of your Cloud provider resources cost
-
 prometheus:
   server:
     global:
