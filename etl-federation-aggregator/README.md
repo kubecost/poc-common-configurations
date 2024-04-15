@@ -57,7 +57,7 @@ serviceAccount:
 * [Use the sample trust policy here](https://github.com/kubecost/poc-common-configurations/blob/main/aws/iam-policies/irsa-iam-role-trust-policy-for-default-service-account)
 * Verify you have replaced the example OIDC URL with your unique cluster OIDC URL on all lines in the sample policy.
 
-**Option B: Creating a new service account using eksctl.**
+**Option B: Creating a new service account using eksctl:**
 
 Note: With this method, the trust policy and IAM Role are created automatically.
 
