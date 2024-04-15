@@ -9,6 +9,12 @@ kubecostProductConfigs:
   azureBillingRegion: US # Be sure these values are set to reflect your bill data
   currencyCode: USD # Be sure these values are set to reflect your bill data
   serviceKeySecretName: azure-service-key
+
+kubecostModel:
+  federatedStorageConfigSecret: kubecost-federated-store
+  
+federatedETL:
+  federatedCluster: true
   
 prometheus:
   server:
