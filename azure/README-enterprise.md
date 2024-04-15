@@ -19,7 +19,7 @@ Helpful links:
 1. [README](https://github.com/kubecost/poc-common-configurations#federated-cluster-views-enterprise-only)
 1. [Architecture diagrams](https://guide.kubecost.com/hc/en-us/articles/4407595922711-Kubecost-Core-Architecture-Overview)
 1. [Federated clusters guide](https://guide.kubecost.com/hc/en-us/articles/4407595946135-Federated-Clusters)
-1. [Azure Storage Setup](README-azure-storage.md) for Thanos blob storage
+1. [Azure Storage Setup](README-azure-storage.md) for federated storage
 
 ***Be sure to update the kubecostProductConfigs.clusterName and prometheus.server.global.external_labels.cluster_id in the values.yaml files before the helm install.***
 ## Primary Cluster Setup
@@ -31,7 +31,7 @@ kubectl create namespace kubecost
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
 # Create secret for Thanos store
-kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
+kubectl create secret generic kubecost-federated-store -n kubecost --from-file=object-store.yaml
 
 # Create Cloud Integration Secret
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
@@ -41,7 +41,6 @@ kubectl create secret generic azure-service-key -n kubecost --from-file=service-
 
 helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost \
-  -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
   -f ./values-azure-primary.yaml
 ```
 
@@ -56,13 +55,12 @@ kubectl create namespace kubecost
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
 # Create secret for Thanos store, this should be the same bucket as the primary
-kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-store.yaml
+kubectl create secret generic kubecost-federated-store -n kubecost --from-file=object-store.yaml
 
 # Azure service key
 kubectl create secret generic azure-service-key -n kubecost --from-file=service-key.json
 
 helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
   --namespace kubecost \
-  -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
   -f ./values-azure-secondary.yaml
 ```
