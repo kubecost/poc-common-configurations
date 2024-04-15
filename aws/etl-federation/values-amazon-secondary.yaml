@@ -1,23 +1,14 @@
 federatedETL:
   agentOnly: true
   federatedCluster: true
+  
 kubecostProductConfigs:
-  projectID: "AWS_kubecostProductConfigs_projectID"
   # clustername should be unique for all clusters
   clusterName: kubecostProductConfigs_clusterName
-  # productKey:
-  #   secretname: productkey
-  #   enabled: false #not needed for eval
-  # spot feed is optional and has low value when using cloud billing integration
-  # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
-  # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
-  # awsSpotDataPrefix: dev
+
 kubecostModel:
   federatedStorageConfigSecret: federated-store
-  maxQueryConcurrency: 1
-# kubecostMetrics:
-  # emitKsmV1Metrics: true # emit all KSM metrics in KSM v1. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
-  # emitKsmV1MetricsOnly: false # emit only the KSM metrics missing from KSM v2. Advanced users only. https://github.com/kubecost/docs/blob/main/ksm-metrics.md
+
 prometheus:
   server:
     global:
@@ -25,6 +16,7 @@ prometheus:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
     retention: 3d
+    
 networkCosts:
   enabled: true
   config:
