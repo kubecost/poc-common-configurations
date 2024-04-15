@@ -70,3 +70,32 @@ variable "helm_postrender_script_args" {
   description = "Arguments for the postrender script"
   default = ""
 }
+
+variable "helm_values_overrides_path" {
+  description = "Path to the values overrides for kubecost"
+  default = ""
+}
+
+
+### SAML
+
+variable "saml_enabled" {
+  description = "Enable SAML"
+  default = false
+}
+
+variable "saml_secret" {
+  description = "SAML certificate"
+  sensitive   = true
+  type        = string
+}
+
+variable "saml_idp_metadata_url" {
+  description = "idpMetadataURL"
+  type        = string
+}
+
+variable "saml_app_root_url" {
+  description = "appRootURL"
+  type        = string
+}

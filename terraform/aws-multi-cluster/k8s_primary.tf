@@ -44,8 +44,17 @@ kubecostModel:
 serviceAccount:
   annotations:
     "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage.arn}
+
+saml:
+  enabled: ${var.saml_enabled}
+  secretName: "kubecost-saml"
+  idpMetadataURL: "${var.saml_idp_metadata_url}"
+  appRootURL: "${var.saml_app_root_url}"
     
     EOF
+,
+fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
+
   ]
 }
 
@@ -85,3 +94,14 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
   }
 }
 
+resource "kubernetes_secret" "kubecost_saml_secret" {
+  count = var.primary_cluster ? 1 : 0
+  metadata {
+    name      = "kubecost-saml"
+    namespace = var.namespace
+  }
+
+  data = {
+    "myservice.cert" = var.saml_secret
+  }
+}
