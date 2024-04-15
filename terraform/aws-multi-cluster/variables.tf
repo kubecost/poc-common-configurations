@@ -21,7 +21,7 @@ variable "athena_storage_bucket" {
 variable "cur_bucket_name" {
   type        = string
   description = "Name of the cur bucket"
-  default = "kubecostrics"
+  default     = "kubecostrics"
 }
 
 variable "tags" {
@@ -53,7 +53,7 @@ variable "secondary_account_number" {
 
 variable "kubecost_helm_release_name" {
   description = "Use it to customize release name"
-  default = "kubecost"
+  default     = "kubecost"
 }
 
 variable "primary_s3_bucket_region" {
@@ -62,18 +62,18 @@ variable "primary_s3_bucket_region" {
 
 variable "helm_postrender_script_path" {
   description = "Specify a script that runs after the Kubecost Helm release is rendered. Typically used for adding labels to all k8s resources."
-  default = ""
+  default     = ""
 }
 
 # TODO: Currently only supports one argument
 variable "helm_postrender_script_args" {
   description = "Arguments for the postrender script"
-  default = ""
+  default     = ""
 }
 
 variable "helm_values_overrides_path" {
   description = "Path to the values overrides for kubecost"
-  default = ""
+  default     = ""
 }
 
 
@@ -81,7 +81,7 @@ variable "helm_values_overrides_path" {
 
 variable "saml_enabled" {
   description = "Enable SAML"
-  default = false
+  default     = false
 }
 
 variable "saml_secret" {

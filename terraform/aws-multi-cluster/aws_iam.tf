@@ -1,6 +1,6 @@
 # This allows the k8s serviceaccount to assume the IAM role. The role gets attached to a policy which allows read/write access to the Kubecost federated storage bucket.
 resource "aws_iam_role" "kubecost_federated_storage" {
-  name  = "kubecost_federated_storage-s3-${var.cluster_id}"
+  name = "kubecost_federated_storage-s3-${var.cluster_id}"
 
   assume_role_policy = templatefile("${path.module}/irsa-trust.tmpl", {
     account_id      = data.aws_caller_identity.current.account_id,
@@ -13,7 +13,7 @@ resource "aws_iam_role" "kubecost_federated_storage" {
 }
 
 resource "aws_iam_policy" "kubecost_federated_storage" {
-  name  = "kubecost_federated_storage-s3-policy-${var.cluster_id}"
+  name = "kubecost_federated_storage-s3-policy-${var.cluster_id}"
 
   policy = <<POLICY
 {
@@ -46,7 +46,7 @@ resource "aws_iam_role_policy_attachment" "kubecost_federated_storage" {
 }
 
 resource "aws_iam_policy" "kubecost_athena_cur" {
-  count  = var.primary_cluster ? 1 : 0
+  count = var.primary_cluster ? 1 : 0
   name  = "kubecost_athena_cur_policy_${var.cluster_id}"
 
   policy = <<POLICY
@@ -115,7 +115,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "kubecost_athena_cur" {
-  count  = var.primary_cluster ? 1 : 0
+  count      = var.primary_cluster ? 1 : 0
   role       = aws_iam_role.kubecost_federated_storage.name
   policy_arn = aws_iam_policy.kubecost_athena_cur[0].arn
 }
