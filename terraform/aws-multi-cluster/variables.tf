@@ -74,7 +74,7 @@ variable "helm_postrender_script_args" {
 
 variable "helm_values_overrides_path" {
   description = "Path to the values overrides for kubecost"
-  default     = ""
+  default     = "overrides.yaml"
 }
 
 ### SAML
