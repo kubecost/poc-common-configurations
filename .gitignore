@@ -10,3 +10,7 @@ rancher
 custom-prometheus
 temp/
 .idea/
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
