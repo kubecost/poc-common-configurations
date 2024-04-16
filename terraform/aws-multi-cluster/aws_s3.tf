@@ -1,5 +1,3 @@
-# AWS resources associated with the Kubecost primary. It is recommended to create these resources before creating the secondary cluster resources.
-
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 data "aws_eks_cluster" "aws_eks_cluster" {
@@ -47,6 +45,7 @@ resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
 POLICY
 }
 
+# The kubecost_athena_bucket stores results of queries run against AWS Athena.
 resource "aws_s3_bucket" "kubecost_athena_bucket" {
   count  = var.primary_cluster ? 1 : 0
   bucket = var.athena_storage_bucket

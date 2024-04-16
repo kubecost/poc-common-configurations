@@ -39,6 +39,5 @@ serviceAccount:
     EOF
     ,
     fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
-
   ]
 }

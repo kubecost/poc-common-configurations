@@ -50,11 +50,9 @@ saml:
   secretName: "kubecost-saml"
   idpMetadataURL: "${var.saml_idp_metadata_url}"
   appRootURL: "${var.saml_app_root_url}"
-    
     EOF
     ,
     fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
-
   ]
 }
 
@@ -70,6 +68,7 @@ resource "kubernetes_secret" "kubecost_license" {
   }
 }
 
+# TODO: Parameterize cloud-integration.json
 resource "kubernetes_secret" "kubecost_cloud_integration" {
   count = var.primary_cluster ? 1 : 0
   metadata {

@@ -281,16 +281,14 @@ Resources:
       Runtime: nodejs18.x
       ReservedConcurrentExecutions: 1
       Role: !GetAtt AWSS3CURLambdaExecutor.Arn
-     
 
-  AWSPutS3CURNotification:
-    Type: 'Custom::AWSPutS3CURNotification'
-    Properties:
-      ServiceToken: !GetAtt AWSS3CURNotification.Arn
-      TargetLambdaArn: !GetAtt AWSCURInitializer.Arn
-      BucketName: '${CUR_BUCKET}'  # TODO: Double check correctness
-      ReportKey: '${CUR_PREFIX}/${ACCOUNT_NUM}/'  # TODO: Double check correctness
-     
+  # AWSPutS3CURNotification:
+  #   Type: 'Custom::AWSPutS3CURNotification'
+  #   Properties:
+  #     ServiceToken: !GetAtt AWSS3CURNotification.Arn
+  #     TargetLambdaArn: !GetAtt AWSCURInitializer.Arn
+  #     BucketName: '${CUR_BUCKET}'  # TODO: Double check correctness
+  #     ReportKey: '${CUR_PREFIX}/${ACCOUNT_NUM}/'  # TODO: Double check correctness
 
   AWSCURReportStatusTable:
     Type: 'AWS::Glue::Table'

@@ -13,20 +13,24 @@ variable "federated_storage_bucket" {
   description = "Name of the bucket in the primary account which stores federated metrics data. All clusters push to this bucket. This module will create the bucket"
 }
 
+variable "primary_s3_bucket_region" {
+  description = "Specify the region the federated storage bucket is in"
+}
+
 variable "athena_storage_bucket" {
   type        = string
-  description = "Name of the bucket in the primary account which stores athena query restuls. This module will create the bucket"
+  description = "Name of the bucket in the primary account which stores athena query results. This module will create the bucket"
 }
 
 variable "cur_bucket_name" {
   type        = string
   description = "Name of the cur bucket"
-  default     = "kubecostrics"
+  default     = "kubecost_cur"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "default tags applied to all AWS resources"
+  description = "Default tags applied to all AWS resources"
   default     = {}
 }
 
@@ -43,21 +47,18 @@ variable "namespace" {
 }
 
 variable "cluster_id" {
-  description = "Name for the EKS clutser - e.g. dev,staging"
+  description = "Name for the EKS clutser - e.g. dev, staging"
 }
 
+# TODO: Currently only supports one argument. Needs to support a list of AWS accounts.
 variable "secondary_account_number" {
-  description = "AWS Account number"
+  description = "AWS account number where your secondary clusters may be running"
   default     = "11111111"
 }
 
 variable "kubecost_helm_release_name" {
   description = "Use it to customize release name"
   default     = "kubecost"
-}
-
-variable "primary_s3_bucket_region" {
-  description = "Specify the region the federated storage bucket is in"
 }
 
 variable "helm_postrender_script_path" {
@@ -75,7 +76,6 @@ variable "helm_values_overrides_path" {
   description = "Path to the values overrides for kubecost"
   default     = ""
 }
-
 
 ### SAML
 
