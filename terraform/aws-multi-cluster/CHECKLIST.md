@@ -32,7 +32,6 @@ Federation Configured:
         https://github.com/kubecost/poc-common-configurations/tree/main/etl-federation-aggregator#setup
 
 1. kubernetes resoruce labels
-2. SAML
 
 Cloud Cost Integration Configured
     For now, we can assume Cur bucket is already configured

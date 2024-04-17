@@ -81,7 +81,7 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
 {
     "aws": [
         {
-            "athenaBucketName": "s3://${var.athena_storage_bucket}",
+            "athenaBucketName": "s3://${var.athena_storage_bucket_name}",
             "athenaRegion": "us-west-2",
             "athenaDatabase": "kubecost_776719623202",
             "athenaTable": "kubecost_776719623202",

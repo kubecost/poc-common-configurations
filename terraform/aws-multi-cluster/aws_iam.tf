@@ -29,8 +29,8 @@ resource "aws_iam_policy" "kubecost_federated_storage" {
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${var.federated_storage_bucket}/*",
-                "arn:aws:s3:::${var.federated_storage_bucket}"
+                "arn:aws:s3:::${var.federated_storage_bucket_name}/*",
+                "arn:aws:s3:::${var.federated_storage_bucket_name}"
             ]
         }
     ]
