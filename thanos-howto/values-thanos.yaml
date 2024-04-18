@@ -2,7 +2,7 @@ objstoreConfig: |-
   type: S3
   config:
     bucket: thanos-bucket
-    region: us-east-1
+    region: us-east-2
     endpoint: s3.amazonaws.com
 compactor:
   enabled: true
@@ -34,6 +34,7 @@ queryFrontend:
     requests:
       cpu: 10m
       memory: 2Gi
+## optional
 # bucketweb:
 #   enabled: true
 #   serviceAccount:
