@@ -1,0 +1,51 @@
+objstoreConfig: |-
+  type: S3
+  config:
+    bucket: thanos-bucket
+    region: us-east-1
+    endpoint: s3.amazonaws.com
+compactor:
+  enabled: true
+  serviceAccount:
+    name: thanos-irsa
+    create: false
+  persistence:
+    size: 300Gi
+storegateway:
+  enabled: true
+  persistence:
+    size: 300Gi
+  serviceAccount:
+    name: thanos-irsa
+    create: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 20Gi
+query:
+  enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 2Gi
+queryFrontend:
+  enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 2Gi
+# bucketweb:
+#   enabled: true
+#   serviceAccount:
+#     name: thanos-irsa
+#     create: false
+#   resources:
+#     requests:
+#       cpu: 10m
+#       memory: 2Gi
+# metrics:
+#   serviceMonitor:
+#     enabled: false
+#     labels:
+#       release: prometheus
+#   enabled: true
