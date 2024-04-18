@@ -11,8 +11,8 @@
                 "s3:PutObject"
             ],
             "Resource": [
-                "arn:aws:s3:::kubecost-ask-93dc",
-                "arn:aws:s3:::kubecost-ask-93dc/*"
+                "arn:aws:s3:::KUBECOST_METRICS_BUCKET",
+                "arn:aws:s3:::KUBECOST_METRICS_BUCKET/*"
             ]
         }
     ]
