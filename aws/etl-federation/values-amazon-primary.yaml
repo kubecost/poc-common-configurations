@@ -1,10 +1,15 @@
 federatedETL:
   agentOnly: false
   federatedCluster: true
-serviceAccount:
-  create: false # Set this to false if you're bringing your own service account.
-  # annotations: {}
-  name: kubecost-sa
+  
+serviceAccount: 
+# This example has Kubecost create the service account + annotation. It does not automatically configure the role to trust the service account.
+# To use a dedicated service account, set create to false, remove the annotation, and specify the name of your dedicated service account. 
+  create: true
+  annotations: # Use the annotation for your cloud provider. This example uses AWS IAM Roles.
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/<roleName>
+ # name: kubecost-serviceaccount
+  
 kubecostProductConfigs:
   # projectID: "AWS_kubecostProductConfigs_projectID"
   cloudIntegrationSecret: cloud-integration
@@ -17,18 +22,17 @@ kubecostProductConfigs:
   # awsSpotDataRegion: AWS_kubecostProductConfigs_awsSpotDataRegion
   # awsSpotDataBucket: AWS_kubecostProductConfigs_awsSpotDataBucket
   # awsSpotDataPrefix: dev
+  
 kubecostModel:
   federatedStorageConfigSecret: federated-store
+  
 prometheus:
   server:
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: kubecostProductConfigs_clusterName
-  serviceAccounts:
-    server:
-      create: false
-      name: kubecost-serviceaccount
+      
 networkCosts:
   enabled: true
   config:

@@ -5,22 +5,32 @@ global:
   grafana:
     enabled: false
     proxy: false
+    
 kubecostProductConfigs:
   clusterName: CLUSTER_NAME
+  
 federatedETL:
   federatedCluster: true
   agentOnly: true
+  
 kubecostModel:
-  federatedStorageConfigSecret: kubecost-object-store
-serviceAccount:
-  create: false
-  name: kubecost-irsa-s3
+  federatedStorageConfigSecret: kubecost-federated-store
+  
+serviceAccount: 
+# This example has Kubecost create the service account + annotation. It does not automatically configure the role/ to trust the service account.
+# To use a dedicated service account, set create to false, remove the annotation, and specify the name of your dedicated service account. 
+  create: true
+  annotations: # Use the annotation for your cloud provider. This example uses AWS IAM Roles.
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/<roleName>
+ # name: kubecost-irsa-sa
+ 
 prometheus:
   server:
     global:
       external_labels:
         # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
         cluster_id: CLUSTER_NAME
+        
 networkCosts:
   # optional, see: https://docs.kubecost.com/install-and-configure/advanced-configuration/network-costs-configuration
   enabled: true
