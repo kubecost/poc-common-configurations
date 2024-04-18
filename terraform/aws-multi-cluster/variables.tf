@@ -41,6 +41,16 @@ variable "force_destroy_s3_buckets" {
   default     = false
 }
 
+variable "federated_storage_days" {
+  description = "How many days federated storage s3 bucket should store federated data"
+  default     = 365
+}
+
+variable "athena_storage_days" {
+  description = "How many days athena storage s3 bucket should store query results"
+  default     = 365
+}
+
 ### Cur variables needed in the primary account
 
 variable "cur_bucket_name" {

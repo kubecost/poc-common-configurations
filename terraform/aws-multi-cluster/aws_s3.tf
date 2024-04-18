@@ -15,6 +15,18 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket_private_access" {
   block_public_policy = true
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "kubecost_federated_storage_lifecycle" {
+  count  = var.primary_cluster ? 1 : 0
+  bucket = aws_s3_bucket.kubecost_federated_storage[0].id
+  rule {
+    id = "expire"
+    expiration {
+      days = var.federated_storage_days
+    }
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   count  = length(var.secondary_account_numbers) > 0 && var.primary_cluster ? 1 : 0
   bucket = aws_s3_bucket.kubecost_federated_storage[0].id
@@ -51,9 +63,21 @@ resource "aws_s3_bucket" "kubecost_athena_bucket" {
   tags = var.tags
 }
 
-resource "aws_s3_bucket_public_access_block" "Kubecost_athena_private_access" {
+resource "aws_s3_bucket_public_access_block" "kubecost_athena_private_access" {
   count               = var.primary_cluster ? 1 : 0
   bucket              = aws_s3_bucket.kubecost_athena_bucket[0].id
   block_public_acls   = true
   block_public_policy = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "kubecost_athena_storage_lifecycle" {
+  count  = var.primary_cluster ? 1 : 0
+  bucket = aws_s3_bucket.kubecost_athena_bucket[0].id
+  rule {
+    id = "expire"
+    expiration {
+      days = var.athena_storage_days
+    }
+    status = "Enabled"
+  }
 }
