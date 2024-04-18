@@ -1,10 +1,10 @@
 # This values file contains all of the images kubecost requires.
-# Kubecost has monthly releases and often time point releases within the month to address any issues.
+# Kubecost has monthly releases and patches to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set global.thanos.enabled=true --set prometheus.kubeStateMetrics.enabled=false --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
@@ -12,29 +12,28 @@
 # imagePullSecrets:
 # - name: "image-pull-secret"
 
-imageVersion: "prod-2.2.0" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+imageVersion: "prod-2.2.2" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
 
 kubecostFrontend:
-  # default: gcr.io/kubecost1/frontend:prod-1.104.0 # Use image -OR- fullImageName
   # fullImageName: YOUR_REGISTRY/frontend:prod-1.104.0
   image: "YOUR_REGISTRY/frontend"
   imagePullPolicy: Always
 
 kubecostModel:
-  # default: gcr.io/kubecost1/frontend:prod-1.104.0
   # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.104.0" # Use image -OR- fullImageName.
   image: "YOUR_REGISTRY/cost-model"
   imagePullPolicy: Always
 
+forecasting:
+  fullImageName: YOUR_REGISTRY/kubecost-modeling:v0.1.6
+
 networkCosts:
-  # default: gcr.io/kubecost1/kubecost-network-costs:v0.16.6
-  image: YOUR_REGISTRY/kubecost-network-costs:v16.6  # Always the full image path with version tag.
+  image: YOUR_REGISTRY/kubecost-network-costs:v17.3  # Always the full image path with version tag.
   imagePullPolicy: Always
 
 # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
 clusterController:
-  # default: gcr.io/kubecost1/cluster-controller:v0.11.0
-  image: YOUR_REGISTRY/cluster-controller:v0.11.0 # Always the full image path with version tag.
+  image: YOUR_REGISTRY/cluster-controller:v0.16.0 # Always the full image path with version tag.
   imagePullPolicy: Always
 
 # initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
@@ -47,11 +46,9 @@ prometheus:
   server:
     image:
       repository: YOUR_REGISTRY/prometheus
-      tag: v2.35.0
+      tag: v2.51.2
       pullPolicy: IfNotPresent
-    sidecarContainers:
-    - name: thanos-sidecar
-      image: YOUR_REGISTRY/thanos:v0.29.0
+
 
   # alertmanager:
   #   image:
@@ -59,12 +56,12 @@ prometheus:
   #     tag: v0.23.0
   #     pullPolicy: IfNotPresent
 
-  configmapReload:
-    prometheus:
-      image:
-        repository: YOUR_REGISTRY/configmap-reload
-        tag: v0.7.1
-        pullPolicy: IfNotPresent
+  # configmapReload:
+  #   prometheus:
+  #     image:
+  #       repository: YOUR_REGISTRY/configmap-reload
+  #       tag: v0.7.1
+  #       pullPolicy: IfNotPresent
     # alertmanager:
     #   image:
     #     repository: YOUR_REGISTRY/configmap-reload
@@ -77,7 +74,7 @@ prometheus:
     # if required:
     image:
       repository: YOUR_REGISTRY/node-exporter
-      tag: v1.3.0
+      tag: v1.7.0
       pullPolicy: IfNotPresent
   # pushgateway is not enabled by default
   # pushgateway:
@@ -90,12 +87,12 @@ prometheus:
 grafana:
   image:
     repository: YOUR_REGISTRY/grafana
-    tag: 9.0.2
+    tag: 10.4.1
     pullPolicy: IfNotPresent
   sidecar:
     image:
       repository: YOUR_REGISTRY/k8s-sidecar
-      tag: 1.23.1
+      tag: 1.26.1
       pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
