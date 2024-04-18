@@ -1,5 +1,5 @@
 apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+kind: PodMonitor
 metadata:
   name: kubecost-networking
   labels:
@@ -7,18 +7,13 @@ metadata:
     app.kubernetes.io/instance: kubecost
     app: kubecost-network-costs
 spec:
-  endpoints:
+  podMetricsEndpoints:
     - port: metrics
       honorLabels: true
       interval: 1m
       scrapeTimeout: 10s
       path: /metrics
       scheme: http
-  namespaceSelector:
-    matchNames:
-      - kubecost
   selector:
     matchLabels:
-      app: kubecost-network-costs
-      app.kubernetes.io/instance: kubecost
-      app.kubernetes.io/name: cost-analyzer
+      app.kubernetes.io/name: network-costs

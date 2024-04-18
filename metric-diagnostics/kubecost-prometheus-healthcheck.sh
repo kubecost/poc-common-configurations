@@ -1,19 +1,29 @@
 #!/bin/bash
 
-# set HOST_NAME to prometheus endpoint.
-# there is a false negative test, if you don't see "FALSE_NEGATIVE" in the the OPTIONAL_METRICS, script output is invalid.
-# some metrics are optional: kubecost_pod_network*/GPU metrics/container_fs
-# metrics are expoesed on cost-model container :9003/metrics
-# show all kubecost metrics in grafana: topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
-
-# HOST_NAME=$KUBECOST_SERVICE
-HOST_NAME=$KUBECOST_SERVICE
+# set HOST_NAME to the Kubecost fqdn, including the path to the frontend api service
+# For example, if you port forward kubecost:
+# kubectl port-forward -n kubecost svc/kubecost-cost-analyzer 9090
+# then set the HOST_NAME:
 # export HOST_NAME="http://localhost:9090/model/prometheusQuery"
 
-if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="false"; fi
-if [[ -z $CHECK_LABELS ]]; then CHECK_LABELS="false"; fi
-if [[ -z $MULTI_CLUSTER ]]; then echo "The env varaible for MULTI_CLUSTER must be true or false" && exit 1 ; fi
 
+# IMPORTANT: there is a false negative test, if you don't see "FALSE_NEGATIVE" in the the OPTIONAL_METRICS, the script output is invalid.
+# some metrics are optional: kubecost_pod_network*/GPU metrics/annotations
+
+# sample query to show all kubecost metrics in grafana:
+# topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
+
+# HOST_NAME=$KUBECOST_SERVICE
+# export HOST_NAME="http://localhost:9090/model/prometheusQuery"
+
+if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="true"; fi
+if [[ -z $CHECK_LABELS ]]; then CHECK_LABELS="false"; fi
+if [[ -z $MULTI_CLUSTER ]]; then MULTI_CLUSTER="false" ; fi
+if [[ -z $RUN_IN_POD ]]; then RUN_IN_POD="false" ; fi
+if [[ -z $KUBECOST_SERVICE ]]; then HOST_NAME="$KUBECOST_SERVICE" ; fi
+
+
+# TODO: fix multi-cluster (only needed for AMP/Mimir/GMP/etc)
 if ${MULTI_CLUSTER}; then
     if [[ -z $PROM_CLUSTERID_LABEL ]]; then echo "The env varaible for PROM_CLUSTERID_LABEL must be set" && exit 1 ; fi
     if [[ -z $CLUSTER_NAME ]]; then echo "The env varaible for CLUSTER_NAME must be set" && exit 1 ; fi
@@ -23,7 +33,9 @@ fi
 
 check_metric_missing()
 {
-
+# echo curl -G --data-urlencode "query=absent_over_time($1$CLUSTER_FILTER[2m])" "$HOST_NAME"
+# curl -G --data-urlencode "query=absent_over_time($1$CLUSTER_FILTER[2m])" "$HOST_NAME"
+# exit
 if  curl -sG --data-urlencode "query=absent_over_time($1[2m])" "$HOST_NAME"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
 echo "Missing: $1"
 fi
@@ -57,7 +69,6 @@ kube_persistentvolumeclaim_info
 kube_persistentvolumeclaim_resource_requests_storage_bytes
 kube_pod_container_resource_requests
 kube_pod_container_status_running
-kube_pod_container_status_terminated_reason
 kube_pod_labels
 kube_pod_owner
 kubecost_allocation_data_status
@@ -90,9 +101,20 @@ node_cpu_seconds_total
 node_memory_MemTotal_bytes
 prometheus_target_interval_length_seconds')
 
-# The pod script runs in a loop, but this standalone script does not.
-# while true; do
 
+if [[ -z $HOST_NAME ]]; then
+    echo "HOST_NAME is not set"
+    exit 1
+fi
+
+if [[ $HOST_NAME != http?(s)://* ]]; then
+    echo "HOST_NAME must start with http:// or https://"
+    exit 1
+fi
+
+
+run_checks()
+{
     echo "------------Starting_Missing_Metrics_Check--------------"
     echo "Host: $HOST_NAME"
     echo "REQUIRED_METRICS Missing:"
@@ -105,22 +127,23 @@ prometheus_target_interval_length_seconds')
     check_metric_missing $str
     done
 
-    if [[ "$OUTPUT_LABELS" ]]; then
-        echo "This script will now verify that labels exist for required metrics. This can be then sent to support."
-        echo " "
-        echo -n "Would you like to continue [y/N]? "
-        read r
-
-        if [ "$r" == "${r#[y]}" ]; then
-        echo "Exiting..."
-        exit 0
-        fi
+    if [[ "$OUTPUT_LABELS" = "true" ]]; then
         echo "Label Check:"
         for str in ${REQUIRED_METRICS[@]}; do
         check_metric_labels $str
         done
     fi
+}
 
-#     echo "-----------Sleeping 600 seconds----------"
-#     sleep 600
-# done
+run_checks
+
+if [[ "$RUN_IN_POD" = "true" ]]; then
+    echo "Running in pod mode"
+    sleep 600
+    while true; do
+
+        run_checks
+        echo "-----------Sleeping 600 seconds----------"
+        sleep 600
+    done
+fi

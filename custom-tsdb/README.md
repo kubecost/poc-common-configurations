@@ -4,15 +4,7 @@ See <https://docs.kubecost.com/install-and-configure/advanced-configuration/cust
 
 ## Diagnostics pod
 
-To assist in troubleshooting, a diagnostics pod can be deployed to check the health of the Prometheus instance. This pod will check for the presence of all required metrics.
-
-See:
-
-[Pod manifest](kubecost-metric-check.yaml) which runs this script: [kubecost-prometheus-healthcheck.sh](kubecost-prometheus-healthcheck.sh)
-
-```sh
-
-```
+A diagnostics pod is available for validating that required metrics are met: [readme](../metric-diagnostics/REAME.md).
 
 ## Notice
 
