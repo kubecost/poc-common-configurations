@@ -5,6 +5,7 @@ resource "kubernetes_secret" "federated_store" {
   metadata {
     name      = "federated-store"
     namespace = var.namespace
+    labels    = var.kubecost_non_helm_k8s_labels
   }
 
   data = {

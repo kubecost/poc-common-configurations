@@ -8,7 +8,7 @@ Resources:
     Type: 'AWS::Glue::Database'
     Properties:
       DatabaseInput:
-        Name: 'kubecost_${ACCOUNT_NUM}'  # TODO: make sure to align this with the s3 bucket
+        Name: 'kubecost_${ACCOUNT_NUM}'
       CatalogId: !Ref AWS::AccountId
 
 
@@ -95,7 +95,7 @@ Resources:
     Type: 'AWS::Glue::Crawler'
     DependsOn:
       - AWSCURDatabase
-      - AWSCURCrawlerComponentFunction  # TODO: Old CloudFormation did not have this
+      - AWSCURCrawlerComponentFunction
     Properties:
       Name: 'kubecost_${ACCOUNT_NUM}'
       Description: A recurring crawler that keeps your CUR table in Athena up-to-date.

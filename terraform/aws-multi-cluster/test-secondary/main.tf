@@ -11,7 +11,7 @@ data "aws_caller_identity" "current" {}
 
 variable "cluster_id" {
   description = "Name for the EKS clutser - e.g. dev,staging"
-  default     = "atmos-scratch-bolinas-acu"
+  default     = "test"
 }
 
 module "kubecost" {

@@ -10,6 +10,12 @@ resource "aws_iam_role" "kubecost_federated_storage" {
   })
 
   tags = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      role_last_used,
+    ]
+  }
 }
 
 resource "aws_iam_policy" "kubecost_federated_storage" {

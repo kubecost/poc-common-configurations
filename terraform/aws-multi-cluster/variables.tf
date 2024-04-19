@@ -4,6 +4,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "kubecost_non_helm_k8s_labels" {
+  type    = map(string)
+  default = {}
+}
+
 ### Primary Cluster variables
 
 variable "license" {
@@ -34,6 +39,7 @@ variable "secondary_account_numbers" {
 variable "athena_storage_bucket_name" {
   description = "Name of the bucket in the primary account which stores athena query results. This module will create the bucket"
   type        = string
+  default     = "athena_not_needed_in_secondary_account"
 }
 
 variable "force_destroy_s3_buckets" {
@@ -103,7 +109,6 @@ variable "helm_postrender_script_path" {
   default     = ""
 }
 
-# TODO: Currently only supports one argument
 variable "helm_postrender_script_args" {
   description = "Arguments for the postrender script"
   default     = ""

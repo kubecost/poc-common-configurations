@@ -9,10 +9,12 @@ resource "aws_s3_bucket" "kubecost_federated_storage" {
 }
 
 resource "aws_s3_bucket_public_access_block" "s3_bucket_private_access" {
-  count               = var.primary_cluster ? 1 : 0
-  bucket              = aws_s3_bucket.kubecost_federated_storage[0].id
-  block_public_acls   = true
-  block_public_policy = true
+  count                   = var.primary_cluster ? 1 : 0
+  bucket                  = aws_s3_bucket.kubecost_federated_storage[0].id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "kubecost_federated_storage_lifecycle" {
@@ -64,10 +66,12 @@ resource "aws_s3_bucket" "kubecost_athena_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "kubecost_athena_private_access" {
-  count               = var.primary_cluster ? 1 : 0
-  bucket              = aws_s3_bucket.kubecost_athena_bucket[0].id
-  block_public_acls   = true
-  block_public_policy = true
+  count                   = var.primary_cluster ? 1 : 0
+  bucket                  = aws_s3_bucket.kubecost_athena_bucket[0].id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "kubecost_athena_storage_lifecycle" {

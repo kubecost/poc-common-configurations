@@ -11,7 +11,7 @@ data "aws_caller_identity" "current" {}
 
 variable "cluster_id" {
   description = "Name for the EKS clutser - e.g. dev,staging"
-  default     = "atmos-scratch-bolinas"
+  default     = "dev"
 }
 
 module "kubecost" {
@@ -20,7 +20,8 @@ module "kubecost" {
   primary_cluster                 = true
   federated_storage_bucket_name   = "kubecost-poc-2024-03"
   federated_storage_bucket_region = "us-west-2"
+  athena_storage_bucket_name      = "kubecost_athena"
   kubecost_version                = "2.2.0"
   cluster_id                      = var.cluster_id
-  secondary_account_number        = "942795021942"
+  secondary_account_numbers       = ["232432423"]
 }

@@ -61,6 +61,7 @@ resource "kubernetes_secret" "kubecost_license" {
   metadata {
     name      = "kubecost-license"
     namespace = var.namespace
+    labels    = var.kubecost_non_helm_k8s_labels
   }
 
   data = {
@@ -68,12 +69,12 @@ resource "kubernetes_secret" "kubecost_license" {
   }
 }
 
-# TODO: Parameterize cloud-integration.json
 resource "kubernetes_secret" "kubecost_cloud_integration" {
   count = var.primary_cluster ? 1 : 0
   metadata {
     name      = "cloud-integration"
     namespace = var.namespace
+    labels    = var.kubecost_non_helm_k8s_labels
   }
 
   data = {
@@ -82,10 +83,10 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
     "aws": [
         {
             "athenaBucketName": "s3://${var.athena_storage_bucket_name}",
-            "athenaRegion": "us-west-2",
-            "athenaDatabase": "kubecost_776719623202",
-            "athenaTable": "kubecost_776719623202",
-            "projectID": "776719623202"
+            "athenaRegion": "${data.aws_region.current.name}",
+            "athenaDatabase": "kubecost_${data.aws_caller_identity.current.account_id}",
+            "athenaTable": "kubecost_${data.aws_caller_identity.current.account_id}",
+            "projectID": "${data.aws_caller_identity.current.account_id}"
         }
     ]
 }
@@ -94,10 +95,11 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
 }
 
 resource "kubernetes_secret" "kubecost_saml_secret" {
-  count = var.primary_cluster ? 1 : 0
+  count = var.primary_cluster && var.saml_enabled ? 1 : 0
   metadata {
     name      = "kubecost-saml"
     namespace = var.namespace
+    labels    = var.kubecost_non_helm_k8s_labels
   }
 
   data = {
