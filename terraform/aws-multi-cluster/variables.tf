@@ -144,3 +144,152 @@ variable "saml_app_root_url" {
   type        = string
   default     = ""
 }
+
+
+# Kubernetes resource requests/limits
+
+#kubecostFrontend
+variable "kubecost_frontend_cpu_request" {
+  description = "CPU request for frontend deployment"
+  default     = "10m"
+}
+
+variable "kubecost_frontend_memory_request" {
+  description = "Memory request for frontend deployment"
+  default     = "55Mi"
+}
+
+variable "kubecost_frontend_cpu_limit" {
+  description = "CPU limit for frontend deployment"
+  default     = "100m"
+}
+
+variable "kubecost_frontend_memory_limit" {
+  description = "Memory limit for frontend deployment"
+  default     = "256Mi"
+}
+
+#kubecostModel
+variable "kubecost_model_cpu_request" {
+  description = "CPU request for model deployment"
+  default     = "200m"
+}
+
+variable "kubecost_model_memory_request" {
+  description = "Memory request for model deployment"
+  default     = "55Mi"
+}
+
+variable "kubecost_model_cpu_limit" {
+  description = "CPU limit for model deployment"
+  default     = "1"
+}
+
+variable "kubecost_model_memory_limit" {
+  description = "Memory limit for model deployment"
+  default     = "256Mi"
+}
+
+#kubecostAggregator
+
+variable "kubecost_aggregator_cpu_request" {
+  description = "CPU request for aggregator deployment"
+  default     = "1"
+}
+
+variable "kubecost_aggregator_memory_request" {
+  description = "Memory request for aggregator deployment"
+  default     = "1Gi"
+}
+
+variable "kubecost_aggregator_cpu_limit" {
+  description = "CPU limit for aggregator deployment"
+  default     = "1"
+}
+
+variable "kubecost_aggregator_memory_limit" {
+  description = "Memory limit for aggregator deployment"
+  default     = "1Gi"
+}
+
+#kubecostaggregator_cloudcost
+
+variable "kubecost_aggregator_cloudcost_cpu_request" {
+  description = "CPU request for aggregator cloudcost deployment"
+  default     = "1"
+}
+
+variable "kubecost_aggregator_cloudcost_memory_request" {
+  description = "Memory request for aggregator cloudcost deployment"
+  default     = "1Gi"
+}
+
+variable "kubecost_aggregator_cloudcost_cpu_limit" {
+  description = "CPU limit for aggregator cloudcost deployment"
+  default     = "1"
+}
+
+variable "kubecost_aggregator_cloudcost_memory_limit" {
+  description = "Memory limit for aggregator cloudcost deployment"
+  default     = "1Gi"
+}
+
+# prometheus
+variable "kubecost_prometheus_server_cpu_limit" {
+  description = "CPU limit for kubecost-prometheus-server deployment"
+  default     = "500m"
+}
+
+variable "kubecost_prometheus_server_memory_limit" {
+  description = "Memory limit for kubecost-prometheus-server deployment"
+  default     = "2Gi"
+}
+
+variable "kubecost_prometheus_server_cpu_request" {
+  description = "CPU request for kubecost-prometheus-server deployment"
+  default     = "500m"
+}
+
+variable "kubecost_prometheus_server_memory_request" {
+  description = "Memory request for kubecost-prometheus-server deployment"
+  default     = "1Gi"
+}
+
+#networkCosts
+
+variable "kubecost_network_cost_cpu_limit" {
+  description = "CPU request for network deployment"
+  default     = "500m"
+}
+
+variable "kubecost_network_cost_memory_limit" {
+  description = "Memory request for network deployment"
+  default     = "4Gi"
+}
+
+variable "kubecost_network_cost_cpu_request" {
+  description = "CPU limit for network deployment"
+  default     = "50m"
+}
+
+variable "kubecost_network_cost_memory_request" {
+  description = "Memory limit for network deployment"
+  default     = "20Mi"
+}
+
+#Kubernetes pvc sizes
+
+variable "cost_analyzer_pvc_size" {
+  description = "PVC size for cost analyzer"
+  default     = "32Gi"
+}
+
+variable "cost_analyzer_db_size" {
+  description = "DB size for cost analyzer"
+  default     = "32.0Gi"
+}
+
+variable "kubecost_prometheus_server_pvc_size" {
+  description = "Size of kubecost-prometheus-server PVC"
+  default     = "32Gi"
+}

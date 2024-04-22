@@ -33,17 +33,70 @@ prometheus:
     global:
       external_labels:
         cluster_id: ${var.cluster_id}
+    persistentVolume:
+      size: "${var.kubecost_prometheus_server_pvc_size}"
+    resources:
+      limits:
+        cpu: "${var.kubecost_prometheus_server_cpu_limit}"
+        memory: "${var.kubecost_prometheus_server_memory_limit}"
+      requests:
+        cpu: "${var.kubecost_prometheus_server_cpu_request}"
+        memory: "${var.kubecost_prometheus_server_memory_request}"
 forecasting:
   enabled: false
 
 kubecostAggregator:
   deployMethod: statefulset
+  resources:
+    requests:
+      cpu: "${var.kubecost_aggregator_cpu_request}"
+      memory: "${var.kubecost_aggregator_memory_request}"
+    limits:
+      cpu: "${var.kubecost_aggregator_cpu_limit}"
+      memory: "${var.kubecost_aggregator_memory_limit}"
+  cloudCost:
+    resources:
+      requests:
+        cpu: "${var.kubecost_aggregator_cloudcost_cpu_request}"
+        memory: "${var.kubecost_aggregator_cloudcost_memory_request}"
+      limits:
+        cpu: "${var.kubecost_aggregator_cloudcost_cpu_limit}"
+        memory: "${var.kubecost_aggregator_cloudcost_memory_limit}"
 
 kubecostModel:
   federatedStorageConfigSecret: federated-store
+  resources:
+    requests:
+      cpu: "${var.kubecost_model_cpu_request}"
+      memory: "${var.kubecost_model_memory_request}"
+    limits:
+      cpu: "${var.kubecost_model_cpu_limit}"
+      memory: "${var.kubecost_model_memory_limit}"
 serviceAccount:
   annotations:
     "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage.arn}
+
+kubecostFrontend:
+  resources:
+    requests:
+      cpu: "${var.kubecost_frontend_cpu_request}"
+      memory: "${var.kubecost_frontend_memory_request}"
+    limits:
+      cpu: "${var.kubecost_frontend_cpu_limit}"
+      memory: "${var.kubecost_frontend_memory_limit}"
+
+persistentVolume:
+  size: "${var.cost_analyzer_pvc_size}"
+  dbSize: "${var.cost_analyzer_db_size}"
+
+networkCosts:
+  resources:
+      limits:
+          cpu: "${var.kubecost_network_cost_cpu_limit}"
+          memory: "${var.kubecost_network_cost_memory_limit}"
+      requests:
+          cpu: "${var.kubecost_network_cost_cpu_request}"
+          memory: "${var.kubecost_network_cost_memory_request}"
 
 saml:
   enabled: ${var.saml_enabled}

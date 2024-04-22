@@ -27,12 +27,39 @@ prometheus:
     global:
       external_labels:
         cluster_id: ${var.cluster_id}
+    persistentVolume:
+      size: "${var.kubecost_prometheus_server_pvc_size}"
+    resources:
+      limits:
+        cpu: "${var.kubecost_prometheus_server_cpu_limit}"
+        memory: "${var.kubecost_prometheus_server_memory_limit}"
+      requests:
+        cpu: "${var.kubecost_prometheus_server_cpu_request}"
+        memory: "${var.kubecost_prometheus_server_memory_request}"
 forecasting:
   enabled: false
 federatedETL:
   agentOnly: true
 kubecostModel:
   federatedStorageConfigSecret: federated-store
+  resources:
+    requests:
+      cpu: "${var.kubecost_model_cpu_request}"
+      memory: "${var.kubecost_model_memory_request}"
+    limits:
+      cpu: "${var.kubecost_model_cpu_limit}"
+      memory: "${var.kubecost_model_memory_limit}"
+networkCosts:
+  resources:
+      limits:
+          cpu: "${var.kubecost_network_cost_cpu_limit}"
+          memory: "${var.kubecost_network_cost_memory_limit}"
+      requests:
+          cpu: "${var.kubecost_network_cost_cpu_request}"
+          memory: "${var.kubecost_network_cost_memory_request}"
+persistentVolume:
+  size: "${var.cost_analyzer_pvc_size}"
+  dbSize: "${var.cost_analyzer_db_size}"
 serviceAccount:
   annotations:
     "eks.amazonaws.com/role-arn": ${aws_iam_role.kubecost_federated_storage.arn}
