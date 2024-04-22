@@ -100,7 +100,7 @@ Kubecost leverages carbon coefficient data sourced from the Cloud Carbon Footpri
 
 ### Kubecost Actions
 
-Kubecost Actions is a powerful feature that allows you to create and manage automated savings actions directly within your Kubecost environment. Actions enable you to optimize cost management through a variety of strategies such as cluster turndown, request sizing, and namespace turndown, among others.
+[Kubecost Actions](https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/savings/savings-actions) is a powerful feature that allows you to create and manage automated savings actions directly within your Kubecost environment. Actions enable you to optimize cost management through a variety of strategies such as cluster turndown, request sizing, and namespace turndown, among others.
 
 #### Enabling Kubecost Actions
 To utilize Kubecost Actions, you first need to enable the Cluster Controller, which provides Kubecost administrative access to perform the actions. Note that this feature should be used with caution, as it allows write access to your cluster and can perform irreversible actions. Always ensure you have a backup before enabling.
