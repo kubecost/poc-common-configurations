@@ -91,7 +91,7 @@ This section introduces additional plugins that extend the functionality of Kube
 
 ### Carbon Costs
 
-The Carbon Costs plugin adds a unique metric to both the Allocation and Assets dashboards within Kubecost. This metric, measured in kilograms of CO2 equivalent (KG CO2e), follows the Environmental Protection Agency (EPA)'s definition:
+The Carbon Costs plugin (also see: [official docs](https://docs.kubecost.com/using-kubecost/carbon-costs)) adds a unique metric to both the Allocation and Assets dashboards within Kubecost. This metric, measured in kilograms of CO2 equivalent (KG CO2e), follows the Environmental Protection Agency (EPA)'s definition:
 
 > **Carbon dioxide equivalent (CO2e)** is the measure used to compare the emissions from various greenhouse gases based on their global warming potential (GWP). The CO2e for any gas is calculated by multiplying the tons of the gas by the associated GWP. \(CO2e = Metric Tons x GWP of the gas\).
 
