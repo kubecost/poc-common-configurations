@@ -85,6 +85,52 @@ https://docs.kubecost.com/install-and-configure/install/cloud-integration/multi-
 
 Once you have created the required secret, uncomment `kubecostProductConfigs.cloudIntegrationSecret` and populate the secret in `helmrelease-flux-primary.yaml` and apply the changes.
 
+## Kubecost Additional Plugins
+
+This section introduces additional plugins that extend the functionality of Kubecost, focusing on Kubecost Actions and Carbon Costs. These plugins provide more granular insights and control over your cloud spending and environmental impact.
+
+### Carbon Costs
+
+The Carbon Costs plugin adds a unique metric to both the Allocation and Assets dashboards within Kubecost. This metric, measured in kilograms of CO2 equivalent (KG CO2e), follows the Environmental Protection Agency (EPA)'s definition:
+
+> **Carbon dioxide equivalent (CO2e)** is the measure used to compare the emissions from various greenhouse gases based on their global warming potential (GWP). The CO2e for any gas is calculated by multiplying the tons of the gas by the associated GWP. \(CO2e = Metric Tons x GWP of the gas\).
+
+Kubecost leverages carbon coefficient data sourced from the Cloud Carbon Footprint initiative, attributing estimated carbon costs to various assets such as disk, node, and network resources, based on their operational runtime. These costs are subsequently allocated across different resources to provide a comprehensive view of environmental impact. For deeper insights into the coefficients' methodology, refer to the [Cloud Carbon Footprint's methodology page](https://www.cloudcarbonfootprint.org/docs/methodology).
+
+
+### Kubecost Actions
+
+Kubecost Actions is a powerful feature that allows you to create and manage automated savings actions directly within your Kubecost environment. Actions enable you to optimize cost management through a variety of strategies such as cluster turndown, request sizing, and namespace turndown, among others.
+
+#### Enabling Kubecost Actions
+To utilize Kubecost Actions, you first need to enable the Cluster Controller, which provides Kubecost administrative access to perform the actions. Note that this feature should be used with caution, as it allows write access to your cluster and can perform irreversible actions. Always ensure you have a backup before enabling.
+
+#### Action Capabilities
+- **Cluster Turndown:** Schedule the spin-down of clusters during idle times to save costs.
+- **Request Sizing:** Automatically right-size container requests to prevent over-provisioning.
+- **Namespace Turndown:** Manage and delete idle workloads to maintain efficiency in resource usage.
+
+#### Creating an Action
+In the Actions page, you can create a new action or manage existing ones. Choose from predefined actions like cluster turndown or request sizing, and configure them according to your needs. For experimental features like Guided Sizing and Cluster Sizing, enable them in the settings under 'Enable experimental features'.
+
+For a complete guide on how to enable and manage Kubecost Actions, including detailed configurations and recommendations, please visit the official documentation page: [Kubecost Actions Documentation](https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/savings/savings-actions#enabling-kubecost-actions).
+
+
+## Plugin Configuration in `helmrelease-plugins.yaml`
+
+To enable the Carbon Costs and Kubecost Actions features, there is a seperate template file called `helmrelease-plugins.yaml` , where we have outlined all of the configs that you can add to your release yaml. Note that , all of the configs go into your primary cluster's helm release.
+
+### Configuring Plugins on Your Primary Cluster
+
+All plugin configurations, including Carbon Costs and the various Kubecost Actions (Cluster Turndown, Namespace Turndown, Cluster Sizing), should be conducted on your primary cluster. The `helmrelease-plugins.yaml` file has been meticulously crafted to provide detailed settings for each action, facilitating significant infrastructure cost savings.
+
+It's important to ensure that the plugin configurations templates are correctly implemented in the `helmrelease-plugins.yaml` to enable these features fully. 
+
+For more guidance on configuring the `helmrelease-plugins.yaml` file for different Kubecost actions and ensuring optimal savings. Each section is tailored to help you efficiently configure and manage the respective features to maximize your infrastructure's cost-efficiency.
+
+
+
+
 ### Debugging Steps
 
 If you encounter issues during the installation process, follow these debugging steps to diagnose and resolve problems:
