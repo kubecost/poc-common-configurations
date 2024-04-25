@@ -47,6 +47,9 @@ forecasting:
 
 kubecostAggregator:
   deployMethod: statefulset
+  env:
+    DB_BUCKET_REFRESH_INTERVAL: "${var.kubecost_aggregator_bucket_refresh_interval}"
+    ETL_DAILY_STORE_DURATION_DAYS: "${var.kubecost_aggregator_db_storage_days}"
   resources:
     requests:
       cpu: "${var.kubecost_aggregator_cpu_request}"

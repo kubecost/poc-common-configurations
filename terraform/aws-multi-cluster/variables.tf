@@ -81,6 +81,16 @@ variable "kubecost_cloud_formation_stack_name" {
   default     = "kubecost"
 }
 
+variable "kubecost_aggregator_bucket_refresh_interval" {
+  description = "how long the Aggregator spends ingesting ETL datafrom the federated store bucket into SQL tables"
+  default     = "2h"
+}
+
+variable "kubecost_aggregator_db_storage_days" {
+  description = "how much data to keep in the DB before rolling the data off"
+  default     = "365"
+}
+
 ### Helm variables in primary and secondary clusters
 
 variable "cluster_id" {
