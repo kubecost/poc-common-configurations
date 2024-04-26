@@ -303,3 +303,16 @@ variable "kubecost_prometheus_server_pvc_size" {
   description = "Size of kubecost-prometheus-server PVC"
   default     = "32Gi"
 }
+
+
+# features -  Anomalies, network cost, cluster controller, datadog external costs
+
+variable "networkcost_enabled" {
+  description = "Enable network cost"
+  default     = false
+}
+
+variable "forecast_enabled" {
+  description = "Enable forecasting ML"
+  default     = true
+}

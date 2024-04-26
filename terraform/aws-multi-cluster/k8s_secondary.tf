@@ -37,7 +37,7 @@ prometheus:
         cpu: "${var.kubecost_prometheus_server_cpu_request}"
         memory: "${var.kubecost_prometheus_server_memory_request}"
 forecasting:
-  enabled: false
+  enabled: ${var.forecast_enabled}
 federatedETL:
   agentOnly: true
 kubecostModel:
@@ -50,6 +50,7 @@ kubecostModel:
       cpu: "${var.kubecost_model_cpu_limit}"
       memory: "${var.kubecost_model_memory_limit}"
 networkCosts:
+  enabled: ${var.networkcost_enabled}
   resources:
       limits:
           cpu: "${var.kubecost_network_cost_cpu_limit}"

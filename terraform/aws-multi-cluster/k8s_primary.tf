@@ -43,7 +43,7 @@ prometheus:
         cpu: "${var.kubecost_prometheus_server_cpu_request}"
         memory: "${var.kubecost_prometheus_server_memory_request}"
 forecasting:
-  enabled: false
+  enabled: ${var.forecast_enabled}
 
 kubecostAggregator:
   deployMethod: statefulset
@@ -93,6 +93,7 @@ persistentVolume:
   dbSize: "${var.cost_analyzer_db_size}"
 
 networkCosts:
+  enabled: ${var.networkcost_enabled}
   resources:
       limits:
           cpu: "${var.kubecost_network_cost_cpu_limit}"
