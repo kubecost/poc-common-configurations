@@ -91,6 +91,26 @@ variable "kubecost_aggregator_db_storage_days" {
   default     = "365"
 }
 
+variable "kubecost_aggregator_db_memory_limit" {
+  description = "Maximum memory DB read process should use"
+  default     = "8GB"
+}
+
+variable "kubecost_aggregator_db_write_memory_limit" {
+  description = "Maximum memory DB write process should use"
+  default     = "8GB"
+}
+
+variable "kubecost_aggregator_db_read_threads" {
+  description = "how many threads the DB read process to run"
+  default     = "3"
+}
+
+variable "kubecost_aggregator_db_write_threads" {
+  description = "how many threads the DB write process to run"
+  default     = "3"
+}
+
 ### Helm variables in primary and secondary clusters
 
 variable "cluster_id" {

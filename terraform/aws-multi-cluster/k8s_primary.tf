@@ -50,6 +50,10 @@ kubecostAggregator:
   env:
     DB_BUCKET_REFRESH_INTERVAL: "${var.kubecost_aggregator_bucket_refresh_interval}"
     ETL_DAILY_STORE_DURATION_DAYS: "${var.kubecost_aggregator_db_storage_days}"
+    DB_MEMORY_LIMIT: "${var.kubecost_aggregator_db_memory_limit}"
+    DB_WRITE_MEMORY_LMIT: "${var.kubecost_aggregator_db_write_memory_limit}"
+    DB_READ_THREADS: "${var.kubecost_aggregator_db_read_threads}"
+    DB_WRITE_THREADS: "${var.kubecost_aggregator_db_write_threads}"
   resources:
     requests:
       cpu: "${var.kubecost_aggregator_cpu_request}"
