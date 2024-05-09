@@ -70,6 +70,11 @@ variable "cur_prefix" {
   default     = ""
 }
 
+variable "athena_table_name" {
+  description = "Name of the athena table which crawler creates, you can control prefix of the table name"
+  default     = "kubecost_123424"
+}
+
 variable "cur_cost_and_usage_data_status_path" {
   description = "AWS S3 bucket path to cost and usage data status"
   type        = string

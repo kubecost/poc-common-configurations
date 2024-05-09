@@ -98,6 +98,9 @@ persistentVolume:
 
 networkCosts:
   enabled: ${var.networkcost_enabled}
+  config:
+    services:
+      amazon-web-services: true
   resources:
       limits:
           cpu: "${var.kubecost_network_cost_cpu_limit}"
@@ -146,7 +149,7 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
             "athenaBucketName": "s3://${var.athena_storage_bucket_name}",
             "athenaRegion": "${data.aws_region.current.name}",
             "athenaDatabase": "kubecost_${data.aws_caller_identity.current.account_id}",
-            "athenaTable": "kubecost_${data.aws_caller_identity.current.account_id}",
+            "athenaTable": "${var.athena_table_name}",
             "projectID": "${data.aws_caller_identity.current.account_id}"
         }
     ]

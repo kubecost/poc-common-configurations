@@ -51,6 +51,9 @@ kubecostModel:
       memory: "${var.kubecost_model_memory_limit}"
 networkCosts:
   enabled: ${var.networkcost_enabled}
+  config:
+    services:
+      amazon-web-services: true
   resources:
       limits:
           cpu: "${var.kubecost_network_cost_cpu_limit}"
