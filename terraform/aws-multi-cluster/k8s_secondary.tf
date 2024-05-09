@@ -71,4 +71,7 @@ serviceAccount:
     ,
     fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
   ]
+  depends_on = [
+    kubernetes_secret.federated_store
+  ]
 }
