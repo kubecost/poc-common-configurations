@@ -73,4 +73,3 @@ If necessary, you can revert this configuration by removing the RoleBinding in t
 kubectl delete rolebinding -n kubecost disable-psp
 ```
 
-#ssh-trial
