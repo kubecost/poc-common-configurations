@@ -15,7 +15,7 @@ This command helps identify if PSPs are blocking pod creation due to insufficien
 ### Method 1: Simple Environment
 For clusters that do not have extensive security configurations:
    
- **Disable PSPs Using Helm**
+ **Disable PSPs - Helm**
    
    Deploy or update Kubecost with PSP disabled using the [`disable-psps.yaml`](disable-psps.yaml) configuration:
    ```shell
