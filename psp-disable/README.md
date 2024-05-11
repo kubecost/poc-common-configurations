@@ -52,7 +52,7 @@ You can find the [`privileged-psp.yaml`](privileged-psp.yaml) in this section.
 
 3. **Per-Namespace Disablement for Kubecost**
 
-   Ensure that the `kubecost` namespace exists (create it if necessary before proceeding). Then, establish a RoleBinding in the `kubecost` namespace to allow all service accounts in this namespace to use the privileged PSP:
+   Ensure that the `kubecost` namespace (or whatever you namespace is) exists (create it if necessary before proceeding). Then, establish a RoleBinding in the `kubecost` namespace to allow all service accounts in this namespace to use the privileged PSP:
    ```sh
    kubectl create rolebinding -n kubecost disable-psp --clusterrole=privileged-psp --group=system:serviceaccounts:kubecost
    ```
