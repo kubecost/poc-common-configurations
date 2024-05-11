@@ -8,7 +8,7 @@ Resources:
     Type: 'AWS::Glue::Database'
     Properties:
       DatabaseInput:
-        Name: 'kubecost_${ACCOUNT_NUM}'  # TODO: make sure to align this with the s3 bucket
+        Name: 'kubecost_${ACCOUNT_NUM}'
       CatalogId: !Ref AWS::AccountId
 
 
@@ -50,7 +50,7 @@ Resources:
                 Action:
                   - 's3:GetObject'
                   - 's3:PutObject'
-                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}*'
+                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/*'
         - PolicyName: AWSCURKMSDecryption
           PolicyDocument:
             Version: 2012-10-17
@@ -95,7 +95,7 @@ Resources:
     Type: 'AWS::Glue::Crawler'
     DependsOn:
       - AWSCURDatabase
-      - AWSCURCrawlerComponentFunction  # TODO: Old CloudFormation did not have this
+      - AWSCURCrawlerComponentFunction
     Properties:
       Name: 'kubecost_${ACCOUNT_NUM}'
       Description: A recurring crawler that keeps your CUR table in Athena up-to-date.
@@ -108,7 +108,7 @@ Resources:
       DatabaseName: !Ref AWSCURDatabase
       Targets:
         S3Targets:
-          - Path: 's3://${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}/'
+          - Path: 's3://${CUR_BUCKET}/${CUR_PREFIX}/'
             Exclusions:
               - '**.json'
               - '**.yml'
@@ -184,7 +184,7 @@ Resources:
       FunctionName: !GetAtt AWSCURInitializer.Arn
       Principal: 's3.amazonaws.com'
       SourceAccount: !Ref AWS::AccountId
-      SourceArn: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}/'
+      SourceArn: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/'
      
 
   AWSS3CURLambdaExecutor:
@@ -214,7 +214,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - 's3:PutBucketNotification'
-                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/${ACCOUNT_NUM}/'
+                Resource: !Sub 'arn:$${AWS::Partition}:s3:::${CUR_BUCKET}/${CUR_PREFIX}/'
        
 
   AWSS3CURNotification:
@@ -281,14 +281,6 @@ Resources:
       Runtime: nodejs18.x
       ReservedConcurrentExecutions: 1
       Role: !GetAtt AWSS3CURLambdaExecutor.Arn
-
-  # AWSPutS3CURNotification:
-  #   Type: 'Custom::AWSPutS3CURNotification'
-  #   Properties:
-  #     ServiceToken: !GetAtt AWSS3CURNotification.Arn
-  #     TargetLambdaArn: !GetAtt AWSCURInitializer.Arn
-  #     BucketName: '${CUR_BUCKET}'  # TODO: Double check correctness
-  #     ReportKey: '${CUR_PREFIX}/${ACCOUNT_NUM}/'  # TODO: Double check correctness
 
   AWSCURReportStatusTable:
     Type: 'AWS::Glue::Table'
