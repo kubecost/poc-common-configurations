@@ -4,7 +4,7 @@
 Pod Security Policies (PSPs) are deprecated as of Kubernetes 1.21 and are being removed in Kubernetes v1.25. The deprecation may cause issues such as pods not spinning up, although  services, deployments, and replicasets are up and running. This can be a key indication of issues with PSPs, especially when running on an older version of Kubernetes.
 
 ## Identifying PSP Issues
-If you suspect PSP issues due to pods not launching while other components appear unaffected, you can confirm this by describing your replica sets:
+If you suspect PSP issues due to pods not launching while other components appear unaffected, you can confirm this by describing your replicasets:
 ```shell
 kubectl describe rs <replica-set-name>
 ```
