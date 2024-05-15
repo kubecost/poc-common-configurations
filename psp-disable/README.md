@@ -1,7 +1,6 @@
+# Deprecated Pod Security Policies
 
-# Disabling Pod Security Policies 
-
-Pod Security Policies (PSPs) are deprecated as of Kubernetes 1.21 and are being removed in Kubernetes v1.25. The deprecation may cause issues such as pods not spinning up, although  services, deployments, and replicasets are up and running. This can be a key indication of issues with PSPs, especially when running on an older version of Kubernetes.
+Pod Security Policies (PSPs) are deprecated as of Kubernetes 1.21 and are removed in Kubernetes v1.25. Kubecost no longer supports PSPs. If you want to install Kubecost 2.x.x on an older Kubernetes version where PSPs are deprecated but not yet removed, you may use this method for installation. Please ensure your PSP configurations are compliant and update your security settings accordingly before PSPs are fully phased out.
 
 ## Identifying PSP Issues
 If you suspect PSP issues due to pods not launching while other components appear unaffected, you can confirm this by describing your replicasets:
@@ -10,25 +9,7 @@ kubectl describe rs <replica-set-name>
 ```
 This command helps identify if PSPs are blocking pod creation due to insufficient or overly restrictive permissions.
 
-## Troubleshooting PSPs
-
-### Method 1: Simple Environment
-For clusters that do not have extensive security configurations:
-   
- **Disable PSPs - Helm**
-   
-   Deploy or update Kubecost with PSP disabled using the [`disable-psps.yaml`](disable-psps.yaml) configuration:
-   ```shell
-   helm upgrade --install kubecost kubecost/cost-analyzer \
-       --namespace kubecost \
-       -f <your-other-values-files> \
-       -f ./disable-psps.yaml
-   ```
-   Replace `<your-other-values-files>` with any additional Helm values files you typically use in your deployments.
-
-### Method 2: Advanced Troubleshooting with Privileged PSP
-
-In production clusters, which typically feature complex security configurations, it's common to employ multiple policy enforcement mechanisms such as Kyverno, OPA (Open Policy Agent), and other security configs. These settings can result in a multitude of interdependent security configurations and potentially lead to a cascade of secomperrors when trying to do it the plain simple way.
+### Installing Kubecost 2.x.x on clusters with deprecated PSPs
 
 This method helps stabilize your deployment by granting broader permissions , allowing you to isolate and address specific policy conflicts or restrictions.
 
