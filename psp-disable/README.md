@@ -11,7 +11,7 @@ This command helps identify if PSPs are blocking pod creation due to insufficien
 
 ### Installing Kubecost 2.x.x on clusters with deprecated PSPs
 
-This method helps stabilize your deployment by granting broader permissions , allowing you to isolate and address specific policy conflicts or restrictions.
+This method helps stabilize your deployment by granting broader permissions, allowing you to isolate and address specific policy conflicts or restrictions.
 
 You can find the [`privileged-psp.yaml`](privileged-psp.yaml) in this section.
 
