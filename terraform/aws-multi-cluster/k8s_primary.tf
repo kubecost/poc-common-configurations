@@ -14,8 +14,6 @@ resource "helm_release" "kubecost_core_primary" {
     args        = [var.helm_postrender_script_args]
   }
 
-  depends_on = [kubernetes_secret.kubecost_license, kubernetes_secret.kubecost_cloud_integration, kubernetes_secret.kubecost_saml_secret]
-
   values = [
     <<EOF
 global:
@@ -43,13 +41,17 @@ prometheus:
         cpu: "${var.kubecost_prometheus_server_cpu_request}"
         memory: "${var.kubecost_prometheus_server_memory_request}"
 forecasting:
-  enabled: false
+  enabled: ${var.forecast_enabled}
 
 kubecostAggregator:
   deployMethod: statefulset
   env:
     DB_BUCKET_REFRESH_INTERVAL: "${var.kubecost_aggregator_bucket_refresh_interval}"
     ETL_DAILY_STORE_DURATION_DAYS: "${var.kubecost_aggregator_db_storage_days}"
+    DB_MEMORY_LIMIT: "${var.kubecost_aggregator_db_memory_limit}"
+    DB_WRITE_MEMORY_LMIT: "${var.kubecost_aggregator_db_write_memory_limit}"
+    DB_READ_THREADS: "${var.kubecost_aggregator_db_read_threads}"
+    DB_WRITE_THREADS: "${var.kubecost_aggregator_db_write_threads}"
   resources:
     requests:
       cpu: "${var.kubecost_aggregator_cpu_request}"
@@ -93,6 +95,10 @@ persistentVolume:
   dbSize: "${var.cost_analyzer_db_size}"
 
 networkCosts:
+  enabled: ${var.networkcost_enabled}
+  config:
+    services:
+      amazon-web-services: true
   resources:
       limits:
           cpu: "${var.kubecost_network_cost_cpu_limit}"
@@ -109,6 +115,13 @@ saml:
     EOF
     ,
     fileexists("${var.helm_values_overrides_path}") ? file("${var.helm_values_overrides_path}") : ""
+  ]
+
+  depends_on = [
+    kubernetes_secret.kubecost_license,
+    kubernetes_secret.kubecost_cloud_integration,
+    kubernetes_secret.kubecost_saml_secret,
+    kubernetes_secret.federated_store
   ]
 }
 
@@ -141,7 +154,7 @@ resource "kubernetes_secret" "kubecost_cloud_integration" {
             "athenaBucketName": "s3://${var.athena_storage_bucket_name}",
             "athenaRegion": "${data.aws_region.current.name}",
             "athenaDatabase": "kubecost_${data.aws_caller_identity.current.account_id}",
-            "athenaTable": "kubecost_${data.aws_caller_identity.current.account_id}",
+            "athenaTable": "${var.athena_table_name}",
             "projectID": "${data.aws_caller_identity.current.account_id}"
         }
     ]

@@ -70,6 +70,11 @@ variable "cur_prefix" {
   default     = ""
 }
 
+variable "athena_table_name" {
+  description = "Name of the athena table which crawler creates, you can control prefix of the table name"
+  default     = "kubecost_123424"
+}
+
 variable "cur_cost_and_usage_data_status_path" {
   description = "AWS S3 bucket path to cost and usage data status"
   type        = string
@@ -89,6 +94,26 @@ variable "kubecost_aggregator_bucket_refresh_interval" {
 variable "kubecost_aggregator_db_storage_days" {
   description = "how much data to keep in the DB before rolling the data off"
   default     = "365"
+}
+
+variable "kubecost_aggregator_db_memory_limit" {
+  description = "Maximum memory DB read process should use"
+  default     = "8GB"
+}
+
+variable "kubecost_aggregator_db_write_memory_limit" {
+  description = "Maximum memory DB write process should use"
+  default     = "8GB"
+}
+
+variable "kubecost_aggregator_db_read_threads" {
+  description = "how many threads the DB read process to run"
+  default     = "3"
+}
+
+variable "kubecost_aggregator_db_write_threads" {
+  description = "how many threads the DB write process to run"
+  default     = "3"
 }
 
 ### Helm variables in primary and secondary clusters
@@ -302,4 +327,17 @@ variable "cost_analyzer_db_size" {
 variable "kubecost_prometheus_server_pvc_size" {
   description = "Size of kubecost-prometheus-server PVC"
   default     = "32Gi"
+}
+
+
+# features -  Anomalies, network cost, cluster controller, datadog external costs
+
+variable "networkcost_enabled" {
+  description = "Enable network cost"
+  default     = false
+}
+
+variable "forecast_enabled" {
+  description = "Enable forecasting ML"
+  default     = true
 }
