@@ -36,3 +36,8 @@ terraform apply
     1. Set up a role in every account with S3 read/write permissions
     1. Set up S3 bucket and  grant access to every other secondary accounts
 1. Cloud Cost Integration Configuration. Create up CUR data processing pipeline and S3 bucket for Athena in primary account only. This is store storage for athena query results.
+
+
+# Architecture Digram
+
+![Architecture Digram](./kubecost.png)
