@@ -12,6 +12,6 @@ Please let us know if you would like examples added either in the github issues 
 
 ## Usage
 
-Most users should follow the [ETL Federation setup](etl-federation/README.md) as it is the most scalable and flexible. This architecture supports both using existing prometheus instances or the Kubecost bundled version.
+Most users should follow the [ETL Federation setup](etl-federation-aggregator/README.md) as it is the most scalable and flexible. This architecture supports both using existing prometheus instances or the Kubecost bundled version.
 
 In addition to the Federated ETL setup, please follow the cloud-integration guide for the respective cloud providers in the AWS/Azure/GCP folders.
