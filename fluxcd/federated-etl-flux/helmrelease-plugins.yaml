@@ -1,0 +1,253 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kubecost # Replace with the release name
+  namespace: flux-system # Replace with the namespace
+spec:
+  interval: 5m
+  targetNamespace: kubecost # Replace with the target namespace
+  chart:
+    spec:
+      chart: cost-analyzer
+      version: '>=2.0.0 <2.2.0'
+      sourceRef:
+        kind: HelmRepository
+        name: kubecost-charts # Replace with the Helm repository name
+        namespace: flux-system # Namespace for the Helm repository
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: True
+  values:
+    kubecostAggregator:
+      replicas: 1
+      deployMethod: statefulset
+    kubecostProductConfigs:
+      productKey:
+        enabled: true
+        key: "{{ .Values.kubecostProductConfigs.productKey }}" # Replace with your product key
+      cloudIntegrationSecret: "{{ .Values.kubecostProductConfigs.cloudIntegrationSecret }}" # Replace with your cloud integration secret
+      clusterName: "{{ .Values.clusterName }}" # Replace with your cluster name
+      # Enables Kubecost beta carbon estimation endpoints /assets/carbon and /allocations/carbon
+      carbonEstimates:
+        enabled: true
+      labelMappingConfigs:
+        enabled: true
+        owner_label: "{{ .Values.labelMappingConfigs.owner_label }}" # Define your labels
+        team_label: "{{ .Values.labelMappingConfigs.team_label }}"
+        department_label: "{{ .Values.labelMappingConfigs.department_label }}"
+        product_label: "{{ .Values.labelMappingConfigs.product_label }}"
+        environment_label: "{{ .Values.labelMappingConfigs.environment_label }}"
+    prometheus:
+      server:
+        global:
+          external_labels:
+            cluster_id: "{{ .Values.clusterId }}" # Replace with your cluster ID
+    global:
+      prometheus:
+        enabled: false
+      thanos:
+        enabled: false
+      grafana:
+        enabled: false
+        domainName: "{{ .Values.global.grafana.domainName }}" # Replace with your Grafana domain name
+      podAnnotations:
+        iam.amazonaws.com/role: "{{ .Values.global.podAnnotations.iamRole }}" # Replace with your IAM role
+      securityContext:
+        seccompProfile: null
+        runAsNonRoot: false
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      hosts:
+      - "{{ .Values.ingress.host }}" # Replace with your ingress host
+    initChownDataImage: "{{ .Values.initChownDataImage }}" # Replace with your init chown data image
+    kubecostFrontend:
+      enabled: true
+      image: "gcr.io/kubecost1/frontend"
+      imagePullPolicy: Always
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+       # set to true to set all upstreams to use <service>.<namespace>.svc.cluster.local instead of just <service>.<namespace>
+      useDefaultFqdn: false
+    #  api:
+    #    fqdn: kubecost-api.kubecost.svc.cluster.local:9001
+    #  model:
+    #    fqdn: kubecost-model.kubecost.svc.cluster.local:9003
+    #  forecasting:
+    #    fqdn: kubecost-forcasting.kubecost.svc.cluster.local:5000
+    #  aggregator:
+    #    fqdn: kubecost-aggregator.kubecost.svc.cluster.local:9004
+    #  cloudCost:
+    #    fqdn: kubecost-cloud-cost.kubecost.svc.cluster.local:9005
+    #  multiClusterDiagnostics:
+    #    fqdn: kubecost-multi-diag.kubecost.svc.cluster.local:9007
+    #  clusterController:
+    #    fqdn: cluster-controller.kubecost.svc.cluster.local:9731
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 200
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 200
+    kubecostModel:
+      containerStatsEnabled: true
+      resources:
+        limits:
+          cpu: 6000m
+          memory: 64Gi
+      etlBucketConfigSecret: "{{ .Values.kubecostModel.etlBucketConfigSecret }}" # Replace with your ETL bucket config secret
+      federatedStorageConfigSecret: "{{ .Values.kubecostModel.federatedStorageConfigSecret }}" # Replace with your federated storage config secret
+      etlAssetReconciliationEnabled: true
+    networkCosts:
+      enabled: true
+      config:
+        services:
+          # google-cloud-services: when set to true, enables labeling traffic metrics with google cloud
+          # service endpoints
+          google-cloud-services: false
+          # amazon-web-services: when set to true, enables labeling traffic metrics with amazon web service
+          # endpoints.
+          amazon-web-services: false
+          # azure-cloud-services: when set to true, enables labeling traffic metrics with azure cloud service
+          # endpoints
+          azure-cloud-services: false
+    reporting:
+      logCollection: false
+      productAnalytics: false
+      errorReporting: false
+      valuesReporting: false
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+    supportNFS: true
+    
+    
+    # Kubecost Cluster Controller for Right Sizing and Cluster Turndown
+    clusterController:
+      enabled: false
+      image:
+        repository: gcr.io/kubecost1/cluster-controller
+        tag: v0.16.0
+      imagePullPolicy: Always
+      ## PriorityClassName
+      ## Ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
+      priorityClassName: ""
+      # Set custom tolerations for the cluster controller.
+      tolerations: []
+      actionConfigs:
+        # this configures the Kubecost Cluster Turndown action
+        # for more details, see documentation at https://github.com/kubecost/cluster-turndown/tree/develop?tab=readme-ov-file#setting-a-turndown-schedule
+        clusterTurndown: []
+          # - name: my-schedule
+          #   start: "2024-02-09T00:00:00Z"
+          #   end: "2024-02-09T12:00:00Z"
+          #   repeat: daily
+          # - name: my-schedule2
+          #   start: "2024-02-09T00:00:00Z"
+          #   end: "2024-02-09T01:00:00Z"
+          #   repeat: weekly
+        # this configures the Kubecost Namespace Turndown action
+        # for more details, see documentation at https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/savings/savings-actions#namespace-turndown
+        namespaceTurndown:
+          # - name: my-ns-turndown-action
+          #   dryRun: false
+          #   schedule: "0 0 * * *"
+          #   type: Scheduled
+          #   targetObjs:
+          #     - namespace
+          #   keepPatterns:
+          #     - ignorednamespace
+          #   keepLabels:
+          #     turndown: ignore
+          #   params:
+          #     minNamespaceAge: 4h
+        # this configures the Kubecost Cluster Sizing action
+        # for more details, see documentation at https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/savings/savings-actions#cluster-sizing
+        clusterRightsize:
+            # startTime: '2024-01-02T15:04:05Z'
+            # frequencyMinutes: 1440
+            # lastCompleted: ''
+            # recommendationParams:
+            #   window: 48h
+            #   architecture: ''
+            #   targetUtilization: 0.8
+            #   minNodeCount: 1
+            #   allowSharedCore: false
+            # allowCostIncrease: false
+            # recommendationType: ''
+        # This configures the Kubecost Continuous Request Sizing Action
+        #
+        # Using this configuration overrides annotation-based configuration of
+        # Continuous Request Sizing. Annotation configuration will be ignored while
+        # this configuration method is present in the cluster.
+        #
+        # For more details, see documentation at https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/savings/savings-actions#automated-request-sizing
+        containerRightsize:
+          # Workloads can be selected by an _exact_ key (namespace, controllerKind,
+          # controllerName). This will only match a single controller. The cluster
+          # ID is current irrelevant because Cluster Controller can only modify
+          # workloads within the cluster it is running in.
+          #  workloads:
+          #   - clusterID: cluster-one
+          #     namespace: my-namespace
+          #     controllerKind: deployment
+          #     controllerName: my-controller
+          # An alternative to exact key selection is filter selection. The filters
+          # are syntactically identical to Kubecost's "v2" filters [1] but only
+          # support a small set of filter fields, those being:
+          # - namespace
+          # - controllerKind
+          # - controllerName
+          # - label
+          # - annotation
+          #
+          # If multiple filters are listed, they will be ORed together at the top
+          # level.
+          #
+          # See the examples below.
+          #
+          # [1] https://docs.kubecost.com/apis/apis-overview/filters-api
+          # filterConfig:
+          #   - filter: |
+          #       namespace:"abc"+controllerKind:"deployment"
+          #   - filter: |
+          #       controllerName:"abc123"+controllerKind:"daemonset"
+          #   - filter: |
+          #       namespace:"foo"+controllerKind!:"statefulset"
+          #   - filter: |
+          #       namespace:"bar","baz"
+          #  schedule:
+          #   start: "2024-01-30T15:04:05Z"
+          #   frequencyMinutes: 5
+          #   recommendationQueryWindow: "48h"
+          #   lastModified: ''
+          #   targetUtilizationCPU: 0.8 # results in a cpu request setting that is 20% higher than the max seen over last 48h
+          #   targetUtilizationMemory: 0.8 # results in a RAM request setting that is 20% higher than the max seen over last 48h
+
+      kubescaler:
+        # If true, will cause all (supported) workloads to be have their requests
+        # automatically right-sized on a regular basis.
+        defaultResizeAll: false
+    #  fqdn: kubecost-cluster-controller.kubecost.svc.cluster.local:9731
+      namespaceTurndown:
+        rbac:
+          enabled: true
+      
+
+
+    kubecostDeployment:
+      statefulSet:
+        enabled: false
+      replicas: 1

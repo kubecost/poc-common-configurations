@@ -5,15 +5,16 @@ resource "kubernetes_secret" "federated_store" {
   metadata {
     name      = "federated-store"
     namespace = var.namespace
+    labels    = var.kubecost_non_helm_k8s_labels
   }
 
   data = {
     "federated-store.yaml" = <<EOF
 type: S3
 config:
-  bucket: ${var.federated_storage_bucket}
+  bucket: ${var.federated_storage_bucket_name}
   endpoint: "s3.amazonaws.com"
-  region: ${var.primary_s3_bucket_region}
+  region: ${var.federated_storage_bucket_region}
   insecure: false
   signature_version2: false
   put_user_metadata:
