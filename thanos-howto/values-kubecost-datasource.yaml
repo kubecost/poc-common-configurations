@@ -1,0 +1,17 @@
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - access: proxy
+        isDefault: true
+        jsonData:
+          defaultEditor: code
+          directUrl: http://thanos-query-frontend.thanos:9090
+          httpMethod: POST
+          prometheusType: Thanos
+          prometheusVersion: 0.31.1
+          timeInterval: 1m
+        name: Prometheus
+        type: prometheus
+        url: http://thanos-query-frontend.thanos:9090

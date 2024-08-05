@@ -1,0 +1,36 @@
+prometheus:
+  serviceAccounts:
+    server:
+      create: false
+      name: kubecost-irsa-sa
+  server:
+    # global:
+    #   external_labels:
+    #     # this should already be configured in the base kubecost values. It is mandatory, with or without thanos or Kubecost bundled prometheus.
+    #     # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+    #     cluster_id: kubecostProductConfigs_clusterName
+    retention: 3d
+    extraArgs:
+      storage.tsdb.min-block-duration: 2h
+      storage.tsdb.max-block-duration: 2h
+    extraSecretMounts:
+      - name: object-store-volume
+        mountPath: /etc/thanos/config
+        readOnly: true
+        secretName: kubecost-thanos
+    enableAdminApi: true
+    sidecarContainers:
+    - name: thanos-sidecar
+      image: thanosio/thanos:v0.34.1
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+      args:
+      - sidecar
+      - --log.level=debug
+      - --tsdb.path=/data/
+      - --prometheus.url=http://127.0.0.1:9090
+      - --objstore.config-file=/etc/thanos/config/object-store.yaml
+      volumeMounts:
+      - name: object-store-volume
+        mountPath: /etc/thanos/config
