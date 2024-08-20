@@ -1,46 +1,47 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  name: kubecost-metric-check
   labels:
     app: kubecost-metric-check
-  name: kubecost-metric-check
 spec:
-  containers:
-  - image: gcr.io/kubecost1/kubecost-metric-check:0.0.1
-    name: kubecost-metric-check
-    imagePullPolicy: Always
-    command:
-    - /bin/bash
-    - -c
-    - /scripts/kubecost-prometheus-healthcheck.sh;
-    env:
-    # Kubecost exposes the prometheusQuery endpoint at http://KUBECOST_SERVICE.YOUR_NAMESPACE:9003/prometheusQuery. The default service name is "kubecost-cost-analyzer.kubecost"
-    - name: HOST_NAME
-      value: "http://kubecost-cost-analyzer.kubecost.svc.cluster.local:9003/prometheusQuery"
-      # if using SSO, use the following
-      # value: "http://kubecost-cost-analyzer.kubecost.svc.cluster.local:9007/prometheusQuery"
-      # the format of the URL is: http://<KUBECOST_SERVICE>.<YOUR_NAMESPACE>:<PORT>/<ENDPOINT>
-    # if Kubecost is using a multi-cluster Prometheus, you must specify the label used to identify the cluster and cluster name
-    # unless kubecostModel.promClusterIDLabel is set, the default is "cluster_id"
-    - name: MULTI_CLUSTER
-      value: "true"
-    - name: PROM_CLUSTERID_LABEL
-      value: "cluster_id"
-    - name: CLUSTER_NAME
-      value: "qa-eks1"
-    - name: OUTPUT_LABELS
-      value: "false"
-    - name: CHECK_LABELS
-      value: "false"
-    resources: {}
-  #   volumeMounts:
-  #   - name: health-script-volume
-  #     mountPath: /scripts
-  # volumes:
-  # - name: health-script-volume
-  #   configMap:
-  #     name: health-script
-  #     defaultMode: 0777
-  #     items:
-  #     - key: kubecost-prometheus-healthcheck.sh
-  #       path: kubecost-prometheus-healthcheck.sh
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubecost-metric-check
+  template:
+    metadata:
+      labels:
+        app: kubecost-metric-check
+    spec:
+      containers:
+      - name: kubecost-metric-check
+        image: gcr.io/kubecost1/kubecost-metric-check:0.0.1
+        imagePullPolicy: Always
+        command:
+        - /bin/bash
+        - -c
+        - /scripts/kubecost-prometheus-healthcheck.sh;
+        env:
+        - name: KUBECOST_HOST_NAME
+          value: "http://kubecost-cost-analyzer.kubecost.svc.cluster.local:9003/prometheusQuery"
+        - name: MULTI_CLUSTER
+          value: "true"
+        - name: PROM_CLUSTERID_LABEL
+          value: "cluster_id"
+        - name: CLUSTER_NAME
+          value: "qa-eks1"
+        - name: OUTPUT_LABELS
+          value: "false"
+        - name: CHECK_LABELS
+          value: "false"
+        resources: {}
+      # Uncomment and adjust if needed:
+      # volumes:
+      # - name: health-script-volume
+      #   configMap:
+      #     name: health-script
+      #     defaultMode: 0777
+      #     items:
+      #     - key: kubecost-prometheus-healthcheck.sh
+      #       path: kubecost-prometheus-healthcheck.sh
