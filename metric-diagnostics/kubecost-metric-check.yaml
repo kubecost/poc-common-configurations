@@ -33,14 +33,14 @@ spec:
     - name: CHECK_LABELS
       value: "false"
     resources: {}
-    volumeMounts:
-    - name: health-script-volume
-      mountPath: /scripts
-  volumes:
-  - name: health-script-volume
-    configMap:
-      name: health-script
-      defaultMode: 0777
-      items:
-      - key: kubecost-prometheus-healthcheck.sh
-        path: kubecost-prometheus-healthcheck.sh
+  #   volumeMounts:
+  #   - name: health-script-volume
+  #     mountPath: /scripts
+  # volumes:
+  # - name: health-script-volume
+  #   configMap:
+  #     name: health-script
+  #     defaultMode: 0777
+  #     items:
+  #     - key: kubecost-prometheus-healthcheck.sh
+  #       path: kubecost-prometheus-healthcheck.sh
