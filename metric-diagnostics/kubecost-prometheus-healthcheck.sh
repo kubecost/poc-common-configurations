@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# set HOST_NAME to the Kubecost fqdn, including the path to the frontend api service
+# set KUBECOST_HOST_NAME to the Kubecost fqdn, including the path to the frontend api service
 # For example, if you port forward kubecost:
 # kubectl port-forward -n kubecost svc/kubecost-cost-analyzer 9090
-# then set the HOST_NAME:
-# export HOST_NAME="http://localhost:9090/model/prometheusQuery"
+# then set the KUBECOST_HOST_NAME:
+# export KUBECOST_HOST_NAME="http://localhost:9090/model/prometheusQuery"
+# If using kubecost with SSO, port forward to the cost-model service:
+# kubectl port-forward -n kubecost svc/kubecost-cost-model 9007
+# then set the KUBECOST_HOST_NAME:
+# export KUBECOST_HOST_NAME="http://localhost:9007/prometheusQuery"
 
-
-# IMPORTANT: there is a false negative test, if you don't see "FALSE_NEGATIVE" in the the OPTIONAL_METRICS, the script output is invalid.
 # some metrics are optional: kubecost_pod_network*/GPU metrics/annotations
 
 # sample query to show all kubecost metrics in grafana:
@@ -16,7 +18,7 @@
 # HOST_NAME=$KUBECOST_SERVICE
 # export HOST_NAME="http://localhost:9090/model/prometheusQuery"
 
-if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="true"; fi
+if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="false"; fi
 if [[ -z $CHECK_LABELS ]]; then CHECK_LABELS="false"; fi
 if [[ -z $MULTI_CLUSTER ]]; then MULTI_CLUSTER="false" ; fi
 if [[ -z $RUN_IN_POD ]]; then RUN_IN_POD="false" ; fi
@@ -36,9 +38,15 @@ check_metric_missing()
 # echo curl -G --data-urlencode "query=absent_over_time($1$CLUSTER_FILTER[2m])" "$HOST_NAME"
 # curl -G --data-urlencode "query=absent_over_time($1$CLUSTER_FILTER[2m])" "$HOST_NAME"
 # exit
-if  curl -sG --data-urlencode "query=absent_over_time($1[2m])" "$HOST_NAME"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
-echo "Missing: $1"
-fi
+    if  curl -sG --data-urlencode "query=absent_over_time($1[2m])" "$HOST_NAME"  |jq -r '.data.result[].value[]' --exit-status > /dev/null  ; then
+
+        if [[ $1 = "false_negative" ]]; then
+            FALSE_NEGATIVE="pass"
+            echo "Prometheus query endpoint is working"
+        else
+            echo "Missing: $1"
+        fi
+    fi
 # curl -sG --data-urlencode "query=absent_over_time($1[5m])" "$HOST_NAME"  |jq -r '.data.result[].value[]'
 }
 
@@ -92,8 +100,7 @@ pv_hourly_cost
 service_selector_labels
 statefulSet_match_labels')
 
-OPTIONAL_METRICS=('false_positive
-kube_namespace_annotations
+OPTIONAL_METRICS=('kube_namespace_annotations
 kube_pod_annotations
 kubecost_pod_network_egress_bytes_total
 kubelet_volume_stats_used_bytes
@@ -101,9 +108,11 @@ node_cpu_seconds_total
 node_memory_MemTotal_bytes
 prometheus_target_interval_length_seconds')
 
-
 if [[ -z $HOST_NAME ]]; then
-    echo "HOST_NAME is not set"
+    HOST_NAME="${KUBECOST_HOST_NAME}"
+fi
+if [[ -z $HOST_NAME ]]; then
+    echo "KUBECOST_HOST_NAME is not set"
     exit 1
 fi
 
@@ -117,10 +126,19 @@ run_checks()
 {
     echo "------------Starting_Missing_Metrics_Check--------------"
     echo "Host: $HOST_NAME"
+
+    FALSE_NEGATIVE="fail"
+    check_metric_missing "false_negative"
+    if [[ $FALSE_NEGATIVE = "fail" ]]; then
+        echo "Please check if the prometheus query endpoint is working"
+        exit 1
+    fi
+
     echo "REQUIRED_METRICS Missing:"
     for str in ${REQUIRED_METRICS[@]}; do
     check_metric_missing $str
     done
+
 
     echo "OPTIONAL_METRICS Missing:"
     for str in ${OPTIONAL_METRICS[@]}; do
