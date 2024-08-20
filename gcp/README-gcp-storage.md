@@ -5,7 +5,7 @@
 https://guide.kubecost.com/hc/en-us/articles/4407601822359-GCP-Long-Term-Storage
 
 
-## Create a Service Account for Thanos Bucket
+## Create a Service Account for Federated ETL Metrics Bucket
 
 Follow this: https://cloud.google.com/iam/docs/creating-managing-service-accounts#iam-service-accounts-create-gcloud
 
