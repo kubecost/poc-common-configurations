@@ -5,8 +5,12 @@
 # kubectl port-forward -n kubecost svc/kubecost-cost-analyzer 9090
 # then set the KUBECOST_HOST_NAME:
 # export KUBECOST_HOST_NAME="http://localhost:9090/model/prometheusQuery"
-# If using kubecost with SSO, port forward to the cost-model service:
-# kubectl port-forward -n kubecost svc/kubecost-cost-model 9007
+# if testing an agent, port forward to the agent service:
+# kubectl port-forward -n kubecost svc/kubecost-cost-analyzer 9003
+# then set the KUBECOST_HOST_NAME:
+# export KUBECOST_HOST_NAME="http://localhost:9003/prometheusQuery"
+# If using kubecost with SSO, port forward to the cost-analyzer service:
+# kubectl port-forward -n kubecost svc/kubecost-cost-analyzer 9007
 # then set the KUBECOST_HOST_NAME:
 # export KUBECOST_HOST_NAME="http://localhost:9007/prometheusQuery"
 
