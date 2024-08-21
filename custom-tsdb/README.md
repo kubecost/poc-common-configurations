@@ -4,7 +4,7 @@ See <https://docs.kubecost.com/install-and-configure/advanced-configuration/cust
 
 ## Diagnostics pod
 
-A diagnostics pod is available for validating that required metrics are met: [readme](../metric-diagnostics/REAME.md).
+A diagnostics pod is available for validating that required metrics are met: [readme](../metric-diagnostics/README.md).
 
 ## Notice
 
