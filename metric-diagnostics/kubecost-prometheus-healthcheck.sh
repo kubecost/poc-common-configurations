@@ -15,9 +15,6 @@
 # sample query to show all kubecost metrics in grafana:
 # topk(1000, count by (__name__)({__name__=~".+",job="kubecost"}))
 
-# HOST_NAME=$KUBECOST_SERVICE
-# export HOST_NAME="http://localhost:9090/model/prometheusQuery"
-
 if [[ -z $OUTPUT_LABELS ]]; then OUTPUT_LABELS="false"; fi
 if [[ -z $CHECK_LABELS ]]; then CHECK_LABELS="false"; fi
 if [[ -z $MULTI_CLUSTER ]]; then MULTI_CLUSTER="false" ; fi
