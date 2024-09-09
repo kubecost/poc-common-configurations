@@ -14,6 +14,8 @@
 # then set the KUBECOST_HOST_NAME:
 # export KUBECOST_HOST_NAME="http://localhost:9007/prometheusQuery"
 
+# to display labels in the output, set:
+# export OUTPUT_LABELS=true
 # some metrics are optional: kubecost_pod_network*/GPU metrics/annotations
 
 # sample query to show all kubecost metrics in grafana:
@@ -43,7 +45,7 @@ check_metric_missing()
 
         if [[ $1 = "false_negative" ]]; then
             FALSE_NEGATIVE="pass"
-            echo "Prometheus query endpoint is working"
+            echo -e "Prometheus query endpoint is working\nNull results for: REQUIRED_METRICS, OPTIONAL_METRICS, LABEL_CHECK: indicates a passing result.\n"
         else
             echo "Missing: $1"
         fi
@@ -53,7 +55,19 @@ check_metric_missing()
 
 check_metric_labels()
 {
-echo $1 $(curl -sG --data-urlencode "query=topk(1,$1)" "$HOST_NAME")
+    my_json=$(curl -sG --data-urlencode "query=topk(1,$1)" "$HOST_NAME")
+    if [[ "$OUTPUT_LABELS" = "true" ]]; then
+        echo "$my_json"
+    fi
+    exported_namespace=$(echo "$my_json" | jq -r '.data.result[0].metric.exported_namespace')
+    namespace=$(echo "$my_json" | jq -r '.data.result[0].metric.namespace')
+    if [ "$exported_namespace" = "null" ]; then
+        return
+    fi
+    if [ "$exported_namespace" != "$namespace" ]; then
+        echo -e "\033[0;31m\nError: exported_namespace ($exported_namespace) does not match namespace ($namespace)\nplease check that honor_labels is set to true in your prometheus scrape config\033[0m"
+        exit 1
+    fi
 }
 
 REQUIRED_METRICS=('container_cpu_allocation
@@ -146,12 +160,11 @@ run_checks()
     check_metric_missing $str
     done
 
-    if [[ "$OUTPUT_LABELS" = "true" ]]; then
-        echo "Label Check:"
-        for str in ${REQUIRED_METRICS[@]}; do
+    # Note: this will not
+    echo "LABEL_CHECK:"
+    for str in ${REQUIRED_METRICS[@]}; do
         check_metric_labels $str
-        done
-    fi
+    done
 }
 
 run_checks
