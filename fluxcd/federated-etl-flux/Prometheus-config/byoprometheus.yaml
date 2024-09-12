@@ -1,0 +1,140 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kubecost # Replace with the release name
+  namespace: flux-system # Replace with the namespace
+spec:
+  interval: 5m
+  targetNamespace: kubecost # Replace with the target namespace
+  chart:
+    spec:
+      chart: cost-analyzer
+      version: '>=2.0.0 <2.2.0'
+      sourceRef:
+        kind: HelmRepository
+        name: kubecost-charts # Replace with the Helm repository name
+        namespace: flux-system # Namespace for the Helm repository
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: True
+  values:
+    kubecostAggregator:
+      replicas: 1
+      deployMethod: statefulset
+    kubecostProductConfigs:
+      productKey:
+        enabled: true
+        key: "{{ .Values.kubecostProductConfigs.productKey }}" # Replace with your product key
+      cloudIntegrationSecret: "{{ .Values.kubecostProductConfigs.cloudIntegrationSecret }}" # Replace with your cloud integration secret
+      clusterName: "{{ .Values.clusterName }}" # Replace with your cluster name
+      labelMappingConfigs:
+        enabled: true
+        owner_label: "{{ .Values.labelMappingConfigs.owner_label }}" # Define your labels
+        team_label: "{{ .Values.labelMappingConfigs.team_label }}"
+        department_label: "{{ .Values.labelMappingConfigs.department_label }}"
+        product_label: "{{ .Values.labelMappingConfigs.product_label }}"
+        environment_label: "{{ .Values.labelMappingConfigs.environment_label }}"
+    prometheus:
+      server:
+        global:
+          external_labels:
+            cluster_id: "{{ .Values.clusterId }}" # Replace with your cluster ID
+    global:
+      prometheus:
+        enabled: false 
+        fqdn: http://<prometheus-server-service-name>.<prometheus-server-namespace>.svc.cluster.local:9090  # example address of a prometheus to connect to. Include protocol (http:// or https://) Ignored if enabled: true
+        # insecureSkipVerify: false  # If true, kubecost will not check the TLS cert of prometheus
+        # queryServiceBasicAuthSecretName: dbsecret # kubectl create secret generic dbsecret -n kubecost --from-file=USERNAME --from-file=PASSWORD
+        # queryServiceBearerTokenSecretName: mcdbsecret  # kubectl create secret generic mcdbsecret -n kubecost --from-file=TOKEN
+
+      thanos:
+        enabled: false
+      grafana:
+        enabled: false
+        domainName: "{{ .Values.global.grafana.domainName }}" # Replace with your Grafana domain name
+      podAnnotations:
+        iam.amazonaws.com/role: "{{ .Values.global.podAnnotations.iamRole }}" # Replace with your IAM role
+      securityContext:
+        seccompProfile: null
+        runAsNonRoot: false
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      hosts:
+      - "{{ .Values.ingress.host }}" # Replace with your ingress host
+    initChownDataImage: "{{ .Values.initChownDataImage }}" # Replace with your init chown data image
+    kubecostFrontend:
+      enabled: true
+      image: "gcr.io/kubecost1/frontend"
+      imagePullPolicy: Always
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+       # set to true to set all upstreams to use <service>.<namespace>.svc.cluster.local instead of just <service>.<namespace>
+      useDefaultFqdn: false
+    #  api:
+    #    fqdn: kubecost-api.kubecost.svc.cluster.local:9001
+    #  model:
+    #    fqdn: kubecost-model.kubecost.svc.cluster.local:9003
+    #  forecasting:
+    #    fqdn: kubecost-forcasting.kubecost.svc.cluster.local:5000
+    #  aggregator:
+    #    fqdn: kubecost-aggregator.kubecost.svc.cluster.local:9004
+    #  cloudCost:
+    #    fqdn: kubecost-cloud-cost.kubecost.svc.cluster.local:9005
+    #  multiClusterDiagnostics:
+    #    fqdn: kubecost-multi-diag.kubecost.svc.cluster.local:9007
+    #  clusterController:
+    #    fqdn: cluster-controller.kubecost.svc.cluster.local:9731
+      readinessProbe:
+        enabled: true
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 200
+      livenessProbe:
+        enabled: true
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        failureThreshold: 200
+    kubecostModel:
+      containerStatsEnabled: true
+      resources:
+        limits:
+          cpu: 6000m
+          memory: 64Gi
+      etlBucketConfigSecret: "{{ .Values.kubecostModel.etlBucketConfigSecret }}" # Replace with your ETL bucket config secret
+      federatedStorageConfigSecret: "{{ .Values.kubecostModel.federatedStorageConfigSecret }}" # Replace with your federated storage config secret
+      etlAssetReconciliationEnabled: true
+    networkCosts:
+      enabled: true
+      config:
+        services:
+          # google-cloud-services: when set to true, enables labeling traffic metrics with google cloud
+          # service endpoints
+          google-cloud-services: false
+          # amazon-web-services: when set to true, enables labeling traffic metrics with amazon web service
+          # endpoints.
+          amazon-web-services: false
+          # azure-cloud-services: when set to true, enables labeling traffic metrics with azure cloud service
+          # endpoints
+          azure-cloud-services: false
+    reporting:
+      logCollection: false
+      productAnalytics: false
+      errorReporting: false
+      valuesReporting: false
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+    supportNFS: true
+    kubecostDeployment:
+      statefulSet:
+        enabled: false
+      replicas: 1
