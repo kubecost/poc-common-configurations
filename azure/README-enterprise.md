@@ -30,7 +30,7 @@ kubectl create namespace kubecost
 # Create secret for product key # not needed for eval
 # kubectl create secret generic productkey -n kubecost --from-file=productkey.json
 
-# Create secret for Thanos store
+# Create secret for Federated ETL store
 kubectl create secret generic kubecost-federated-store -n kubecost --from-file=object-store.yaml
 
 # Create Cloud Integration Secret
