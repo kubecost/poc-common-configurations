@@ -12,7 +12,7 @@ Plugins extend Kubecost’s functionality, offering more granular insights and e
 
 ## Enabling the Cluster Controller
 
-To use the following plugins:
+To use the following Kubecost Actions:
 
 - **Automated Cluster Turndown**
 - **Cluster Right-Sizing Recommendations**
