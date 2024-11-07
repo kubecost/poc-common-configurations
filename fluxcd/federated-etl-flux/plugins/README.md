@@ -1,4 +1,4 @@
-# Kubecost Additional Plugins
+# Kubecost Actions
 
 
 Plugins extend Kubecost’s functionality, offering more granular insights and enabling advanced management of cloud costs and environmental impact. The available plugins include:
