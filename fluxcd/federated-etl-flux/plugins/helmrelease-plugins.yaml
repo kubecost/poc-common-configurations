@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cost-analyzer
-      version: '>=2.0.0 <2.2.0'
+      version: '>=2.4.0 <2.5.0'
       sourceRef:
         kind: HelmRepository
         name: kubecost-charts # Replace with the Helm repository name
@@ -139,13 +139,19 @@ spec:
       enabled: false
       image:
         repository: gcr.io/kubecost1/cluster-controller
-        tag: v0.16.0
+        tag: v0.16.9
       imagePullPolicy: Always
       ## PriorityClassName
       ## Ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
       priorityClassName: ""
       # Set custom tolerations for the cluster controller.
       tolerations: []
+      ## Annotations to be added for cluster controller template
+      annotations: {}
+      resources: {}
+      affinity: {}
+      nodeSelector: {}
+     
       actionConfigs:
         # this configures the Kubecost Cluster Turndown action
         # for more details, see documentation at https://github.com/kubecost/cluster-turndown/tree/develop?tab=readme-ov-file#setting-a-turndown-schedule

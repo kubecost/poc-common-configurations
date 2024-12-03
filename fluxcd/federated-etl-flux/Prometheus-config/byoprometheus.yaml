@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cost-analyzer
-      version: '>=2.0.0 <2.2.0'
+      version: '>=2.4.0 <2.5.0'
       sourceRef:
         kind: HelmRepository
         name: kubecost-charts # Replace with the Helm repository name
