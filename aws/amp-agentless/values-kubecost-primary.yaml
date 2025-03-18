@@ -4,7 +4,7 @@ kubecostAggregator:
   cloudCost:
     enabled: false
 federatedETL:
-  useMultiClusterDB: true
+  useMultiClusterDB: false # this value normally limits the prometheus query scope to the local cluster. The primary needs to query all data, so we set this to false.
 global:
   amp:
     enabled: true
