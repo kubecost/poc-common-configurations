@@ -1,0 +1,47 @@
+{
+    "aws": {
+        "athena": [
+            {
+                "bucket": "s3://aws…-kubecost",
+                "region": "eu-central-1",
+                "database": "…usage_daily",
+                "table": "cost_usage_daily",
+                "workgroup": "primary",
+                "account": "123456789012",
+                "authorizer": {
+                    "authorizerType": "AWSWebIdentity",
+                    "identityProvider": "Google",
+                    "roleARN": "arn:…/KubecostRole",
+                    "tokenRetriever": {
+                        "aud": "kubecost-aws….iam.gserviceaccount.com"
+                    }
+                }
+            }
+        ]
+    },
+    "gcp": {
+        "bigquery": [
+            {
+                "projectID": "gcp-project-id",
+                "dataset": "COST_EXPORT",
+                "table": "gcp_billing…_850E1A",
+                "authorizer": {
+                    "authorizerType": "GCPServiceAccountKey",
+                    "key": {
+                        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                        "client_email": "kubecost-….gserviceaccount.com",
+                        "client_id": "108…8323",
+                        "client_x509_cert_url": "https://www.googleapis.com/....iam.gserviceaccount.com",
+                        "private_key": "-----BEGIN PRIVATE KEY-----\n/nEND PRIVATE KEY-----\n",
+                        "private_key_id": "5f60c76..2a4",
+                        "project_id": "gcp-project-id",
+                        "token_uri": "https://oauth2.googleapis.com/token",
+                        "type": "service_account",
+                        "universe_domain": "googleapis.com"
+                    }
+                }
+            }
+        ]
+    }
+}
