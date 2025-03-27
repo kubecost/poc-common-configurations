@@ -115,3 +115,7 @@ helm install kubecost \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
   --set kubecostProductConfigs.clusterName=$CLUSTER_NAME
 ```
+
+#### Example multi-provider cloud-integration
+
+[cloud-integration.json](coud-integration.json)
