@@ -7,7 +7,7 @@
 To start testing these alerting rules, you can apply these additional configs to your Kubecost primary cluster. Eventually they will need to be applied to every cluster Kubecost is monitoring.
 
 ```bash
-helm upgrade -i kubecost cost-analyzer \
+helm upgrade -i kubecost kubecost \
   --repo https://kubecost.github.io/cost-analyzer/ 
   -f values.yaml
 ```

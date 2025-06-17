@@ -5,7 +5,7 @@ resource "helm_release" "kubecost_core_secondary" {
 
   name       = var.kubecost_helm_release_name
   repository = "https://kubecost.github.io/cost-analyzer/"
-  chart      = "cost-analyzer"
+  chart      = "kubecost"
   version    = var.kubecost_version
   namespace  = var.namespace
 

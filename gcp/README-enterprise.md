@@ -31,7 +31,7 @@ kubectl create secret generic kubecost-federated-store -n kubecost --from-file=o
 kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-integration.json
 
 # Install
-helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --install --namespace kubecost -f ./values-google-primary.yaml
+helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost --install --namespace kubecost -f ./values-google-primary.yaml
 ```
 
 ## All Secondary Clusters Setup
@@ -47,5 +47,5 @@ kubectl create namespace kubecost
 # Create secret for Federated ETL store
 kubectl create secret generic kubecost-federated-store -n kubecost --from-file=object-store.yaml
 
-helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --namespace kubecost --install -f ./values-google-secondary.yaml
+helm upgrade kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost --namespace kubecost --install -f ./values-google-secondary.yaml
 ```
