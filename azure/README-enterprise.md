@@ -39,7 +39,7 @@ kubectl create secret generic cloud-integration -n kubecost --from-file=cloud-in
 # Azure service key (optional)
 kubectl create secret generic azure-service-key -n kubecost --from-file=service-key.json
 
-helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost \
   -f ./values-azure-primary.yaml
 ```
@@ -60,7 +60,7 @@ kubectl create secret generic kubecost-federated-store -n kubecost --from-file=o
 # Azure service key
 kubectl create secret generic azure-service-key -n kubecost --from-file=service-key.json
 
-helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost \
   -f ./values-azure-secondary.yaml
 ```

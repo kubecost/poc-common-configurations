@@ -48,7 +48,7 @@ wget https://raw.githubusercontent.com/kubecost/poc-common-configurations/main/d
 
 ```bash
 helm upgrade --install kubecost --namespace kubecost --create-namespace \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   -f datadog-values.yaml
   --set kubecostToken="aGVsbUBrdWJlY29zdC5jb20=xm343yadf98"
 ```

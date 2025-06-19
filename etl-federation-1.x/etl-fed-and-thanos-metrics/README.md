@@ -39,7 +39,7 @@ Then add the [values-prometheus-thanos-sidecar.yaml](values-prometheus-thanos-si
 
 ```sh
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost --create-namespace \
   -f agent-federated.yaml \
   -f values-prometheus-thanos-sidecar.yaml
@@ -70,7 +70,7 @@ Add the Thanos query-frontend to Kubecost bundled Grafana:
 
 ```sh
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost --create-namespace \
   -f primary-federator.yaml \
   -f values-prometheus-thanos-sidecar.yaml \

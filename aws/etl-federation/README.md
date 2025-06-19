@@ -146,14 +146,14 @@ kubectl create secret generic kubecost-thanos -n kubecost --from-file=object-sto
 
 #### Primary Cluster
 ```
-helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost \
 --namespace kubecost \
 -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-primary.yaml
 ```
 #### Additional Clusters
 ```
-helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+helm upgrade --install kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost \
 --namespace kubecost \
 -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/cost-analyzer/values-thanos.yaml \
 -f values-amazon-secondary.yaml

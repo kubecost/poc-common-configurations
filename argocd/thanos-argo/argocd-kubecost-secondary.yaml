@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    chart: cost-analyzer
+    chart: kubecost
     repoURL: https://kubecost.github.io/cost-analyzer/
     targetRevision: 1.96.0
     helm:

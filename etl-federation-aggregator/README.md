@@ -91,7 +91,7 @@ Be sure to either set the `CLUSTER_NAME` here or in all 3 locations of the [prim
 ```sh
 CLUSTER_NAME=cluster1
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost \
   -f primary-aggregator.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \
@@ -109,7 +109,7 @@ Be sure to either set the `CLUSTER_NAME` here or in both locations of the [secon
 ```sh
 CLUSTER_NAME=cluster2
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost --create-namespace \
   -f secondary-federated.yaml \
   --set prometheus.server.global.external_labels.cluster_id=$CLUSTER_NAME \

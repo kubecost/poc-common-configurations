@@ -33,7 +33,7 @@ Negative idle costs are almost always a result of missing these metrics.
 
 ```sh
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost --create-namespace \
   -f values-primary.yaml
 ```
@@ -42,7 +42,7 @@ helm install kubecost \
 
 ```sh
 helm install kubecost \
-  --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer\
+  --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --namespace kubecost --create-namespace \
   -f values-secondary.yaml
 ```

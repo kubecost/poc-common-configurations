@@ -13,7 +13,7 @@ To get a dynamic list of current images, run the following command:
 > Install yq with brew / pip / etc
 
 ```sh
-helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer \
+helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost \
   --set networkCosts.enabled=true \
   --set clusterController.enabled=true \
   | yq '..|.image? | select(.)' | sort -u
@@ -22,7 +22,7 @@ helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-ana
 If you don't have yq this should output the same:
 
 ```sh
-helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer  \
+helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ kubecost  \
   --set networkCosts.enabled=true \
   --set clusterController.enabled=true \
   | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
