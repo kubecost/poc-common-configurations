@@ -2,106 +2,129 @@
 # Kubecost has monthly releases and patches to address any issues.
 # To get a dynamic list of current images, run the following script:
 # install yq with brew / pip / etc
-# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set clusterController.enabled=true | yq '..|.image? | select(.)' | sort -u
+# helm template kubecost --repo https://kubecost.github.io/kubecost/ kubecost --skip-tests | yq '..|.image? | select(.)' | sort -u
 # If you don't have yq this should output the same:
-# helm template kubecost --repo https://kubecost.github.io/cost-analyzer/ cost-analyzer --set networkCosts.enabled=true --set clusterController.enabled=true | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
+# helm template kubecost --repo https://kubecost.github.io/kubecost/ kubecost --skip-tests | grep 'image:'|sed 's/image: //g'|sed 's/"//g'|sed 's/- //g'|sed 's/ //g'|sort -u
 # if you use docker to pull images, you can use the output to pull the images:
 # (previous_command)| xargs -I {} docker pull {}
 
-# Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer
-# imagePullSecrets:
-# - name: "image-pull-secret"
+# Images from https://github.com/kubecost/kubecost
 
-imageVersion: "prod-2.2.2" # If set, overrides default of $.Chart.AppVersion. Ignored if setting fullImageName for each Kubecost image.
+global:
+  ## @param global.imageRegistry The image registry used for all images in this chart and subcharts
+  imageRegistry: "icr.io"
+  ## E.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
 
-kubecostFrontend:
-  # fullImageName: YOUR_REGISTRY/frontend:prod-1.104.0
-  image: "YOUR_REGISTRY/frontend"
-  imagePullPolicy: Always
+frontend:
+  ## Override the image name and version for the frontend.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost1/frontend:v3.0.0
+  fullImageName: ""
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/frontend
+    tag: ""  # Default is to match the Chart.AppVersion
+  imagePullPolicy: IfNotPresent
 
-kubecostModel:
-  # fullImageName: "YOUR_REGISTRY/cost-model:prod-1.104.0" # Use image -OR- fullImageName.
-  image: "YOUR_REGISTRY/cost-model"
-  imagePullPolicy: Always
-
-forecasting:
-  fullImageName: YOUR_REGISTRY/kubecost-modeling:v0.1.6
+localStore:
+  ## Override the image name and version.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost/cost-model:v3.0.0
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/cost-model
+    tag: ""  # Default is to match the Chart.AppVersion
+  fullImageName: ""  # Overrides the default image construction logic.
+  imagePullPolicy: IfNotPresent
 
 networkCosts:
-  image: YOUR_REGISTRY/kubecost-network-costs:v17.3  # Always the full image path with version tag.
-  imagePullPolicy: Always
-
-# Kubecost Cluster Controller for Right Sizing and Cluster Turndown
-clusterController:
-  image: YOUR_REGISTRY/cluster-controller:v0.16.0 # Always the full image path with version tag.
-  imagePullPolicy: Always
-
-# initChownDataImage: "busybox" # Supports a fully qualified Docker image, e.g. registry.hub.docker.com/library/busybox:latest
-
-## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/prometheus
-prometheus:
-  # imagePullSecrets:
-  # - name: "image-pull-secret"
-
-  server:
-    image:
-      repository: YOUR_REGISTRY/prometheus
-      tag: v2.51.2
-      pullPolicy: IfNotPresent
-
-
-  # alertmanager:
-  #   image:
-  #     repository: YOUR_REGISTRY/alertmanager
-  #     tag: v0.23.0
-  #     pullPolicy: IfNotPresent
-
-  # configmapReload:
-  #   prometheus:
-  #     image:
-  #       repository: YOUR_REGISTRY/configmap-reload
-  #       tag: v0.7.1
-  #       pullPolicy: IfNotPresent
-    # alertmanager:
-    #   image:
-    #     repository: YOUR_REGISTRY/configmap-reload
-    #     tag: v0.7.1
-    #     pullPolicy: IfNotPresent
-
-  nodeExporter:
-# node exporter is optional. in multi cluster, there is no value to running it:
-    enabled: false
-    # if required:
-    image:
-      repository: YOUR_REGISTRY/node-exporter
-      tag: v1.7.0
-      pullPolicy: IfNotPresent
-  # pushgateway is not enabled by default
-  # pushgateway:
-  #   image:
-  #     repository: YOUR_REGISTRY/pushgateway
-  #     tag: v1.4.2
-  #     pullPolicy: IfNotPresent
-
-## Images from https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer/charts/grafana
-grafana:
+  ## Override the image name and version for the network costs.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost1/kubecost-network-costs:v0.17.11
+  fullImageName: ""
   image:
-    repository: YOUR_REGISTRY/grafana
-    tag: 10.4.1
-    pullPolicy: IfNotPresent
-  sidecar:
-    image:
-      repository: YOUR_REGISTRY/k8s-sidecar
-      tag: 1.26.1
-      pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ##
-    # pullSecrets:
-    #   - myRegistryKeySecretName
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/network-costs
+    # tag: v0.17.11 # Set in chart values by default
+  imagePullPolicy: IfNotPresent
 
-  # downloadDashboardsImage:
-  #   repository: YOUR_REGISTRY/curl
-  #   tag: latest
-  #   pullPolicy: IfNotPresent
+forecasting:
+  ## Override the image name and version for the forecasting.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost1/kubecost-modeling:v0.1.29
+  fullImageName: ""
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/modeling
+    # tag: v0.1.29 # Set in chart values by default
+  imagePullPolicy: IfNotPresent
+
+aggregator:
+  ## Override the image name and version.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost/cost-model:v3.0.0
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/cost-model
+    tag: ""  # Default is to match the Chart.AppVersion
+  fullImageName: ""  # Overrides the default image construction logic.
+  imagePullPolicy: IfNotPresent
+
+cloudCost:
+  ## Override the image name and version.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost/cost-model:v3.0.0
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/cost-model
+    tag: ""  # Default is to match the Chart.AppVersion
+  fullImageName: ""  # Overrides the default image construction logic.
+  imagePullPolicy: IfNotPresent
+
+clusterController:
+  ## Override the image name and version for the cluster controller.
+  ## If not set, the image will be pulled from the registry and repository specified in the image block.
+  ## If set, the fullImageName will be used to pull the image.
+  ## Example:
+  ## fullImageName: icr.io/kubecost1/cluster-controller:v0.16.20
+  fullImageName: ""
+  image:
+    registry: ""  # Default is "icr.io"
+    repository: kubecost/cluster-controller
+    # tag: v0.16.28 # Set in chart values by default
+  imagePullPolicy: IfNotPresent
+
+finops-agent:
+  ## IBM FinOps Agent Core image
+  ## @param image.registry [default: icr.io] IBM FinOps Agent image registry
+  ## @param image.repository [default: ibm-finops/agent] IBM FinOps Agent image repository
+  ## @skip image.tag IBM FinOps Agent image tag (immutable tags are recommended)
+  ## @param image.digest IBM FinOps Agent image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param image.pullPolicy IBM FinOps Agent image pull policy
+  ## @param image.pullSecrets Specify docker-registry secret names as an array
+  ## @param image.debug Specify if debug logs should be enabled
+  ##
+  image:
+    registry: icr.io
+    repository: ibm-finops/agent
+    # tag: v1.0.1 # Set in chart values by default
+    digest: ""
+    pullPolicy: IfNotPresent
+  ## @param fullImageName If set, this will override the image name and tag.
+  fullImageName: ""
