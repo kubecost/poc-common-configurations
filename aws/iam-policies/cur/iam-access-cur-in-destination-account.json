@@ -5,7 +5,7 @@
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::PAYER_ACCOUNT_11111111111:role/kubecost-cur-access"
+            "Resource": "arn:aws:iam::DESTINATION_ACCOUNT_11111111111:role/kubecost-cur-access"
         }
     ]
 }
