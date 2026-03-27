@@ -2,7 +2,6 @@ cloudCost:
   enabled: true
   cloudIntegrationSecret: cloud-integration
   serviceAccount:
-    create: false
     name: kubecost-serviceaccount-cur-athena
     useSharedServiceAccount: false
 finopsagent:
