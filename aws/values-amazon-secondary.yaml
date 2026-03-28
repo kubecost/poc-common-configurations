@@ -1,28 +1,11 @@
-kubecostProductConfigs:
-  projectID: "AWS_ACCOUNT_NUMBER"
-  # clustername should be unique for all clusters
-  clusterName: kubecostProductConfigs_clusterName
 global:
-  grafana:
-    enabled: false
-    proxy: false
-
-prometheus:
-  server:
-    global:
-      external_labels:
-        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-        cluster_id: kubecostProductConfigs_clusterName
-    retention: 3d
-
-networkCosts:
+  clusterId: cluster-one # cluster_id should be unique for all clusters
+  existingSecret: federated-storage-secret
+finopsagent:
   enabled: true
-  config:
-    services:
-      amazon-web-services: true
-      # google-cloud-services: true
-      # azure-cloud-services: true
-
-# disable optional services
-federatedETL:
-  agentOnly: true
+  agent:
+    kubecost:
+      projectID: "AWS_ACCOUNT_NUMBER"
+      awsSpotDataBucket: "AWS_SPOT_DATA_BUCKET"
+      awsSpotDataPrefix: "AWS_SPOT_DATA_PREFIX"
+      awsSpotDataRegion: "AWS_SPOT_DATA_REGION"

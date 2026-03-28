@@ -1,20 +1,11 @@
-kubecostProductConfigs:
-  projectID: "AWS_ACCOUNT_NUMBER"
-  cloudIntegrationSecret: cloud-integration
-  # clustername should be unique for all clusters
-  clusterName: kubecostProductConfigs_clusterName
-
-prometheus:
-  server:
-    global:
-      external_labels:
-        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
-        cluster_id: kubecostProductConfigs_clusterName
-
-networkCosts:
+cloudCost:
   enabled: true
-  config:
-    services:
-      amazon-web-services: true
-      # google-cloud-services: true
-      # azure-cloud-services: true
+  cloudIntegrationSecret: cloud-integration
+  serviceAccount:
+    name: kubecost-serviceaccount-cur-athena
+    useSharedServiceAccount: false
+finopsagent:
+  enabled: false
+global:
+  clusterId: cluster-one # cluster_id should be unique for all clusters
+  existingSecret: federated-storage-secret
